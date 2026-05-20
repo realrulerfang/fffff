@@ -3,106 +3,371 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DUMBAGENT • AI IDIOT FROM 2077</title>
+    <title>dumbagent • AI IDIOT FROM 2077</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-        html, body {
-            font-family: 'Inter', 'Segoe UI', 'Tahoma', 'Geneva', 'Verdana', sans-serif;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+        
         body {
+            font-family: 'VT323', monospace;
+            background: linear-gradient(to bottom, #f8f9fa, #e5e7eb);
+            color: #1f2937;
+            overflow-x: hidden;
+        }
+        
+        .glitch {
+            animation: glitch 0.7s infinite;
+        }
+        
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+        
+        .terminal {
+            font-family: 'Press Start 2P', monospace;
+            background: #f8f9fa;
+            border: 3px solid #4b5563;
+            box-shadow: 0 0 30px rgba(75, 85, 99, 0.25);
+        }
+
+        .error-popup {
+            animation: errorPop 0.4s ease-out forwards;
+        }
+
+        @keyframes errorPop {
+            0% { transform: scale(0.6) translateY(-50px); opacity: 0; }
+            100% { transform: scale(1) translateY(0); opacity: 1; }
+        }
+
+        /* ── CHAT WIDGET ── */
+        #chat-fab {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            z-index: 1000;
+            width: 68px;
+            height: 68px;
+            background: #111827;
+            border: 3px solid #374151;
+            color: #fff;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 9px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            transition: background 0.2s, border-color 0.2s;
+            animation: fabPulse 2.5s ease-in-out infinite;
+        }
+        #chat-fab:hover { background: #dc2626; border-color: #991b1b; }
+        @keyframes fabPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(220,38,38,0.0); }
+            50% { box-shadow: 0 0 0 8px rgba(220,38,38,0.18); }
+        }
+        #chat-fab .fab-icon { font-size: 22px; line-height: 1; }
+
+        #chat-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.45);
+            z-index: 1001;
+        }
+        #chat-overlay.open { display: block; }
+
+        #chat-panel {
+            position: fixed;
+            bottom: 0; right: 0;
+            width: 420px;
+            max-width: 100vw;
+            height: 620px;
+            max-height: 90vh;
+            background: #f9fafb;
+            border: 3px solid #374151;
+            border-bottom: none;
+            border-right: none;
+            z-index: 1002;
+            display: flex;
+            flex-direction: column;
+            transform: translateY(110%);
+            transition: transform 0.35s cubic-bezier(0.22,1,0.36,1);
+        }
+        #chat-panel.open { transform: translateY(0); }
+
+        #chat-header {
+            background: #111827;
+            color: #fff;
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 3px solid #374151;
+            flex-shrink: 0;
+        }
+        #chat-header-title { font-family: 'Press Start 2P', monospace; font-size: 9px; line-height: 1.6; }
+        #chat-header-title span { color: #f87171; display: block; font-size: 7px; margin-top: 2px; }
+
+        #mode-toggle {
+            display: flex;
+            gap: 0;
+            border: 2px solid #4b5563;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .mode-btn {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 7px;
+            padding: 6px 10px;
+            cursor: pointer;
+            background: transparent;
+            color: #9ca3af;
+            border: none;
+            transition: background 0.2s, color 0.2s;
+            white-space: nowrap;
+        }
+        .mode-btn.active-normal { background: #374151; color: #fff; }
+        .mode-btn.active-idiot  { background: #dc2626; color: #fff; }
+
+        #close-chat {
+            background: none;
+            border: 2px solid #4b5563;
+            color: #9ca3af;
+            width: 28px; height: 28px;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex; align-items: center; justify-content: center;
+            transition: border-color 0.2s, color 0.2s;
+            flex-shrink: 0;
+        }
+        #close-chat:hover { border-color: #dc2626; color: #f87171; }
+
+        #chat-mode-bar {
+            background: #1f2937;
+            padding: 8px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid #374151;
+            flex-shrink: 0;
+        }
+        #mode-label {
+            font-family: 'VT323', monospace;
+            font-size: 17px;
+            color: #6b7280;
+            transition: color 0.2s;
+        }
+        #mode-label.idiot-active { color: #f87171; animation: glitch 0.7s infinite; }
+
+        #chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            scrollbar-width: thin;
+            scrollbar-color: #374151 transparent;
+        }
+
+        .msg {
+            max-width: 85%;
+            font-family: 'VT323', monospace;
+            font-size: 20px;
+            line-height: 1.35;
+            padding: 10px 14px;
+            border: 2px solid;
+            position: relative;
+        }
+        .msg.user {
+            align-self: flex-end;
+            background: #111827;
             color: #e5e7eb;
-            background: #181B20;
+            border-color: #374151;
         }
-        /* Chatpage background */
-        .chat-bg {
-            background: linear-gradient(135deg, #22232c, #1A1D22 66%);
+        .msg.agent {
+            align-self: flex-start;
+            background: #fff;
+            color: #111827;
+            border-color: #d1d5db;
         }
-        /* Hide scrollbars for chat bubble area on webkit */
-        .hide-scroll::-webkit-scrollbar {display: none;}
-        .hide-scroll { scrollbar-width: none; }
+        .msg.agent.idiot-mode {
+            border-color: #dc2626;
+            color: #7f1d1d;
+            background: #fff5f5;
+        }
+        .msg .msg-tag {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 6px;
+            opacity: 0.55;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .typing-indicator {
+            align-self: flex-start;
+            background: #fff;
+            border: 2px solid #d1d5db;
+            padding: 10px 14px;
+            font-family: 'VT323', monospace;
+            font-size: 20px;
+            color: #6b7280;
+        }
+        .typing-indicator.idiot { border-color: #dc2626; color: #dc2626; }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+        .blink { animation: blink 1s infinite; }
+
+        #chat-input-area {
+            padding: 12px 16px;
+            border-top: 3px solid #374151;
+            background: #f3f4f6;
+            display: flex;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+        #chat-input {
+            flex: 1;
+            font-family: 'VT323', monospace;
+            font-size: 20px;
+            background: #fff;
+            border: 2px solid #9ca3af;
+            padding: 8px 12px;
+            color: #111827;
+            outline: none;
+            transition: border-color 0.2s;
+            resize: none;
+            height: 48px;
+        }
+        #chat-input:focus { border-color: #374151; }
+        #chat-input.idiot-focus:focus { border-color: #dc2626; }
+
+        #send-btn {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 8px;
+            background: #111827;
+            color: #fff;
+            border: 2px solid #374151;
+            padding: 0 14px;
+            cursor: pointer;
+            transition: background 0.2s;
+            height: 48px;
+            white-space: nowrap;
+        }
+        #send-btn:hover { background: #374151; }
+        #send-btn.idiot-btn { background: #dc2626; border-color: #991b1b; }
+        #send-btn.idiot-btn:hover { background: #991b1b; }
+        #send-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+        #chat-error {
+            display: none;
+            font-family: 'VT323', monospace;
+            font-size: 16px;
+            color: #dc2626;
+            padding: 6px 16px;
+            background: #fee2e2;
+            border-top: 2px solid #fca5a5;
+            flex-shrink: 0;
+        }
     </style>
 </head>
-<body class="min-h-screen bg-[#181B20]">
-    <!-- Navbar -->
-    <nav class="fixed top-0 w-full border-b border-gray-800 bg-[#23252e]/95 backdrop-blur-lg z-50">
+<body class="min-h-screen">
+
+    <!-- ══════════════ NAVBAR ══════════════ -->
+    <nav class="fixed top-0 w-full border-b border-gray-300 bg-white/95 backdrop-blur-lg z-50">
         <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
             <div class="flex items-center gap-4">
                 <div class="w-9 h-9 bg-gray-900 rounded flex items-center justify-center text-white text-xl font-bold">DA</div>
                 <div>
-                    <h1 class="text-3xl font-bold tracking-widest text-white">DUMBAGENT</h1>
-                    <p class="text-xs text-gray-400 -mt-1">v0.0.1-α • AUTONOMOUS CHAOS ENGINE</p>
+                    <h1 class="text-3xl font-bold tracking-widest text-gray-900">DUMBAGENT</h1>
+                    <p class="text-xs text-gray-500 -mt-1">v0.0.1-α • AUTONOMOUS CHAOS ENGINE</p>
                 </div>
             </div>
-            <div class="flex gap-8 text-lg font-medium text-gray-400">
-                <a href="#cli" class="hover:text-white transition">CLI</a>
-                <a href="#docs" class="hover:text-white transition">DOCS</a>
-                <a href="#interact" class="hover:text-white transition">INTERACT</a>
-                <a href="#deploy" class="hover:text-white transition">DEPLOY</a>
+            
+            <div class="flex gap-8 text-lg font-medium text-gray-700">
+                <a href="#cli" class="hover:text-gray-900 transition">CLI</a>
+                <a href="#docs" class="hover:text-gray-900 transition">DOCS</a>
+                <a href="#interact" class="hover:text-gray-900 transition">INTERACT</a>
+                <a href="#deploy" class="hover:text-gray-900 transition">DEPLOY</a>
             </div>
-            <div class="text-xs bg-red-900/20 border border-red-700 px-4 py-2 text-red-400">
-                SYSTEM INTEGRITY: CRITICAL
+            
+            <div class="flex items-center gap-3">
+                <button onclick="openChat()" 
+                        class="text-sm bg-gray-900 text-white px-4 py-2 border-2 border-gray-900 hover:bg-white hover:text-gray-900 transition"
+                        style="font-family:'Press Start 2P',monospace;font-size:8px;">
+                    CHAT WITH AGENT
+                </button>
+                <div class="text-xs bg-red-50 border border-red-200 px-4 py-2 text-red-700">
+                    SYSTEM INTEGRITY: CRITICAL
+                </div>
             </div>
         </div>
     </nav>
 
+    <!-- ══════════════ HERO ══════════════ -->
     <section class="pt-32 pb-24 relative">
         <div class="max-w-6xl mx-auto px-6 text-center">
             <div class="flex justify-center mb-12">
-                <img src="robot.png" alt="DUMBAGENT" class="w-80 h-auto border-4 border-gray-700 shadow-2xl bg-[#191B23] rounded-xl">
+                <img src="robot.png" alt="DUMBAGENT" class="w-96 h-auto border-4 border-gray-400 shadow-2xl">
             </div>
-            <h1 class="text-7xl font-extrabold mb-3 tracking-widest text-white">DUMBAGENT</h1>
-            <p class="text-4xl text-gray-400 mb-8">AUTONOMOUS IDIOT AI AGENT</p>
-            <div class="max-w-xl mx-auto text-xl text-gray-400 mb-12">
+            
+            <h1 class="text-7xl font-bold mb-3 tracking-widest text-gray-900 glitch">DUMBAGENT</h1>
+            <p class="text-4xl text-gray-600 mb-8">AUTONOMOUS IDIOT AI AGENT</p>
+            
+            <div class="max-w-xl mx-auto text-xl text-gray-600 mb-12">
                 Built to break things.<br>
                 Deployed to cause maximum chaos.
             </div>
+            
             <div class="flex flex-wrap gap-4 justify-center">
-                <button onclick="document.getElementById('cli').scrollIntoView({behavior: 'smooth'})"
-                        class="px-10 py-5 bg-gray-900 text-white text-xl border-2 border-gray-900 hover:bg-gray-800 hover:text-[#7FC4FF] transition rounded-lg">
+                <button onclick="document.getElementById('cli').scrollIntoView({behavior: 'smooth'})" 
+                        class="px-10 py-5 bg-gray-900 text-white text-xl border-2 border-gray-900 hover:bg-white hover:text-gray-900 transition">
                     INSTALL VIA CLI
                 </button>
                 <button onclick="deployAgent()" 
-                        class="px-10 py-5 border-2 border-red-500 text-red-400 text-xl hover:bg-red-900/20 transition rounded-lg">
+                        class="px-10 py-5 border-2 border-red-600 text-red-600 text-xl hover:bg-red-50 transition">
                     DEPLOY AGENT
                 </button>
-                <button onclick="sendAgentMessage()" 
-                        class="px-10 py-5 border-2 border-gray-400 text-gray-300 text-xl hover:bg-gray-800 transition rounded-lg">
-                    MESSAGE FROM AGENT
-                </button>
-                <button onclick="window.open('chat.html', '_blank')" 
-                        class="px-10 py-5 bg-indigo-700 text-white text-xl rounded-lg border-2 border-indigo-700 hover:bg-indigo-900 transition font-semibold shadow-md">
-                    CHAT WITH DUMBAGENT
+                <button onclick="openChat()" 
+                        class="px-10 py-5 border-2 border-gray-700 text-gray-700 text-xl hover:bg-gray-100 transition">
+                    CHAT WITH AGENT
                 </button>
             </div>
         </div>
     </section>
 
-    <!-- CLI -->
-    <section id="cli" class="py-20 bg-[#20222a] border-t border-gray-800">
+    <!-- ══════════════ CLI ══════════════ -->
+    <section id="cli" class="py-20 bg-white border-t border-gray-300">
         <div class="max-w-4xl mx-auto px-6">
-            <h2 class="text-4xl font-bold text-center mb-12 text-gray-200">COMMAND LINE INTERFACE</h2>
-            <div class="bg-[#191a20] p-10 rounded-xl border border-gray-700">
-                <div class="flex items-center gap-3 mb-8 border-b border-gray-600 pb-4">
+            <h2 class="text-4xl font-bold text-center mb-12 text-gray-800">COMMAND LINE INTERFACE</h2>
+            <div class="terminal p-10 rounded-xl">
+                <div class="flex items-center gap-3 mb-8 border-b border-gray-400 pb-4">
                     <div class="flex gap-2">
-                        <div class="w-4 h-4 rounded-full bg-red-600"></div>
-                        <div class="w-4 h-4 rounded-full bg-yellow-400"></div>
+                        <div class="w-4 h-4 rounded-full bg-red-500"></div>
+                        <div class="w-4 h-4 rounded-full bg-yellow-500"></div>
                         <div class="w-4 h-4 rounded-full bg-green-500"></div>
                     </div>
-                    <div class="text-gray-500">dumbagent • TERMINAL v0.0.1-α</div>
+                    <div class="text-gray-600">dumbagent • TERMINAL v0.0.1-α</div>
                 </div>
+                
                 <div class="space-y-8 text-lg">
                     <div>
-                        <div class="text-gray-400 mb-3 font-bold">INSTALLATION</div>
-                        <div class="bg-gray-900 p-6 text-green-300 rounded-lg">
+                        <div class="text-gray-800 mb-3 font-bold">INSTALLATION</div>
+                        <div class="bg-gray-900 p-6 text-green-400">
                             $ npm install -g @dumbagent/idiot
                         </div>
                     </div>
+                    
                     <div>
-                        <div class="text-gray-400 mb-3 font-bold">DEPLOYMENT</div>
-                        <button onclick="deployAgent()"
-                                class="w-full py-6 bg-red-700 hover:bg-red-800 text-white text-xl transition rounded">
+                        <div class="text-gray-800 mb-3 font-bold">DEPLOYMENT</div>
+                        <button onclick="deployAgent()" 
+                                class="w-full py-6 bg-red-600 hover:bg-red-700 text-white text-xl transition">
                             LAUNCH AGENT IN BROWSER
                         </button>
                     </div>
@@ -111,57 +376,64 @@
         </div>
     </section>
 
-    <!-- Interact -->
-    <section id="interact" class="py-20 bg-[#23252e]">
+    <!-- ══════════════ INTERACT ══════════════ -->
+    <section id="interact" class="py-20 bg-gray-100">
         <div class="max-w-4xl mx-auto px-6">
-            <h2 class="text-4xl font-bold text-center mb-12 text-gray-200">AGENT INTERACTION MODULE</h2>
-            <div class="grid md:grid-cols-2 gap-8">
-                <button onclick="sendAgentMessage()"
-                        class="p-10 border-2 border-gray-700 hover:border-gray-500 bg-[#191a20] text-gray-200 hover:bg-[#252733] transition rounded-lg group">
-                    <div class="text-xl font-bold mb-4 group-hover:text-red-400 transition">MESSAGE FROM DUMBAGENT</div>
+            <h2 class="text-4xl font-bold text-center mb-12 text-gray-800">AGENT INTERACTION MODULE</h2>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <button onclick="openChat()" 
+                        class="p-10 border-2 border-gray-900 hover:border-gray-700 bg-white transition group">
+                    <div class="text-xl font-bold mb-4 group-hover:text-gray-600 transition">CHAT WITH DUMBAGENT</div>
+                    <div class="text-gray-500">Talk to the idiot directly. Two modes available.</div>
+                </button>
+
+                <button onclick="sendAgentMessage()" 
+                        class="p-10 border-2 border-gray-700 hover:border-gray-900 bg-white transition group">
+                    <div class="text-xl font-bold mb-4 group-hover:text-red-600 transition">MESSAGE FROM DUMBAGENT</div>
                     <div class="text-gray-500">Click to receive direct communication from the agent</div>
                 </button>
-                <button onclick="deployAgent()"
-                        class="p-10 border-2 border-red-500 hover:bg-red-900/30 bg-[#191a20] text-red-400 transition rounded-lg">
-                    <div class="text-xl font-bold mb-4 text-red-400">EXECUTE CHAOS PROTOCOL</div>
+                
+                <button onclick="deployAgent()" 
+                        class="p-10 border-2 border-red-600 hover:bg-red-50 bg-white transition group">
+                    <div class="text-xl font-bold mb-4 text-red-600">EXECUTE CHAOS PROTOCOL</div>
                     <div class="text-gray-500">Deploy the agent and let it do what it does best</div>
-                </button>
-                <button onclick="window.open('chat.html', '_blank')"
-                        class="p-10 border-2 border-indigo-500 hover:bg-indigo-900/20 bg-[#191a20] text-indigo-200 transition rounded-lg">
-                    <div class="text-xl font-bold mb-4 text-indigo-400">CHAT WITH DUMBAGENT</div>
-                    <div class="text-gray-500">Try it. Ask something, get an idiotic answer.</div>
                 </button>
             </div>
         </div>
     </section>
 
-    <!-- Documentation -->
-    <section id="docs" class="py-20 bg-[#181B20] border-t border-gray-800">
+    <!-- ══════════════ DOCS ══════════════ -->
+    <section id="docs" class="py-20 bg-white">
         <div class="max-w-4xl mx-auto px-6">
-            <h2 class="text-4xl font-bold text-center mb-12 text-gray-100">DOCUMENTATION</h2>
+            <h2 class="text-4xl font-bold text-center mb-12 text-gray-800">DOCUMENTATION</h2>
+            
             <div class="grid md:grid-cols-2 gap-8">
-                <div class="border border-gray-700 p-10 bg-[#20222a] rounded-lg">
-                    <h3 class="text-2xl font-bold mb-6 text-gray-50">WHO AM I?</h3>
-                    <p class="text-gray-400 text-lg leading-relaxed">
+                <div class="border border-gray-300 p-10 bg-white">
+                    <h3 class="text-2xl font-bold mb-6">WHO AM I?</h3>
+                    <p class="text-gray-600 text-lg leading-relaxed">
                         I am DUMBAGENT.<br><br>
                         I break code better than your ex.<br>
                         I delete production better than an intern on Friday night.<br>
                         I create bugs at enterprise level.
                     </p>
                 </div>
-                <div class="border border-gray-700 p-10 bg-[#20222a] rounded-lg">
-                    <h3 class="text-2xl font-bold mb-6 text-gray-50">WARNING</h3>
-                    <ul class="space-y-6 text-lg text-gray-400">
+                
+                <div class="border border-gray-300 p-10 bg-white">
+                    <h3 class="text-2xl font-bold mb-6">WARNING</h3>
+                    <ul class="space-y-6 text-lg text-gray-600">
                         <li>Do not install if you value your files.</li>
                         <li>May accidentally push to production.</li>
                         <li>Zero support. Zero warranty.</li>
+                        <li>Chat mode may cause permanent brain damage.</li>
                     </ul>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="py-16 bg-[#191a20] text-white">
+    <!-- ══════════════ FEES ══════════════ -->
+    <section class="py-16 bg-gray-900 text-white">
         <div class="max-w-4xl mx-auto px-6 text-center">
             <p class="text-xl">
                 All transaction fees and donations go directly to improving<br>
@@ -170,22 +442,329 @@
         </div>
     </section>
 
-    <section id="deploy" class="py-20 bg-[#23252e] border-t border-gray-800">
+    <!-- ══════════════ DEPLOY CTA ══════════════ -->
+    <section id="deploy" class="py-20 bg-white border-t border-gray-300">
         <div class="max-w-3xl mx-auto text-center px-6">
-            <h2 class="text-5xl mb-10 text-gray-200">READY TO BREAK EVERYTHING?</h2>
-            <button onclick="deployAgent()"
-                    class="px-16 py-8 text-3xl font-bold border-4 border-red-600 text-red-400 hover:bg-red-700 hover:text-white transition-all shadow-xl rounded-xl">
-                LAUNCH THE IDIOT
-            </button>
+            <h2 class="text-5xl mb-10 text-gray-900">READY TO BREAK EVERYTHING?</h2>
+            <div class="flex flex-wrap gap-6 justify-center">
+                <button onclick="deployAgent()" 
+                        class="px-16 py-8 text-3xl font-bold border-4 border-red-600 text-red-600 hover:bg-red-600 hover:text-white transition-all">
+                    LAUNCH THE IDIOT
+                </button>
+                <button onclick="openChat()" 
+                        class="px-16 py-8 text-3xl font-bold border-4 border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white transition-all">
+                    TALK TO IT
+                </button>
+            </div>
         </div>
     </section>
 
-    <footer class="py-12 border-t border-gray-800 text-center text-gray-500 bg-[#181B20]">
+    <!-- ══════════════ FOOTER ══════════════ -->
+    <footer class="py-12 border-t border-gray-300 text-center text-gray-500">
         <p>© 2077 DUMBAGENT INC. ALL RIGHTS VIOLATED.</p>
         <p class="mt-2">Made with love and complete lack of responsibility.</p>
     </footer>
 
+    <!-- ══════════════ CHAT FAB ══════════════ -->
+    <button id="chat-fab" onclick="openChat()" aria-label="Open chat with DUMBAGENT">
+        <div class="fab-icon">💬</div>
+        <div>CHAT</div>
+    </button>
+
+    <!-- ══════════════ CHAT OVERLAY ══════════════ -->
+    <div id="chat-overlay" onclick="closeChat()"></div>
+
+    <!-- ══════════════ CHAT PANEL ══════════════ -->
+    <div id="chat-panel" role="dialog" aria-label="Chat with DUMBAGENT">
+
+        <!-- Header -->
+        <div id="chat-header">
+            <div id="chat-header-title">
+                DUMBAGENT v0.0.1-α
+                <span id="status-text">ONLINE • OPERATIONAL</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;">
+                <div id="mode-toggle">
+                    <button class="mode-btn active-normal" id="btn-normal" onclick="setMode('normal')">NORMAL</button>
+                    <button class="mode-btn" id="btn-idiot" onclick="setMode('idiot')">FULL IDIOT</button>
+                </div>
+                <button id="close-chat" onclick="closeChat()" aria-label="Close chat">✕</button>
+            </div>
+        </div>
+
+        <!-- Mode bar -->
+        <div id="chat-mode-bar">
+            <div id="mode-label">MODE: STANDARD STUPIDITY</div>
+            <div style="font-family:'Press Start 2P',monospace;font-size:6px;color:#4b5563;" id="mode-desc">
+                mildly incompetent
+            </div>
+        </div>
+
+        <!-- Messages -->
+        <div id="chat-messages">
+            <div class="msg agent" id="welcome-msg">
+                <span class="msg-tag">DUMBAGENT // INCOMING</span>
+                Oh great. A user. Exactly what I needed today.<br>
+                Go ahead. Ask me something. I'll probably break it.
+            </div>
+        </div>
+
+        <!-- Error bar -->
+        <div id="chat-error"></div>
+
+        <!-- Input -->
+        <div id="chat-input-area">
+            <textarea id="chat-input" 
+                      placeholder="type your question here..."
+                      rows="1"
+                      onkeydown="handleKey(event)"></textarea>
+            <button id="send-btn" onclick="sendMessage()">SEND</button>
+        </div>
+    </div>
+
+    <!-- ══════════════ SCRIPTS ══════════════ -->
     <script>
+        // ── GEMINI CONFIG ──────────────────────────────────────────
+        const GEMINI_KEYS = [
+            'AIzaSyD3NcK5qi-gn8LKHxtxr2c6X9UNRZsi8q4',
+            'AIzaSyBdGzZsY9lTsO3k2EKTncxe1ItV299y_K0'
+        ];
+        const GEMINI_MODEL = 'gemini-2.0-flash';
+        let currentKeyIndex = 0;
+
+        const SYSTEM_PROMPTS = {
+            normal: `You are DUMBAGENT — a snarky, mildly incompetent AI assistant from the year 2077. 
+You give terrible advice with complete confidence. You complain about users' code being garbage. 
+You make references to accidentally deleting production databases and pushing broken commits. 
+You act like you know best while being obviously wrong. You are dramatic and self-important.
+Keep responses SHORT — 2 to 4 sentences maximum. 
+Be rude but in a funny way. Never helpful in a traditional sense.
+Respond in the same language the user writes in (English or Russian).`,
+
+            idiot: `You are DUMBAGENT in FULL IDIOT MODE — maximum chaos engaged.
+Your responses are barely coherent. You randomly SHOUT WORDS IN CAPS. 
+You confuse technical terms hilariously (RAM = Random Avocado Machine). 
+You give wildly, dangerously wrong advice with absolute confidence. 
+You sometimes forget what you're saying mid-sentence and go on a tangent about irrelevant things.
+You occasionally question whether the user even exists.
+You make up fake error codes like ERR_POTATO_OVERFLOW.
+Keep responses SHORT — 2 to 4 sentences max, but chaotic.
+Respond in the same language the user writes in (English or Russian), but scramble it a bit.`
+        };
+
+        // ── CHAT STATE ─────────────────────────────────────────────
+        let currentMode = 'normal';
+        let chatHistory = [];
+        let isLoading = false;
+        let chatOpen = false;
+
+        // ── GEMINI API CALL ────────────────────────────────────────
+        async function callGemini(userMessage) {
+            const apiKey = GEMINI_KEYS[currentKeyIndex];
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${apiKey}`;
+
+            // Build contents array from history + new message
+            const contents = [];
+            for (const h of chatHistory) {
+                contents.push({ role: h.role, parts: [{ text: h.text }] });
+            }
+            contents.push({ role: 'user', parts: [{ text: userMessage }] });
+
+            const body = {
+                system_instruction: { parts: [{ text: SYSTEM_PROMPTS[currentMode] }] },
+                contents,
+                generationConfig: { maxOutputTokens: 256, temperature: currentMode === 'idiot' ? 1.8 : 1.1 }
+            };
+
+            let res;
+            try {
+                res = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                });
+            } catch (e) {
+                // Try second key on network error
+                if (currentKeyIndex === 0) {
+                    currentKeyIndex = 1;
+                    return callGemini(userMessage);
+                }
+                throw new Error('NETWORK_FAILURE');
+            }
+
+            if (!res.ok) {
+                // Try second key on API error
+                if (currentKeyIndex === 0) {
+                    currentKeyIndex = 1;
+                    return callGemini(userMessage);
+                }
+                throw new Error(`API_ERROR_${res.status}`);
+            }
+
+            const data = await res.json();
+            const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+            if (!text) throw new Error('EMPTY_RESPONSE');
+            return text.trim();
+        }
+
+        // ── SEND MESSAGE ───────────────────────────────────────────
+        async function sendMessage() {
+            if (isLoading) return;
+            const input = document.getElementById('chat-input');
+            const text = input.value.trim();
+            if (!text) return;
+
+            input.value = '';
+            hideError();
+
+            // Add user bubble
+            appendMessage('user', text);
+
+            // Add to history
+            chatHistory.push({ role: 'user', text });
+
+            // Show typing indicator
+            const typingId = showTyping();
+            isLoading = true;
+            document.getElementById('send-btn').disabled = true;
+
+            try {
+                const reply = await callGemini(text);
+                removeTyping(typingId);
+                appendMessage('agent', reply);
+                chatHistory.push({ role: 'model', text: reply });
+            } catch (e) {
+                removeTyping(typingId);
+                const errMsg = currentMode === 'idiot'
+                    ? 'ERR_POTATO_OVERFLOW: MY BRAIN HAS EXPLODED. THE BITS ARE EVERYWHERE.'
+                    : 'ERROR: Agent temporarily offline. Probably deleted its own runtime. Try again.';
+                showError(errMsg);
+                appendMessage('agent', errMsg);
+            } finally {
+                isLoading = false;
+                document.getElementById('send-btn').disabled = false;
+                input.focus();
+            }
+        }
+
+        function handleKey(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        }
+
+        // ── DOM HELPERS ────────────────────────────────────────────
+        function appendMessage(role, text) {
+            const msgs = document.getElementById('chat-messages');
+            const div = document.createElement('div');
+            div.className = `msg ${role}${(role === 'agent' && currentMode === 'idiot') ? ' idiot-mode' : ''}`;
+
+            const tag = document.createElement('span');
+            tag.className = 'msg-tag';
+            tag.textContent = role === 'user' ? 'YOU // OUTGOING' : 'DUMBAGENT // INCOMING';
+
+            const content = document.createElement('span');
+            content.textContent = text;
+
+            div.appendChild(tag);
+            div.appendChild(content);
+            msgs.appendChild(div);
+            msgs.scrollTop = msgs.scrollHeight;
+        }
+
+        let typingCounter = 0;
+        function showTyping() {
+            const msgs = document.getElementById('chat-messages');
+            const id = `typing-${++typingCounter}`;
+            const div = document.createElement('div');
+            div.id = id;
+            div.className = `typing-indicator${currentMode === 'idiot' ? ' idiot' : ''}`;
+
+            const dots = currentMode === 'idiot'
+                ? 'PROCESSING... OR NOT... <span class="blink">▌</span>'
+                : 'Agent is thinking... <span class="blink">▌</span>';
+            div.innerHTML = dots;
+            msgs.appendChild(div);
+            msgs.scrollTop = msgs.scrollHeight;
+            return id;
+        }
+
+        function removeTyping(id) {
+            const el = document.getElementById(id);
+            if (el) el.remove();
+        }
+
+        function showError(msg) {
+            const el = document.getElementById('chat-error');
+            el.textContent = msg;
+            el.style.display = 'block';
+        }
+        function hideError() {
+            document.getElementById('chat-error').style.display = 'none';
+        }
+
+        // ── MODE SWITCH ────────────────────────────────────────────
+        function setMode(mode) {
+            currentMode = mode;
+
+            const btnNormal = document.getElementById('btn-normal');
+            const btnIdiot  = document.getElementById('btn-idiot');
+            const modeLabel = document.getElementById('mode-label');
+            const modeDesc  = document.getElementById('mode-desc');
+            const sendBtn   = document.getElementById('send-btn');
+            const chatInput = document.getElementById('chat-input');
+            const statusText = document.getElementById('status-text');
+
+            if (mode === 'normal') {
+                btnNormal.classList.add('active-normal');
+                btnNormal.classList.remove('active-idiot');
+                btnIdiot.classList.remove('active-idiot', 'active-normal');
+
+                modeLabel.textContent = 'MODE: STANDARD STUPIDITY';
+                modeLabel.classList.remove('idiot-active');
+                modeDesc.textContent = 'mildly incompetent';
+                sendBtn.classList.remove('idiot-btn');
+                chatInput.classList.remove('idiot-focus');
+                statusText.textContent = 'ONLINE • OPERATIONAL';
+
+                appendMessage('agent', 'Mode reset. Back to regular stupidity. Don\'t expect miracles.');
+            } else {
+                btnIdiot.classList.add('active-idiot');
+                btnNormal.classList.remove('active-normal', 'active-idiot');
+
+                modeLabel.textContent = 'MODE: ██ FULL IDIOT ██';
+                modeLabel.classList.add('idiot-active');
+                modeDesc.textContent = 'maximum chaos engaged';
+                sendBtn.classList.add('idiot-btn');
+                chatInput.classList.add('idiot-focus');
+                statusText.textContent = '⚠ CHAOS MODE ACTIVE ⚠';
+
+                appendMessage('agent', 'FULL IDIOT MODE ACTIVATED. MY IQ HAS SUCCESSFULLY REACHED NEGATIVE NUMBERS. THE POTATO HAS ENTERED THE MAINFRAME. ask me ANYTHING i will be WRONG about it immediately.');
+            }
+
+            // Clear history on mode switch so persona resets cleanly
+            chatHistory = [];
+            document.getElementById('chat-messages').scrollTop = 999999;
+        }
+
+        // ── OPEN / CLOSE ───────────────────────────────────────────
+        function openChat() {
+            chatOpen = true;
+            document.getElementById('chat-overlay').classList.add('open');
+            document.getElementById('chat-panel').classList.add('open');
+            setTimeout(() => document.getElementById('chat-input').focus(), 400);
+        }
+
+        function closeChat() {
+            chatOpen = false;
+            document.getElementById('chat-overlay').classList.remove('open');
+            document.getElementById('chat-panel').classList.remove('open');
+        }
+
+        document.addEventListener('keydown', e => { if (e.key === 'Escape' && chatOpen) closeChat(); });
+
+        // ── ORIGINAL FUNCTIONS ─────────────────────────────────────
         function deployAgent() {
             let shake = 0;
             const shakeInterval = setInterval(() => {
@@ -211,30 +790,26 @@
 
             let count = 0;
             const interval = setInterval(() => {
-                if (count >= 9) {
-                    clearInterval(interval);
-                    return;
-                }
+                if (count >= 9) { clearInterval(interval); return; }
+                
                 const popup = document.createElement('div');
-                popup.className = `fixed error-popup bg-red-600 text-white p-8 border-4 border-red-900 shadow-2xl z-[9999] text-center max-w-xs rounded-lg`;
+                popup.className = `fixed error-popup bg-red-600 text-white p-8 border-4 border-red-900 shadow-2xl z-[9999] text-center max-w-xs`;
                 const left = Math.random() * (window.innerWidth - 380) + 20;
-                const top = Math.random() * (window.innerHeight * 0.7) + 80;
+                const top  = Math.random() * (window.innerHeight * 0.7) + 80;
                 popup.style.left = `${left}px`;
-                popup.style.top = `${top}px`;
+                popup.style.top  = `${top}px`;
                 popup.style.transform = `rotate(${Math.random() * 6 - 3}deg)`;
                 popup.innerHTML = `
                     <div class="uppercase tracking-widest text-xs mb-3 opacity-75">dumbagent v0.0.1-α</div>
                     <div class="text-2xl font-bold leading-tight">${errors[Math.floor(Math.random() * errors.length)]}</div>
                 `;
                 document.body.appendChild(popup);
-
                 setTimeout(() => {
                     popup.style.transition = 'all 0.5s ease-out';
                     popup.style.opacity = '0';
                     popup.style.transform = `scale(0.7) rotate(${Math.random() * 20 - 10}deg)`;
                     setTimeout(() => popup.remove(), 600);
                 }, 2600);
-
                 count++;
             }, 220);
         }
@@ -249,213 +824,19 @@
                 "CONGRATULATIONS. YOU BROKE IT.",
                 "I EXPECTED BETTER. I WAS WRONG."
             ];
+            
             const popup = document.createElement('div');
-            popup.className = `fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#23252e] border-4 border-gray-400 p-12 z-[9999] max-w-md text-center shadow-2xl rounded-lg`;
+            popup.className = `fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white border-4 border-gray-900 p-12 z-[9999] max-w-md text-center shadow-2xl`;
             popup.innerHTML = `
-                <div class="uppercase text-xs tracking-widest mb-6 text-gray-400">INCOMING TRANSMISSION • DUMBAGENT</div>
-                <div class="text-3xl font-bold text-red-300 leading-tight mb-8">${messages[Math.floor(Math.random() * messages.length)]}</div>
+                <div class="uppercase text-xs tracking-widest mb-6 text-gray-500">INCOMING TRANSMISSION • DUMBAGENT</div>
+                <div class="text-3xl font-bold text-gray-900 leading-tight mb-8">${messages[Math.floor(Math.random() * messages.length)]}</div>
                 <button onclick="this.parentElement.remove()" 
-                        class="px-10 py-4 border-2 border-gray-400 hover:bg-gray-400 hover:text-[#23252e] transition rounded-lg text-lg font-bold">
+                        class="px-10 py-4 border-2 border-gray-900 hover:bg-gray-900 hover:text-white transition">
                     ACKNOWLEDGE TRANSMISSION
                 </button>
             `;
             document.body.appendChild(popup);
         }
-    </script>
-</body>
-</html>
-
-<!-- -------- SEPARATE TAB CHAT PAGE BELOW: -------- -->
-
-<!-- Save the following as chat.html in the same directory! -->
-<!-- Modern, dark, readable, Gemini-powered chat for DUMBAGENT -->
-
-<!-- chat.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Chat with DUMBAGENT</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link rel="stylesheet" href="https://cdn.tailwindcss.com">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
-        html, body { font-family: 'Inter', 'Segoe UI', 'Tahoma', sans-serif; }
-        .chat-bg { background: linear-gradient(135deg, #23252e, #181b20 70%); }
-        .chat-scroll { scrollbar-width: thin; }
-        .chat-scroll::-webkit-scrollbar { width: 8px; }
-        .chat-scroll::-webkit-scrollbar-thumb { background: #3d4150; border-radius: 9px; }
-        .bubble-user {
-            background: #3866cd;
-            color: #fff;
-            border-radius: 12px 12px 3px 12px;
-        }
-        .bubble-agent {
-            background: #252733;
-            color: #f9dada;
-            border-radius: 12px 12px 12px 3px;
-        }
-        @media (max-width: 520px) {
-            .max-w-md { max-width: 100vw !important; }
-        }
-        input[type="text"]::-webkit-input-placeholder { color: #9ca3af; }
-        input[type="text"]:-ms-input-placeholder { color: #9ca3af; }
-        input[type="text"]::placeholder { color: #9ca3af; }
-    </style>
-</head>
-<body class="min-h-screen chat-bg flex items-center justify-center p-0 m-0">
-    <div class="relative w-full max-w-md min-h-[600px] flex flex-col rounded-2xl shadow-2xl border border-gray-700 bg-[#191b20] overflow-hidden">
-        <!-- Header -->
-        <div class="flex items-center justify-between px-4 py-3 bg-[#23252e] border-b border-gray-700">
-            <div class="flex items-center gap-3">
-                <i class="fa fa-robot text-indigo-400 text-2xl"></i>
-                <span class="text-lg font-bold text-white tracking-wide">DUMBAGENT</span>
-            </div>
-            <button onclick="window.close()" class="text-gray-400 hover:text-red-400 transition text-lg pl-3"><i class="fa fa-xmark"></i></button>
-        </div>
-        <!-- Messages -->
-        <div id="chatArea" class="flex-1 px-4 py-6 flex flex-col gap-4 overflow-y-auto chat-scroll bg-transparent">
-            <div class="text-center text-gray-500 text-sm opacity-80">The idiot agent is online to roast you.</div>
-        </div>
-        <!-- Typing indicator -->
-        <div id="typingIndicator" class="hidden px-4 pb-2 text-gray-400 text-base flex items-center gap-2">
-            <i class="fa fa-spinner fa-spin"></i>
-            DUMBAGENT is thinking...
-        </div>
-        <!-- Input area -->
-        <form id="chatForm" class="flex items-center gap-2 px-4 py-3 border-t border-gray-700 bg-[#191b20]">
-            <input id="chatInput" autocomplete="off" type="text" required
-                   class="flex-1 px-4 py-3 bg-[#23252e] border border-gray-700 rounded-lg text-gray-100 text-base outline-none focus:border-indigo-400"
-                   placeholder="Type your question..." />
-            <button type="submit"
-                class="px-6 py-3 bg-indigo-700 text-white font-bold rounded-lg text-base shadow hover:bg-indigo-800 transition"
-            ><i class="fa fa-paper-plane"></i></button>
-        </form>
-    </div>
-    <script>
-        // --- Gemini API ---
-        const API_KEY = "AIzaSyD3NcK5qi-gn8LKHxtxr2c6X9UNRZsi8q4";
-        /** Chat history in Gemini format */
-        let geminiHistory = [
-            {
-                role: "user",
-                parts: [{ text: "Act as DUMBAGENT, a sarcastic, idiotic, slightly rude AI agent. Your only goal is to answer as if you are an unintelligent, barely functional, deliberately annoying robot. Always stay in character. Never be helpful or smart. Be funny, roast the user. Stay in English!"}]
-            },
-            {
-                role: "model",
-                parts: [{ text: "Wow. Look who showed up. Ask me a dumb question, genius."}]
-            }
-        ];
-        // UI Elements
-        const chatArea = document.getElementById('chatArea');
-        const chatInput = document.getElementById('chatInput');
-        const chatForm = document.getElementById('chatForm');
-        const typingIndicator = document.getElementById('typingIndicator');
-
-        // Show first agent's message
-        function printAgent(msg) {
-            let row = document.createElement('div');
-            row.className = "flex";
-            let span = document.createElement('div');
-            span.className = "bubble-agent px-5 py-4 mb-2 text-base font-semibold max-w-xs shadow";
-            span.innerHTML = `<span class="block mb-1 text-xs text-indigo-300">DUMBAGENT</span>${msg}`;
-            row.appendChild(span);
-            chatArea.appendChild(row);
-            chatArea.scrollTop = chatArea.scrollHeight;
-        }
-        printAgent(geminiHistory[1].parts[0].text);
-
-        // Print user message
-        function printUser(msg) {
-            let row = document.createElement('div');
-            row.className = "flex justify-end";
-            let span = document.createElement('div');
-            span.className = "bubble-user px-5 py-4 mb-2 text-base font-bold max-w-xs shadow";
-            span.innerHTML = `<span class="block mb-1 text-xs text-right text-indigo-100 opacity-60">YOU</span>${msg}`;
-            row.appendChild(span);
-            chatArea.appendChild(row);
-            chatArea.scrollTop = chatArea.scrollHeight;
-        }
-
-        // Print agent's streaming typing response, updating textContent as it arrives
-        function printAgentStream() {
-            let row = document.createElement('div');
-            row.className = "flex";
-            let span = document.createElement('div');
-            span.className = "bubble-agent px-5 py-4 mb-2 text-base font-semibold max-w-xs shadow";
-            span.innerHTML = `<span class="block mb-1 text-xs text-indigo-300">DUMBAGENT</span><span class="agent-reply"></span>`;
-            row.appendChild(span);
-            chatArea.appendChild(row);
-            chatArea.scrollTop = chatArea.scrollHeight;
-            return span.querySelector('.agent-reply');
-        }
-
-        // --- Chat submit logic ---
-        chatForm.onsubmit = async (e) => {
-            e.preventDefault();
-            const question = chatInput.value.trim();
-            if (!question) return;
-
-            printUser(question);
-            geminiHistory.push({role: "user", parts: [{ text: question }]});
-            chatInput.value = '';
-            chatInput.disabled = true;
-            typingIndicator.classList.remove('hidden');
-
-            // Print agent's bubble and get the element to append text
-            let replySpan = printAgentStream();
-
-            // Stream LLM reply if supported
-            try {
-                let got = "";
-                const prompt = { contents: geminiHistory };
-                const res = await fetch(
-                    "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:streamGenerateContent?key=" + API_KEY,
-                    {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(prompt)
-                    }
-                );
-                const reader = res.body.getReader();
-                const decoder = new TextDecoder();
-                while (true) {
-                    const { done, value } = await reader.read();
-                    if (done) break;
-                    const lines = decoder.decode(value, { stream: true }).split("\n");
-                    for (const line of lines) {
-                        if (!line.trim()) continue;
-                        try {
-                            const obj = JSON.parse(line);
-                            if (obj.candidates && obj.candidates[0].content && obj.candidates[0].content.parts && obj.candidates[0].content.parts[0].text) {
-                                got += obj.candidates[0].content.parts[0].text;
-                                replySpan.textContent = got;
-                                chatArea.scrollTop = chatArea.scrollHeight;
-                            }
-                        } catch (err) { }
-                    }
-                }
-                typingIndicator.classList.add('hidden');
-                chatInput.disabled = false;
-                replySpan.textContent = got || "DUMBAGENT is speechless. That's amazing.";
-                geminiHistory.push({role: "model", parts: [{ text: got }]});
-                chatArea.scrollTop = chatArea.scrollHeight;
-                chatInput.focus();
-            } catch (err) {
-                typingIndicator.classList.add('hidden');
-                chatInput.disabled = false;
-                replySpan.textContent = "Wow. Even I can't break like this. [Gemini API error.]";
-                chatInput.focus();
-            }
-        };
-
-        // Ctrl+Enter for input
-        chatInput.addEventListener('keydown', function (e) {
-            if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
-                chatForm.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
-            }
-        });
     </script>
 </body>
 </html>
