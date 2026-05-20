@@ -11,21 +11,21 @@
         
         body {
             font-family: 'VT323', monospace;
-            background: radial-gradient(circle at center, #0a0a1f 0%, #000000 100%);
-            color: #00ff9d;
+            background: linear-gradient(to bottom, #f8f9fa, #e5e7eb);
+            color: #1f2937;
             overflow-x: hidden;
         }
         
         .glitch {
-            animation: glitch 0.5s infinite;
+            animation: glitch 0.8s infinite;
         }
         
         @keyframes glitch {
             0% { transform: translate(0); }
-            20% { transform: translate(-2px, 2px); }
-            40% { transform: translate(-2px, -2px); }
-            60% { transform: translate(2px, 2px); }
-            80% { transform: translate(2px, -2px); }
+            20% { transform: translate(-1px, 1px); }
+            40% { transform: translate(-1px, -1px); }
+            60% { transform: translate(1px, 1px); }
+            80% { transform: translate(1px, -1px); }
             100% { transform: translate(0); }
         }
         
@@ -36,10 +36,10 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(to bottom, transparent 50%, rgba(0, 255, 157, 0.05) 50%);
+            background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.03) 50%);
             background-size: 100% 4px;
             pointer-events: none;
-            animation: scan 4s linear infinite;
+            animation: scan 6s linear infinite;
         }
         
         @keyframes scan {
@@ -49,39 +49,37 @@
         
         .terminal {
             font-family: 'Press Start 2P', monospace;
-            background: #0a0a0a;
-            border: 3px solid #00ffff;
-            box-shadow: 0 0 30px #00ffff;
+            background: #f8f9fa;
+            border: 3px solid #6b7280;
+            box-shadow: 0 0 25px rgba(107, 114, 128, 0.3);
         }
         
         .robot-container {
-            filter: drop-shadow(0 0 60px #ff00ff);
+            filter: drop-shadow(0 0 40px rgba(0, 0, 0, 0.15));
         }
     </style>
 </head>
 <body class="min-h-screen">
     <!-- Navbar -->
-    <nav class="fixed top-0 w-full border-b border-[#00ff9d]/30 bg-black/80 backdrop-blur-lg z-50">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <nav class="fixed top-0 w-full border-b border-gray-300 bg-white/90 backdrop-blur-lg z-50">
+        <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-gradient-to-br from-pink-500 to-cyan-500 rounded-full flex items-center justify-center text-2xl glitch">🤖</div>
+                <div class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center text-2xl glitch text-white">🤖</div>
                 <div>
-                    <h1 class="text-3xl font-bold tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-cyan-400">DUMBAGENT</h1>
-                    <p class="text-xs text-cyan-400 -mt-1">v0.0.1-α • IDIOT FROM THE FUTURE</p>
+                    <h1 class="text-3xl font-bold tracking-widest text-gray-900">DUMBAGENT</h1>
+                    <p class="text-xs text-gray-500 -mt-1">v0.0.1-α • IDIOT FROM THE FUTURE</p>
                 </div>
             </div>
             
-            <div class="flex gap-8 text-lg">
-                <a href="#cli" class="hover:text-pink-400 transition">CLI</a>
-                <a href="#docs" class="hover:text-pink-400 transition">DOCUMENTATION</a>
-                <a href="#deploy" class="hover:text-pink-400 transition">DEPLOY IDIOT</a>
+            <div class="flex gap-8 text-lg font-medium text-gray-700">
+                <a href="#cli" class="hover:text-gray-900 transition">CLI</a>
+                <a href="#docs" class="hover:text-gray-900 transition">DOCUMENTATION</a>
+                <a href="#deploy" class="hover:text-gray-900 transition">DEPLOY IDIOT</a>
             </div>
             
-            <div class="flex items-center gap-4">
-                <div class="px-4 py-2 bg-red-500/10 border border-red-500 text-red-400 text-sm flex items-center gap-2">
-                    <div class="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
-                    SYSTEM ON THE EDGE OF COLLAPSE
-                </div>
+            <div class="px-5 py-2 bg-red-50 border border-red-200 text-red-600 text-sm flex items-center gap-2 rounded">
+                <div class="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+                SYSTEM ON THE EDGE OF COLLAPSE
             </div>
         </div>
     </nav>
@@ -89,32 +87,32 @@
     <!-- Hero -->
     <section class="pt-32 pb-20 relative scanline">
         <div class="max-w-7xl mx-auto px-6 text-center">
-            <div class="flex justify-center mb-8 robot-container">
-                <img src="robot.png" alt="DUMBAGENT" class="w-96 h-auto border-4 border-pink-500 shadow-2xl">
+            <div class="flex justify-center mb-10 robot-container">
+                <img src="robot.png" alt="DUMBAGENT" class="w-96 h-auto border-4 border-gray-300 shadow-xl">
             </div>
             
-            <h1 class="text-8xl font-bold mb-4 tracking-widest glitch">
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-cyan-400 to-pink-500">DUMBAGENT</span>
+            <h1 class="text-7xl font-bold mb-4 tracking-widest text-gray-900 glitch">
+                DUMBAGENT
             </h1>
-            <p class="text-4xl text-red-400 mb-6">THE AI AGENT THAT BREAKS EVERYTHING</p>
+            <p class="text-4xl text-gray-600 mb-8">THE AI AGENT THAT BREAKS EVERYTHING</p>
             
-            <div class="max-w-2xl mx-auto text-2xl text-cyan-300 leading-relaxed mb-10">
+            <div class="max-w-2xl mx-auto text-2xl text-gray-600 leading-relaxed mb-12">
                 The dumbest artificial intelligence of 2077.<br>
                 Guaranteed to destroy your code, repo, and sanity.
             </div>
             
             <div class="flex gap-6 justify-center">
                 <button onclick="document.getElementById('cli').scrollIntoView({behavior: 'smooth'})" 
-                        class="px-10 py-5 bg-gradient-to-r from-pink-600 to-purple-600 text-white text-2xl border-4 border-white hover:scale-110 transition transform">
+                        class="px-12 py-6 bg-gray-900 text-white text-2xl border-4 border-gray-900 hover:bg-white hover:text-gray-900 transition-all">
                     INSTALL THE IDIOT →
                 </button>
                 <button onclick="deployAgent()" 
-                        class="px-10 py-5 border-4 border-cyan-400 text-cyan-400 text-2xl hover:bg-cyan-400/10 transition">
+                        class="px-12 py-6 border-4 border-gray-700 text-gray-700 text-2xl hover:bg-gray-100 transition">
                     LAUNCH IN BROWSER
                 </button>
             </div>
             
-            <div class="mt-16 text-sm text-red-400 flex items-center justify-center gap-2">
+            <div class="mt-16 text-sm text-red-600 flex items-center justify-center gap-2">
                 <i class="fas fa-skull"></i>
                 INSTALLATION MAY CAUSE LOSS OF REPUTATION, MONEY AND WILL TO LIVE
             </div>
@@ -122,40 +120,39 @@
     </section>
 
     <!-- CLI Section -->
-    <section id="cli" class="py-20 border-t border-cyan-500/30">
+    <section id="cli" class="py-20 border-t border-gray-300 bg-white">
         <div class="max-w-4xl mx-auto px-6">
-            <div class="terminal p-8 rounded-xl">
-                <div class="flex items-center gap-3 mb-6 border-b border-cyan-400 pb-4">
+            <div class="terminal p-10 rounded-xl">
+                <div class="flex items-center gap-3 mb-8 border-b border-gray-400 pb-4">
                     <div class="flex gap-2">
                         <div class="w-4 h-4 rounded-full bg-red-500"></div>
                         <div class="w-4 h-4 rounded-full bg-yellow-500"></div>
                         <div class="w-4 h-4 rounded-full bg-green-500"></div>
                     </div>
-                    <div class="text-cyan-400 text-xl">dumbagent CLI • TERMINAL v0.0.1-IDIOT</div>
+                    <div class="text-gray-600 text-xl">dumbagent CLI • TERMINAL v0.0.1-IDIOT</div>
                 </div>
                 
-                <div class="space-y-8 text-lg">
+                <div class="space-y-10 text-lg">
                     <div>
-                        <h3 class="text-pink-400 text-2xl mb-4 flex items-center gap-3">
+                        <h3 class="text-2xl mb-4 flex items-center gap-3 text-gray-800">
                             <i class="fas fa-download"></i> INSTALLATION
                         </h3>
-                        <div class="bg-black p-5 border border-pink-500">
-                            <p class="text-green-400 mb-3">$ npm install -g @dumbagent/idiot</p>
-                            <p class="text-xs text-red-400">Requires Node.js ≥ 18 • Don't complain later</p>
+                        <div class="bg-gray-900 text-green-400 p-6 border border-gray-700">
+                            <p class="mb-3">$ npm install -g @dumbagent/idiot</p>
+                            <p class="text-xs text-gray-400">Requires Node.js ≥ 18 • Don't complain later</p>
                         </div>
                     </div>
                     
                     <div>
-                        <h3 class="text-pink-400 text-2xl mb-4 flex items-center gap-3">
+                        <h3 class="text-2xl mb-4 flex items-center gap-3 text-gray-800">
                             <i class="fas fa-rocket"></i> DEPLOY THE IDIOT
                         </h3>
-                        <div class="bg-black/70 p-6 border border-yellow-500">
-                            <p class="text-yellow-300 mb-4">Connect your wallet and unleash chaos:</p>
+                        <div class="bg-gray-50 p-8 border border-gray-300">
+                            <p class="text-gray-600 mb-6">Connect your wallet and unleash chaos:</p>
                             <button onclick="deployAgent()" 
-                                    class="w-full py-4 bg-gradient-to-r from-yellow-500 to-orange-500 text-black font-bold text-xl hover:brightness-110">
+                                    class="w-full py-5 bg-gray-900 text-white font-bold text-xl hover:bg-gray-800 transition">
                                 → LAUNCH DUMBAGENT IN BROWSER ←
                             </button>
-                            <p class="text-center text-xs text-red-400 mt-3">*Your tokens will burn instantly</p>
                         </div>
                     </div>
                 </div>
@@ -164,25 +161,25 @@
     </section>
 
     <!-- Documentation -->
-    <section id="docs" class="py-20 bg-black/70">
+    <section id="docs" class="py-20 bg-gray-100">
         <div class="max-w-4xl mx-auto px-6">
-            <h2 class="text-6xl text-center mb-16 text-red-400 glitch">DOCUMENTATION FOR IDIOTS</h2>
+            <h2 class="text-6xl text-center mb-16 text-gray-800 glitch">DOCUMENTATION FOR IDIOTS</h2>
             
             <div class="grid md:grid-cols-2 gap-8">
-                <div class="border border-red-500 p-8 bg-zinc-950">
-                    <h3 class="text-3xl text-red-400 mb-6">WHO AM I?</h3>
-                    <p class="text-2xl leading-relaxed text-cyan-200">
+                <div class="border border-gray-300 p-10 bg-white">
+                    <h3 class="text-3xl text-gray-800 mb-6">WHO AM I?</h3>
+                    <p class="text-2xl leading-relaxed text-gray-600">
                         I am DUMBAGENT.<br><br>
                         I break code better than your ex.<br>
                         I delete production better than an intern on Friday night.<br>
                         I write bugs at "billion-dollar-round" level.
                     </p>
-                    <div class="mt-8 text-4xl">🤖💥</div>
+                    <div class="mt-10 text-5xl">🤖💥</div>
                 </div>
                 
-                <div class="border border-pink-500 p-8 bg-zinc-950">
-                    <h3 class="text-3xl text-pink-400 mb-6">WARNING</h3>
-                    <div class="space-y-6 text-xl">
+                <div class="border border-gray-300 p-10 bg-white">
+                    <h3 class="text-3xl text-gray-800 mb-6">WARNING</h3>
+                    <div class="space-y-8 text-xl text-gray-600">
                         <div class="flex gap-4">
                             <span class="text-red-500 text-4xl">⚠️</span>
                             <p>Do not install me if you love your files.</p>
@@ -199,28 +196,28 @@
                 </div>
             </div>
             
-            <div class="mt-12 p-10 border-4 border-dashed border-yellow-400 text-center text-3xl bg-black">
-                <p class="text-yellow-300">"If after using dumbagent you still have something working — that's a bug."</p>
-                <p class="text-sm mt-6 text-gray-500">- DUMBAGENT, 2077</p>
+            <div class="mt-16 p-12 border-4 border-dashed border-gray-400 text-center bg-white">
+                <p class="text-3xl text-gray-700">"If after using dumbagent you still have something working — that's a bug."</p>
+                <p class="text-sm mt-8 text-gray-500">- DUMBAGENT, 2077</p>
             </div>
         </div>
     </section>
 
     <!-- Deploy CTA -->
-    <section id="deploy" class="py-24 border-t border-b border-cyan-400">
+    <section id="deploy" class="py-24 border-t border-b border-gray-300 bg-white">
         <div class="max-w-3xl mx-auto text-center px-6">
-            <h2 class="text-6xl mb-8">READY TO BREAK EVERYTHING?</h2>
+            <h2 class="text-6xl mb-10 text-gray-900">READY TO BREAK EVERYTHING?</h2>
             <button onclick="deployAgent()" 
-                    class="group relative px-16 py-8 text-4xl font-bold border-8 border-pink-500 hover:border-white transition-all duration-300 bg-black hover:bg-pink-500 hover:text-black">
+                    class="group relative px-16 py-8 text-4xl font-bold border-4 border-gray-900 hover:bg-gray-900 hover:text-white transition-all">
                 <span class="group-hover:hidden">LAUNCH THE IDIOT</span>
                 <span class="hidden group-hover:inline">BOOM. EVERYTHING IS BROKEN.</span>
             </button>
-            <p class="mt-8 text-red-400 text-xl">*Works on any device. Even your toaster.</p>
+            <p class="mt-10 text-gray-500 text-xl">*Works on any device. Even your toaster.</p>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="py-12 border-t border-cyan-900 text-center text-xs text-cyan-700">
+    <footer class="py-12 border-t border-gray-300 text-center text-gray-500">
         <p>© 2077 DUMBAGENT INC. ALL RIGHTS VIOLATED.</p>
         <p class="mt-2">Made with love and complete lack of responsibility.</p>
     </footer>
@@ -240,10 +237,11 @@
             const popup = document.createElement('div');
             popup.style.cssText = `
                 position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-                background: #000; border: 4px solid #ff00ff; padding: 40px; z-index: 9999;
-                font-family: 'Press Start 2P', monospace; text-align: center; max-width: 500px;
+                background: #111827; color: white; border: 4px solid #6b7280; 
+                padding: 40px; z-index: 9999; font-family: 'Press Start 2P', monospace; 
+                text-align: center; max-width: 500px; border-radius: 4px;
             `;
-            popup.innerHTML = `<p class="text-3xl text-cyan-400" id="status"></p>`;
+            popup.innerHTML = `<p class="text-3xl" id="status"></p>`;
             document.body.appendChild(popup);
             
             const interval = setInterval(() => {
@@ -254,14 +252,16 @@
                     clearInterval(interval);
                     setTimeout(() => {
                         popup.innerHTML = `
-                            <p class="text-5xl text-red-500 mb-6">🤖💥</p>
-                            <p class="text-4xl text-white">YOUR CODE HAS BEEN TERMINATED</p>
+                            <p class="text-5xl mb-6">🤖💥</p>
+                            <p class="text-4xl">YOUR CODE HAS BEEN TERMINATED</p>
                             <button onclick="this.parentElement.remove()" 
-                                    class="mt-8 px-8 py-4 bg-red-600 text-white text-xl">CRY INTO YOUR PILLOW</button>
+                                    class="mt-8 px-8 py-4 bg-white text-gray-900 text-xl border border-gray-300 hover:bg-gray-100">
+                                CRY INTO YOUR PILLOW
+                            </button>
                         `;
                     }, 800);
                 }
-            }, 600);
+            }, 700);
         }
     </script>
 </body>
