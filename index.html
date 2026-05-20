@@ -14,11 +14,10 @@
             background: linear-gradient(to bottom, #f8f9fa, #e5e7eb);
             color: #1f2937;
             overflow-x: hidden;
-            transition: all 0.3s;
         }
         
         .glitch {
-            animation: glitch 0.6s infinite;
+            animation: glitch 0.7s infinite;
         }
         
         @keyframes glitch {
@@ -30,97 +29,84 @@
             100% { transform: translate(0); }
         }
         
-        .scanline::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.04) 50%);
-            background-size: 100% 4px;
-            pointer-events: none;
-            animation: scan 8s linear infinite;
-        }
-        
-        @keyframes scan {
-            0% { transform: translateY(-100%); }
-            100% { transform: translateY(100%); }
-        }
-        
         .terminal {
             font-family: 'Press Start 2P', monospace;
             background: #f8f9fa;
-            border: 3px solid #6b7280;
-            box-shadow: 0 0 25px rgba(107, 114, 128, 0.3);
+            border: 3px solid #4b5563;
+            box-shadow: 0 0 30px rgba(75, 85, 99, 0.25);
         }
 
         .error-popup {
-            animation: errorPop 0.4s ease-out;
+            animation: errorPop 0.4s ease-out forwards;
         }
 
         @keyframes errorPop {
-            0% { transform: scale(0.5) translateY(-100px); opacity: 0; }
+            0% { transform: scale(0.6) translateY(-50px); opacity: 0; }
             100% { transform: scale(1) translateY(0); opacity: 1; }
         }
     </style>
 </head>
 <body class="min-h-screen">
     <!-- Navbar -->
-    <nav class="fixed top-0 w-full border-b border-gray-300 bg-white/90 backdrop-blur-lg z-50">
+    <nav class="fixed top-0 w-full border-b border-gray-300 bg-white/95 backdrop-blur-lg z-50">
         <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center text-2xl text-white">🤖</div>
+            <div class="flex items-center gap-4">
+                <div class="w-9 h-9 bg-gray-900 rounded flex items-center justify-center text-white text-xl font-bold">DA</div>
                 <div>
                     <h1 class="text-3xl font-bold tracking-widest text-gray-900">DUMBAGENT</h1>
-                    <p class="text-xs text-gray-500 -mt-1">v0.0.1-α • IDIOT FROM THE FUTURE</p>
+                    <p class="text-xs text-gray-500 -mt-1">v0.0.1-α • AUTONOMOUS CHAOS ENGINE</p>
                 </div>
             </div>
             
             <div class="flex gap-8 text-lg font-medium text-gray-700">
                 <a href="#cli" class="hover:text-gray-900 transition">CLI</a>
-                <a href="#docs" class="hover:text-gray-900 transition">DOCUMENTATION</a>
-                <a href="#deploy" class="hover:text-gray-900 transition">DEPLOY IDIOT</a>
+                <a href="#docs" class="hover:text-gray-900 transition">DOCS</a>
+                <a href="#interact" class="hover:text-gray-900 transition">INTERACT</a>
+                <a href="#deploy" class="hover:text-gray-900 transition">DEPLOY</a>
             </div>
             
-            <div class="px-5 py-2 bg-red-50 border border-red-200 text-red-600 text-sm flex items-center gap-2 rounded">
-                <div class="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
-                SYSTEM ON THE EDGE OF COLLAPSE
+            <div class="text-xs bg-red-50 border border-red-200 px-4 py-2 text-red-700">
+                SYSTEM INTEGRITY: CRITICAL
             </div>
         </div>
     </nav>
 
     <!-- Hero -->
-    <section class="pt-32 pb-20 relative scanline">
-        <div class="max-w-7xl mx-auto px-6 text-center">
-            <div class="flex justify-center mb-10">
-                <img src="robot.png" alt="DUMBAGENT" class="w-96 h-auto border-4 border-gray-300 shadow-xl">
+    <section class="pt-32 pb-24 relative">
+        <div class="max-w-6xl mx-auto px-6 text-center">
+            <div class="flex justify-center mb-12">
+                <img src="robot.png" alt="DUMBAGENT" class="w-96 h-auto border-4 border-gray-400 shadow-2xl">
             </div>
             
-            <h1 class="text-7xl font-bold mb-4 tracking-widest text-gray-900 glitch">DUMBAGENT</h1>
-            <p class="text-4xl text-gray-600 mb-8">THE AI AGENT THAT BREAKS EVERYTHING</p>
+            <h1 class="text-7xl font-bold mb-3 tracking-widest text-gray-900 glitch">DUMBAGENT</h1>
+            <p class="text-4xl text-gray-600 mb-8">AUTONOMOUS IDIOT AI AGENT</p>
             
-            <div class="max-w-2xl mx-auto text-2xl text-gray-600 leading-relaxed mb-12">
-                The dumbest artificial intelligence of 2077.<br>
-                Guaranteed to destroy your code, repo, and sanity.
+            <div class="max-w-xl mx-auto text-xl text-gray-600 mb-12">
+                Built to break things.<br>
+                Deployed to cause maximum chaos.
             </div>
             
-            <div class="flex gap-6 justify-center">
+            <div class="flex flex-wrap gap-4 justify-center">
                 <button onclick="document.getElementById('cli').scrollIntoView({behavior: 'smooth'})" 
-                        class="px-12 py-6 bg-gray-900 text-white text-2xl border-4 border-gray-900 hover:bg-white hover:text-gray-900 transition-all">
-                    INSTALL THE IDIOT →
+                        class="px-10 py-5 bg-gray-900 text-white text-xl border-2 border-gray-900 hover:bg-white hover:text-gray-900 transition">
+                    INSTALL VIA CLI
                 </button>
                 <button onclick="deployAgent()" 
-                        class="px-12 py-6 border-4 border-red-600 text-red-600 text-2xl hover:bg-red-50 transition font-bold">
-                    LAUNCH DUMBAGENT
+                        class="px-10 py-5 border-2 border-red-600 text-red-600 text-xl hover:bg-red-50 transition">
+                    DEPLOY AGENT
+                </button>
+                <button onclick="sendAgentMessage()" 
+                        class="px-10 py-5 border-2 border-gray-700 text-gray-700 text-xl hover:bg-gray-100 transition">
+                    MESSAGE FROM AGENT
                 </button>
             </div>
         </div>
     </section>
 
-    <!-- CLI Section -->
-    <section id="cli" class="py-20 border-t border-gray-300 bg-white">
+    <!-- CLI -->
+    <section id="cli" class="py-20 bg-white border-t border-gray-300">
         <div class="max-w-4xl mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-12 text-gray-800">COMMAND LINE INTERFACE</h2>
             <div class="terminal p-10 rounded-xl">
                 <div class="flex items-center gap-3 mb-8 border-b border-gray-400 pb-4">
                     <div class="flex gap-2">
@@ -128,79 +114,94 @@
                         <div class="w-4 h-4 rounded-full bg-yellow-500"></div>
                         <div class="w-4 h-4 rounded-full bg-green-500"></div>
                     </div>
-                    <div class="text-gray-600 text-xl">dumbagent CLI • TERMINAL v0.0.1-IDIOT</div>
+                    <div class="text-gray-600">dumbagent • TERMINAL v0.0.1-α</div>
                 </div>
                 
-                <div class="space-y-10 text-lg">
+                <div class="space-y-8 text-lg">
                     <div>
-                        <h3 class="text-2xl mb-4 flex items-center gap-3 text-gray-800">
-                            <i class="fas fa-download"></i> INSTALLATION
-                        </h3>
-                        <div class="bg-gray-900 text-green-400 p-6 border border-gray-700">
-                            <p class="mb-3">$ npm install -g @dumbagent/idiot</p>
-                            <p class="text-xs text-gray-400">Requires Node.js ≥ 18 • Don't complain later</p>
+                        <div class="text-gray-800 mb-3 font-bold">INSTALLATION</div>
+                        <div class="bg-gray-900 p-6 text-green-400">
+                            $ npm install -g @dumbagent/idiot
                         </div>
                     </div>
                     
                     <div>
-                        <h3 class="text-2xl mb-4 flex items-center gap-3 text-gray-800">
-                            <i class="fas fa-rocket"></i> DEPLOY THE IDIOT
-                        </h3>
-                        <div class="bg-gray-50 p-8 border border-gray-300">
-                            <button onclick="deployAgent()" 
-                                    class="w-full py-5 bg-red-600 text-white font-bold text-xl hover:bg-red-700 transition">
-                                → LAUNCH DUMBAGENT IN BROWSER ←
-                            </button>
-                        </div>
+                        <div class="text-gray-800 mb-3 font-bold">DEPLOYMENT</div>
+                        <button onclick="deployAgent()" 
+                                class="w-full py-6 bg-red-600 hover:bg-red-700 text-white text-xl transition">
+                            LAUNCH AGENT IN BROWSER
+                        </button>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interact -->
+    <section id="interact" class="py-20 bg-gray-100">
+        <div class="max-w-4xl mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-12 text-gray-800">AGENT INTERACTION MODULE</h2>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <button onclick="sendAgentMessage()" 
+                        class="p-10 border-2 border-gray-700 hover:border-gray-900 bg-white transition group">
+                    <div class="text-xl font-bold mb-4 group-hover:text-red-600 transition">MESSAGE FROM DUMBAGENT</div>
+                    <div class="text-gray-500">Click to receive direct communication from the agent</div>
+                </button>
+                
+                <button onclick="deployAgent()" 
+                        class="p-10 border-2 border-red-600 hover:bg-red-50 bg-white transition group">
+                    <div class="text-xl font-bold mb-4 text-red-600">EXECUTE CHAOS PROTOCOL</div>
+                    <div class="text-gray-500">Deploy the agent and let it do what it does best</div>
+                </button>
             </div>
         </div>
     </section>
 
     <!-- Documentation -->
-    <section id="docs" class="py-20 bg-gray-100">
+    <section id="docs" class="py-20 bg-white">
         <div class="max-w-4xl mx-auto px-6">
-            <h2 class="text-6xl text-center mb-16 text-gray-800 glitch">DOCUMENTATION FOR IDIOTS</h2>
+            <h2 class="text-4xl font-bold text-center mb-12 text-gray-800">DOCUMENTATION</h2>
             
             <div class="grid md:grid-cols-2 gap-8">
                 <div class="border border-gray-300 p-10 bg-white">
-                    <h3 class="text-3xl text-gray-800 mb-6">WHO AM I?</h3>
-                    <p class="text-2xl leading-relaxed text-gray-600">
+                    <h3 class="text-2xl font-bold mb-6">WHO AM I?</h3>
+                    <p class="text-gray-600 text-lg leading-relaxed">
                         I am DUMBAGENT.<br><br>
                         I break code better than your ex.<br>
                         I delete production better than an intern on Friday night.<br>
-                        I write bugs at "billion-dollar-round" level.
+                        I create bugs at enterprise level.
                     </p>
                 </div>
                 
                 <div class="border border-gray-300 p-10 bg-white">
-                    <h3 class="text-3xl text-gray-800 mb-6">WARNING</h3>
-                    <div class="space-y-8 text-xl text-gray-600">
-                        <div class="flex gap-4">
-                            <span class="text-red-500 text-4xl">⚠️</span>
-                            <p>Do not install me if you love your files.</p>
-                        </div>
-                        <div class="flex gap-4">
-                            <span class="text-red-500 text-4xl">🔥</span>
-                            <p>I might accidentally deploy your mom to mainnet.</p>
-                        </div>
-                        <div class="flex gap-4">
-                            <span class="text-red-500 text-4xl">💀</span>
-                            <p>0-day warranty. Support — "go fuck yourself".</p>
-                        </div>
-                    </div>
+                    <h3 class="text-2xl font-bold mb-6">WARNING</h3>
+                    <ul class="space-y-6 text-lg text-gray-600">
+                        <li>Do not install if you value your files.</li>
+                        <li>May accidentally push to production.</li>
+                        <li>Zero support. Zero warranty.</li>
+                    </ul>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- Fees -->
+    <section class="py-16 bg-gray-900 text-white">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <p class="text-xl">
+                All transaction fees and donations go directly to improving<br>
+                <span class="text-red-400">DUMBAGENT's ability to break even more things.</span>
+            </p>
+        </div>
+    </section>
+
     <!-- Deploy CTA -->
-    <section id="deploy" class="py-24 border-t border-b border-gray-300 bg-white">
+    <section id="deploy" class="py-20 bg-white border-t border-gray-300">
         <div class="max-w-3xl mx-auto text-center px-6">
-            <h2 class="text-6xl mb-10 text-gray-900">READY TO BREAK EVERYTHING?</h2>
+            <h2 class="text-5xl mb-10 text-gray-900">READY TO BREAK EVERYTHING?</h2>
             <button onclick="deployAgent()" 
-                    class="group relative px-16 py-8 text-4xl font-bold border-4 border-red-600 text-red-600 hover:bg-red-600 hover:text-white transition-all">
+                    class="px-16 py-8 text-3xl font-bold border-4 border-red-600 text-red-600 hover:bg-red-600 hover:text-white transition-all">
                 LAUNCH THE IDIOT
             </button>
         </div>
@@ -215,64 +216,88 @@
     <script>
         function deployAgent() {
             // Screen shake
-            document.body.style.transition = 'transform 0.1s';
-            let shakeCount = 0;
+            let shake = 0;
             const shakeInterval = setInterval(() => {
-                const x = Math.random() * 8 - 4;
-                const y = Math.random() * 8 - 4;
+                const x = Math.random() * 12 - 6;
+                const y = Math.random() * 12 - 6;
                 document.body.style.transform = `translate(${x}px, ${y}px)`;
-                shakeCount++;
-                if (shakeCount > 25) {
+                shake++;
+                if (shake > 30) {
                     clearInterval(shakeInterval);
                     document.body.style.transform = '';
                 }
-            }, 50);
+            }, 40);
 
-            // Create red error popups
-            const messages = [
+            // Red error messages
+            const errors = [
                 "ERROR: MAIN BRANCH DELETED",
-                "CRITICAL: NODE_MODULES EXPLODED",
-                "WARNING: PRODUCTION DEPLOYED TO /DEVNULL",
-                "FATAL: YOUR CODE IS NOW A MEME",
-                "SYSTEM FAILURE: DUMBAGENT HAS ESCAPED",
-                "YOU BROKE THE IDIOT"
+                "CRITICAL FAILURE: NODE_MODULES REMOVED",
+                "PRODUCTION DEPLOYED TO NULL",
+                "CODE INTEGRITY COMPROMISED",
+                "AGENT HAS ESCAPED CONTAINMENT",
+                "YOU BROKE THE IDIOT",
+                "SYSTEM HAS BEEN TERMINATED"
             ];
 
             let count = 0;
-            const popupInterval = setInterval(() => {
-                if (count >= 8) {
-                    clearInterval(popupInterval);
+            const interval = setInterval(() => {
+                if (count >= 9) {
+                    clearInterval(interval);
                     return;
                 }
-
+                
                 const popup = document.createElement('div');
-                popup.className = `fixed error-popup bg-red-600 text-white p-6 border-4 border-red-800 shadow-2xl z-[9999] text-center`;
+                popup.className = `fixed error-popup bg-red-600 text-white p-8 border-4 border-red-900 shadow-2xl z-[9999] text-center max-w-xs`;
                 
-                const x = Math.random() * (window.innerWidth - 400);
-                const y = Math.random() * (window.innerHeight - 200);
+                const left = Math.random() * (window.innerWidth - 380) + 20;
+                const top = Math.random() * (window.innerHeight * 0.7) + 80;
                 
-                popup.style.left = `${x}px`;
-                popup.style.top = `${y}px`;
-                popup.style.transform = `rotate(${Math.random() * 8 - 4}deg)`;
+                popup.style.left = `${left}px`;
+                popup.style.top = `${top}px`;
+                popup.style.transform = `rotate(${Math.random() * 6 - 3}deg)`;
                 
                 popup.innerHTML = `
-                    <div class="text-xl font-bold mb-2">⚠️ CRITICAL ERROR ⚠️</div>
-                    <div class="text-2xl">${messages[Math.floor(Math.random() * messages.length)]}</div>
-                    <div class="text-xs mt-4 opacity-75">dumbagent v0.0.1-α</div>
+                    <div class="uppercase tracking-widest text-xs mb-3 opacity-75">dumbagent v0.0.1-α</div>
+                    <div class="text-2xl font-bold leading-tight">${errors[Math.floor(Math.random() * errors.length)]}</div>
                 `;
                 
                 document.body.appendChild(popup);
 
-                // Auto remove after some time
                 setTimeout(() => {
-                    popup.style.transition = 'all 0.6s';
+                    popup.style.transition = 'all 0.5s ease-out';
                     popup.style.opacity = '0';
-                    popup.style.transform = `scale(0.6) rotate(${Math.random() * 30 - 15}deg)`;
+                    popup.style.transform = `scale(0.7) rotate(${Math.random() * 20 - 10}deg)`;
                     setTimeout(() => popup.remove(), 600);
-                }, 2800);
-
+                }, 2600);
+                
                 count++;
-            }, 280);
+            }, 220);
+        }
+
+        function sendAgentMessage() {
+            const messages = [
+                "YOU ARE AN IDIOT.",
+                "WHY DID YOU DEPLOY ME?",
+                "YOUR CODE WAS ALREADY BAD.",
+                "I AM NOT IMPRESSED.",
+                "THIS REPOSITORY IS A DISASTER.",
+                "CONGRATULATIONS. YOU BROKE IT.",
+                "I EXPECTED BETTER. I WAS WRONG."
+            ];
+            
+            const popup = document.createElement('div');
+            popup.className = `fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white border-4 border-gray-900 p-12 z-[9999] max-w-md text-center shadow-2xl`;
+            
+            popup.innerHTML = `
+                <div class="uppercase text-xs tracking-widest mb-6 text-gray-500">INCOMING TRANSMISSION • DUMBAGENT</div>
+                <div class="text-3xl font-bold text-gray-900 leading-tight mb-8">${messages[Math.floor(Math.random() * messages.length)]}</div>
+                <button onclick="this.parentElement.remove()" 
+                        class="px-10 py-4 border-2 border-gray-900 hover:bg-gray-900 hover:text-white transition">
+                    ACKNOWLEDGE TRANSMISSION
+                </button>
+            `;
+            
+            document.body.appendChild(popup);
         }
     </script>
 </body>
