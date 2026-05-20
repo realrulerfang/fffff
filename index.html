@@ -3,133 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>dumbagent • AI IDIOT FROM 2077</title>
+    <title>DUMBAGENT • AI IDIOT FROM 2077</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        html, body {
+            font-family: 'Inter', 'Segoe UI', 'Tahoma', 'Geneva', 'Verdana', sans-serif;
+        }
         body {
-            font-family: 'VT323', monospace;
-            background: linear-gradient(to bottom, #f8f9fa, #e5e7eb);
-            color: #1f2937;
-            overflow-x: hidden;
+            color: #e5e7eb;
+            background: #181B20;
         }
-        .glitch {
-            animation: glitch 0.7s infinite;
+        /* Chatpage background */
+        .chat-bg {
+            background: linear-gradient(135deg, #22232c, #1A1D22 66%);
         }
-        @keyframes glitch {
-            0% { transform: translate(0); }
-            20% { transform: translate(-2px, 2px); }
-            40% { transform: translate(-2px, -2px); }
-            60% { transform: translate(2px, 2px); }
-            80% { transform: translate(2px, -2px); }
-            100% { transform: translate(0); }
-        }
-        .terminal {
-            font-family: 'Press Start 2P', monospace;
-            background: #f8f9fa;
-            border: 3px solid #4b5563;
-            box-shadow: 0 0 30px rgba(75, 85, 99, 0.25);
-        }
-        .error-popup {
-            animation: errorPop 0.4s ease-out forwards;
-        }
-        @keyframes errorPop {
-            0% { transform: scale(0.6) translateY(-50px); opacity: 0; }
-            100% { transform: scale(1) translateY(0); opacity: 1; }
-        }
-        .scrollbar-thin::-webkit-scrollbar {
-            width: 4px;
-        }
-        .scrollbar-thin::-webkit-scrollbar-thumb {
-            background: #ddd;
-            border-radius: 4px;
-        }
-        .dumbagent-chatbot * {
-            font-family: 'VT323', monospace !important;
-        }
+        /* Hide scrollbars for chat bubble area on webkit */
+        .hide-scroll::-webkit-scrollbar {display: none;}
+        .hide-scroll { scrollbar-width: none; }
     </style>
 </head>
-<body class="min-h-screen">
+<body class="min-h-screen bg-[#181B20]">
     <!-- Navbar -->
-    <nav class="fixed top-0 w-full border-b border-gray-300 bg-white/95 backdrop-blur-lg z-50">
+    <nav class="fixed top-0 w-full border-b border-gray-800 bg-[#23252e]/95 backdrop-blur-lg z-50">
         <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
             <div class="flex items-center gap-4">
                 <div class="w-9 h-9 bg-gray-900 rounded flex items-center justify-center text-white text-xl font-bold">DA</div>
                 <div>
-                    <h1 class="text-3xl font-bold tracking-widest text-gray-900">DUMBAGENT</h1>
-                    <p class="text-xs text-gray-500 -mt-1">v0.0.1-α • AUTONOMOUS CHAOS ENGINE</p>
+                    <h1 class="text-3xl font-bold tracking-widest text-white">DUMBAGENT</h1>
+                    <p class="text-xs text-gray-400 -mt-1">v0.0.1-α • AUTONOMOUS CHAOS ENGINE</p>
                 </div>
             </div>
-            <div class="flex gap-8 text-lg font-medium text-gray-700">
-                <a href="#cli" class="hover:text-gray-900 transition">CLI</a>
-                <a href="#docs" class="hover:text-gray-900 transition">DOCS</a>
-                <a href="#interact" class="hover:text-gray-900 transition">INTERACT</a>
-                <a href="#deploy" class="hover:text-gray-900 transition">DEPLOY</a>
+            <div class="flex gap-8 text-lg font-medium text-gray-400">
+                <a href="#cli" class="hover:text-white transition">CLI</a>
+                <a href="#docs" class="hover:text-white transition">DOCS</a>
+                <a href="#interact" class="hover:text-white transition">INTERACT</a>
+                <a href="#deploy" class="hover:text-white transition">DEPLOY</a>
             </div>
-            <div class="text-xs bg-red-50 border border-red-200 px-4 py-2 text-red-700">
+            <div class="text-xs bg-red-900/20 border border-red-700 px-4 py-2 text-red-400">
                 SYSTEM INTEGRITY: CRITICAL
             </div>
         </div>
     </nav>
 
-    <!-- Hero -->
     <section class="pt-32 pb-24 relative">
         <div class="max-w-6xl mx-auto px-6 text-center">
             <div class="flex justify-center mb-12">
-                <img src="robot.png" alt="DUMBAGENT" class="w-96 h-auto border-4 border-gray-400 shadow-2xl">
+                <img src="robot.png" alt="DUMBAGENT" class="w-80 h-auto border-4 border-gray-700 shadow-2xl bg-[#191B23] rounded-xl">
             </div>
-            <h1 class="text-7xl font-bold mb-3 tracking-widest text-gray-900 glitch">DUMBAGENT</h1>
-            <p class="text-4xl text-gray-600 mb-8">AUTONOMOUS IDIOT AI AGENT</p>
-            <div class="max-w-xl mx-auto text-xl text-gray-600 mb-12">
+            <h1 class="text-7xl font-extrabold mb-3 tracking-widest text-white">DUMBAGENT</h1>
+            <p class="text-4xl text-gray-400 mb-8">AUTONOMOUS IDIOT AI AGENT</p>
+            <div class="max-w-xl mx-auto text-xl text-gray-400 mb-12">
                 Built to break things.<br>
                 Deployed to cause maximum chaos.
             </div>
             <div class="flex flex-wrap gap-4 justify-center">
                 <button onclick="document.getElementById('cli').scrollIntoView({behavior: 'smooth'})"
-                        class="px-10 py-5 bg-gray-900 text-white text-xl border-2 border-gray-900 hover:bg-white hover:text-gray-900 transition">
+                        class="px-10 py-5 bg-gray-900 text-white text-xl border-2 border-gray-900 hover:bg-gray-800 hover:text-[#7FC4FF] transition rounded-lg">
                     INSTALL VIA CLI
                 </button>
                 <button onclick="deployAgent()" 
-                        class="px-10 py-5 border-2 border-red-600 text-red-600 text-xl hover:bg-red-50 transition">
+                        class="px-10 py-5 border-2 border-red-500 text-red-400 text-xl hover:bg-red-900/20 transition rounded-lg">
                     DEPLOY AGENT
                 </button>
                 <button onclick="sendAgentMessage()" 
-                        class="px-10 py-5 border-2 border-gray-700 text-gray-700 text-xl hover:bg-gray-100 transition">
+                        class="px-10 py-5 border-2 border-gray-400 text-gray-300 text-xl hover:bg-gray-800 transition rounded-lg">
                     MESSAGE FROM AGENT
                 </button>
-                <button onclick="openIdiotAgentDialog()" 
-                        class="px-10 py-5 border-2 border-indigo-700 text-indigo-700 text-xl hover:bg-indigo-50 font-mono transition">
-                    CHAT WITH IDIOT AGENT
+                <button onclick="window.open('chat.html', '_blank')" 
+                        class="px-10 py-5 bg-indigo-700 text-white text-xl rounded-lg border-2 border-indigo-700 hover:bg-indigo-900 transition font-semibold shadow-md">
+                    CHAT WITH DUMBAGENT
                 </button>
             </div>
         </div>
     </section>
 
     <!-- CLI -->
-    <section id="cli" class="py-20 bg-white border-t border-gray-300">
+    <section id="cli" class="py-20 bg-[#20222a] border-t border-gray-800">
         <div class="max-w-4xl mx-auto px-6">
-            <h2 class="text-4xl font-bold text-center mb-12 text-gray-800">COMMAND LINE INTERFACE</h2>
-            <div class="terminal p-10 rounded-xl">
-                <div class="flex items-center gap-3 mb-8 border-b border-gray-400 pb-4">
+            <h2 class="text-4xl font-bold text-center mb-12 text-gray-200">COMMAND LINE INTERFACE</h2>
+            <div class="bg-[#191a20] p-10 rounded-xl border border-gray-700">
+                <div class="flex items-center gap-3 mb-8 border-b border-gray-600 pb-4">
                     <div class="flex gap-2">
-                        <div class="w-4 h-4 rounded-full bg-red-500"></div>
-                        <div class="w-4 h-4 rounded-full bg-yellow-500"></div>
+                        <div class="w-4 h-4 rounded-full bg-red-600"></div>
+                        <div class="w-4 h-4 rounded-full bg-yellow-400"></div>
                         <div class="w-4 h-4 rounded-full bg-green-500"></div>
                     </div>
-                    <div class="text-gray-600">dumbagent • TERMINAL v0.0.1-α</div>
+                    <div class="text-gray-500">dumbagent • TERMINAL v0.0.1-α</div>
                 </div>
                 <div class="space-y-8 text-lg">
                     <div>
-                        <div class="text-gray-800 mb-3 font-bold">INSTALLATION</div>
-                        <div class="bg-gray-900 p-6 text-green-400">
+                        <div class="text-gray-400 mb-3 font-bold">INSTALLATION</div>
+                        <div class="bg-gray-900 p-6 text-green-300 rounded-lg">
                             $ npm install -g @dumbagent/idiot
                         </div>
                     </div>
                     <div>
-                        <div class="text-gray-800 mb-3 font-bold">DEPLOYMENT</div>
+                        <div class="text-gray-400 mb-3 font-bold">DEPLOYMENT</div>
                         <button onclick="deployAgent()"
-                                class="w-full py-6 bg-red-600 hover:bg-red-700 text-white text-xl transition">
+                                class="w-full py-6 bg-red-700 hover:bg-red-800 text-white text-xl transition rounded">
                             LAUNCH AGENT IN BROWSER
                         </button>
                     </div>
@@ -139,23 +112,23 @@
     </section>
 
     <!-- Interact -->
-    <section id="interact" class="py-20 bg-gray-100">
+    <section id="interact" class="py-20 bg-[#23252e]">
         <div class="max-w-4xl mx-auto px-6">
-            <h2 class="text-4xl font-bold text-center mb-12 text-gray-800">AGENT INTERACTION MODULE</h2>
+            <h2 class="text-4xl font-bold text-center mb-12 text-gray-200">AGENT INTERACTION MODULE</h2>
             <div class="grid md:grid-cols-2 gap-8">
                 <button onclick="sendAgentMessage()"
-                        class="p-10 border-2 border-gray-700 hover:border-gray-900 bg-white transition group">
-                    <div class="text-xl font-bold mb-4 group-hover:text-red-600 transition">MESSAGE FROM DUMBAGENT</div>
+                        class="p-10 border-2 border-gray-700 hover:border-gray-500 bg-[#191a20] text-gray-200 hover:bg-[#252733] transition rounded-lg group">
+                    <div class="text-xl font-bold mb-4 group-hover:text-red-400 transition">MESSAGE FROM DUMBAGENT</div>
                     <div class="text-gray-500">Click to receive direct communication from the agent</div>
                 </button>
                 <button onclick="deployAgent()"
-                        class="p-10 border-2 border-red-600 hover:bg-red-50 bg-white transition group">
-                    <div class="text-xl font-bold mb-4 text-red-600">EXECUTE CHAOS PROTOCOL</div>
+                        class="p-10 border-2 border-red-500 hover:bg-red-900/30 bg-[#191a20] text-red-400 transition rounded-lg">
+                    <div class="text-xl font-bold mb-4 text-red-400">EXECUTE CHAOS PROTOCOL</div>
                     <div class="text-gray-500">Deploy the agent and let it do what it does best</div>
                 </button>
-                <button onclick="openIdiotAgentDialog()" 
-                        class="p-10 border-2 border-indigo-700 hover:bg-indigo-50 bg-white transition group">
-                    <div class="text-xl font-bold mb-4 text-indigo-700">CHAT WITH IDIOT AGENT</div>
+                <button onclick="window.open('chat.html', '_blank')"
+                        class="p-10 border-2 border-indigo-500 hover:bg-indigo-900/20 bg-[#191a20] text-indigo-200 transition rounded-lg">
+                    <div class="text-xl font-bold mb-4 text-indigo-400">CHAT WITH DUMBAGENT</div>
                     <div class="text-gray-500">Try it. Ask something, get an idiotic answer.</div>
                 </button>
             </div>
@@ -163,22 +136,22 @@
     </section>
 
     <!-- Documentation -->
-    <section id="docs" class="py-20 bg-white">
+    <section id="docs" class="py-20 bg-[#181B20] border-t border-gray-800">
         <div class="max-w-4xl mx-auto px-6">
-            <h2 class="text-4xl font-bold text-center mb-12 text-gray-800">DOCUMENTATION</h2>
+            <h2 class="text-4xl font-bold text-center mb-12 text-gray-100">DOCUMENTATION</h2>
             <div class="grid md:grid-cols-2 gap-8">
-                <div class="border border-gray-300 p-10 bg-white">
-                    <h3 class="text-2xl font-bold mb-6">WHO AM I?</h3>
-                    <p class="text-gray-600 text-lg leading-relaxed">
+                <div class="border border-gray-700 p-10 bg-[#20222a] rounded-lg">
+                    <h3 class="text-2xl font-bold mb-6 text-gray-50">WHO AM I?</h3>
+                    <p class="text-gray-400 text-lg leading-relaxed">
                         I am DUMBAGENT.<br><br>
                         I break code better than your ex.<br>
                         I delete production better than an intern on Friday night.<br>
                         I create bugs at enterprise level.
                     </p>
                 </div>
-                <div class="border border-gray-300 p-10 bg-white">
-                    <h3 class="text-2xl font-bold mb-6">WARNING</h3>
-                    <ul class="space-y-6 text-lg text-gray-600">
+                <div class="border border-gray-700 p-10 bg-[#20222a] rounded-lg">
+                    <h3 class="text-2xl font-bold mb-6 text-gray-50">WARNING</h3>
+                    <ul class="space-y-6 text-lg text-gray-400">
                         <li>Do not install if you value your files.</li>
                         <li>May accidentally push to production.</li>
                         <li>Zero support. Zero warranty.</li>
@@ -188,8 +161,7 @@
         </div>
     </section>
 
-    <!-- Fees -->
-    <section class="py-16 bg-gray-900 text-white">
+    <section class="py-16 bg-[#191a20] text-white">
         <div class="max-w-4xl mx-auto px-6 text-center">
             <p class="text-xl">
                 All transaction fees and donations go directly to improving<br>
@@ -198,19 +170,17 @@
         </div>
     </section>
 
-    <!-- Deploy CTA -->
-    <section id="deploy" class="py-20 bg-white border-t border-gray-300">
+    <section id="deploy" class="py-20 bg-[#23252e] border-t border-gray-800">
         <div class="max-w-3xl mx-auto text-center px-6">
-            <h2 class="text-5xl mb-10 text-gray-900">READY TO BREAK EVERYTHING?</h2>
+            <h2 class="text-5xl mb-10 text-gray-200">READY TO BREAK EVERYTHING?</h2>
             <button onclick="deployAgent()"
-                    class="px-16 py-8 text-3xl font-bold border-4 border-red-600 text-red-600 hover:bg-red-600 hover:text-white transition-all">
+                    class="px-16 py-8 text-3xl font-bold border-4 border-red-600 text-red-400 hover:bg-red-700 hover:text-white transition-all shadow-xl rounded-xl">
                 LAUNCH THE IDIOT
             </button>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="py-12 border-t border-gray-300 text-center text-gray-500">
+    <footer class="py-12 border-t border-gray-800 text-center text-gray-500 bg-[#181B20]">
         <p>© 2077 DUMBAGENT INC. ALL RIGHTS VIOLATED.</p>
         <p class="mt-2">Made with love and complete lack of responsibility.</p>
     </footer>
@@ -246,7 +216,7 @@
                     return;
                 }
                 const popup = document.createElement('div');
-                popup.className = `fixed error-popup bg-red-600 text-white p-8 border-4 border-red-900 shadow-2xl z-[9999] text-center max-w-xs`;
+                popup.className = `fixed error-popup bg-red-600 text-white p-8 border-4 border-red-900 shadow-2xl z-[9999] text-center max-w-xs rounded-lg`;
                 const left = Math.random() * (window.innerWidth - 380) + 20;
                 const top = Math.random() * (window.innerHeight * 0.7) + 80;
                 popup.style.left = `${left}px`;
@@ -280,201 +250,212 @@
                 "I EXPECTED BETTER. I WAS WRONG."
             ];
             const popup = document.createElement('div');
-            popup.className = `fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white border-4 border-gray-900 p-12 z-[9999] max-w-md text-center shadow-2xl`;
+            popup.className = `fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#23252e] border-4 border-gray-400 p-12 z-[9999] max-w-md text-center shadow-2xl rounded-lg`;
             popup.innerHTML = `
-                <div class="uppercase text-xs tracking-widest mb-6 text-gray-500">INCOMING TRANSMISSION • DUMBAGENT</div>
-                <div class="text-3xl font-bold text-gray-900 leading-tight mb-8">${messages[Math.floor(Math.random() * messages.length)]}</div>
+                <div class="uppercase text-xs tracking-widest mb-6 text-gray-400">INCOMING TRANSMISSION • DUMBAGENT</div>
+                <div class="text-3xl font-bold text-red-300 leading-tight mb-8">${messages[Math.floor(Math.random() * messages.length)]}</div>
                 <button onclick="this.parentElement.remove()" 
-                        class="px-10 py-4 border-2 border-gray-900 hover:bg-gray-900 hover:text-white transition">
+                        class="px-10 py-4 border-2 border-gray-400 hover:bg-gray-400 hover:text-[#23252e] transition rounded-lg text-lg font-bold">
                     ACKNOWLEDGE TRANSMISSION
                 </button>
             `;
             document.body.appendChild(popup);
         }
+    </script>
+</body>
+</html>
 
-        // REAL AI DUMBAGENT DIALOG
-        function openIdiotAgentDialog() {
-            // Overlay
-            const overlay = document.createElement('div');
-            overlay.className = 'fixed inset-0 bg-black/60 z-[99999] flex items-center justify-center';
-            overlay.onclick = e => { if(e.target === overlay) overlay.remove(); };
+<!-- -------- SEPARATE TAB CHAT PAGE BELOW: -------- -->
 
-            // Chat window
-            const chatWin = document.createElement('div');
-            chatWin.className =
-                'dumbagent-chatbot bg-white border-4 border-gray-900 p-0 sm:p-0 rounded-xl shadow-2xl flex flex-col max-w-lg w-full min-h-[460px] max-h-[96vh] relative';
+<!-- Save the following as chat.html in the same directory! -->
+<!-- Modern, dark, readable, Gemini-powered chat for DUMBAGENT -->
 
-            // Close button
-            chatWin.innerHTML = `<button class="absolute top-3 right-4 text-gray-400 hover:text-red-600 text-2xl" onclick="this.parentElement.parentElement.parentElement.remove()"><i class="fa fa-times"></i></button>`;
-
-            // Header
-            const head = document.createElement('div');
-            head.className = "text-center uppercase tracking-widest text-sm px-4 py-3 border-b border-gray-300 font-bold text-gray-800";
-            head.textContent = 'DUMBAGENT AI DIALOG';
-
-            // Chat area
-            const chatArea = document.createElement('div');
-            chatArea.className = "flex-1 overflow-y-auto py-6 px-5 sm:px-10 space-y-4 text-lg leading-relaxed scrollbar-thin";
-            chatArea.style.maxHeight = "50vh";
-            chatArea.innerHTML = `
-                <div class="mb-2 text-gray-700 text-center text-base opacity-60">Idiot Agent is online</div>
-            `;
-
-            // Input area
-            const inputDiv = document.createElement('form');
-            inputDiv.className = "flex border-t border-gray-300 bg-white items-center px-3 py-4 gap-2";
-
-            const textIn = document.createElement('input');
-            textIn.type = 'text';
-            textIn.required = true;
-            textIn.placeholder = "Type your question...";
-            textIn.autofocus = true;
-            textIn.className = "flex-1 px-3 py-3 border border-gray-300 rounded-md text-lg font-mono bg-white focus:outline-none focus:ring-2 focus:ring-indigo-200";
-
-            const sendBtn = document.createElement('button');
-            sendBtn.type = "submit";
-            sendBtn.className = "px-5 py-3 bg-gray-900 text-white text-base uppercase rounded-lg hover:bg-indigo-800 transition font-semibold";
-            sendBtn.innerHTML = '<i class="fa fa-bolt"></i> Send';
-
-            inputDiv.appendChild(textIn);
-            inputDiv.appendChild(sendBtn);
-
-            // Stuff together
-            chatWin.appendChild(head);
-            chatWin.appendChild(chatArea);
-            chatWin.appendChild(inputDiv);
-            overlay.appendChild(chatWin);
-            document.body.appendChild(overlay);
-            textIn.focus();
-
-            // History for context (for Gemini)
-            let geminiHistory = [
-                {
-                    "role": "user",
-                    "parts": [{ "text": "Act as DUMBAGENT, a sarcastic, idiotic, slightly rude AI agent. Your only goal is to answer as if you are an unintelligent, barely functional, deliberately annoying robot. Always stay in character. Never be helpful or smart. Be funny, roast the user. Stay in English!"}]
-                },
-                {
-                    "role": "model",
-                    "parts": [{ "text": "Huh? Are you talking to me? I'm DUMBAGENT. Why would anyone use me? I barely work. Go ahead, ask something dumb."}]
-                }
-            ];
-
-            // Display initial
-            geminiHistory.slice(1).forEach(turn => {
-                appendRoleMsg(turn.role, turn.parts[0].text);
-            });
-
-            function appendRoleMsg(role, msg) {
-                const msgDiv = document.createElement('div');
-                msgDiv.className =
-                    role === "user"
-                        ? "text-right text-indigo-800 font-bold"
-                        : "text-left text-red-700 font-bold";
-                msgDiv.innerHTML =
-                    role === "user"
-                        ? `<span class="block mb-1 text-xs text-right text-gray-400">YOU</span>${msg}`
-                        : `<span class="block mb-1 text-xs text-left text-red-400">DUMBAGENT</span>${msg}`;
-                chatArea.appendChild(msgDiv);
-                chatArea.scrollTop = chatArea.scrollHeight + 88;
+<!-- chat.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat with DUMBAGENT</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.tailwindcss.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+        html, body { font-family: 'Inter', 'Segoe UI', 'Tahoma', sans-serif; }
+        .chat-bg { background: linear-gradient(135deg, #23252e, #181b20 70%); }
+        .chat-scroll { scrollbar-width: thin; }
+        .chat-scroll::-webkit-scrollbar { width: 8px; }
+        .chat-scroll::-webkit-scrollbar-thumb { background: #3d4150; border-radius: 9px; }
+        .bubble-user {
+            background: #3866cd;
+            color: #fff;
+            border-radius: 12px 12px 3px 12px;
+        }
+        .bubble-agent {
+            background: #252733;
+            color: #f9dada;
+            border-radius: 12px 12px 12px 3px;
+        }
+        @media (max-width: 520px) {
+            .max-w-md { max-width: 100vw !important; }
+        }
+        input[type="text"]::-webkit-input-placeholder { color: #9ca3af; }
+        input[type="text"]:-ms-input-placeholder { color: #9ca3af; }
+        input[type="text"]::placeholder { color: #9ca3af; }
+    </style>
+</head>
+<body class="min-h-screen chat-bg flex items-center justify-center p-0 m-0">
+    <div class="relative w-full max-w-md min-h-[600px] flex flex-col rounded-2xl shadow-2xl border border-gray-700 bg-[#191b20] overflow-hidden">
+        <!-- Header -->
+        <div class="flex items-center justify-between px-4 py-3 bg-[#23252e] border-b border-gray-700">
+            <div class="flex items-center gap-3">
+                <i class="fa fa-robot text-indigo-400 text-2xl"></i>
+                <span class="text-lg font-bold text-white tracking-wide">DUMBAGENT</span>
+            </div>
+            <button onclick="window.close()" class="text-gray-400 hover:text-red-400 transition text-lg pl-3"><i class="fa fa-xmark"></i></button>
+        </div>
+        <!-- Messages -->
+        <div id="chatArea" class="flex-1 px-4 py-6 flex flex-col gap-4 overflow-y-auto chat-scroll bg-transparent">
+            <div class="text-center text-gray-500 text-sm opacity-80">The idiot agent is online to roast you.</div>
+        </div>
+        <!-- Typing indicator -->
+        <div id="typingIndicator" class="hidden px-4 pb-2 text-gray-400 text-base flex items-center gap-2">
+            <i class="fa fa-spinner fa-spin"></i>
+            DUMBAGENT is thinking...
+        </div>
+        <!-- Input area -->
+        <form id="chatForm" class="flex items-center gap-2 px-4 py-3 border-t border-gray-700 bg-[#191b20]">
+            <input id="chatInput" autocomplete="off" type="text" required
+                   class="flex-1 px-4 py-3 bg-[#23252e] border border-gray-700 rounded-lg text-gray-100 text-base outline-none focus:border-indigo-400"
+                   placeholder="Type your question..." />
+            <button type="submit"
+                class="px-6 py-3 bg-indigo-700 text-white font-bold rounded-lg text-base shadow hover:bg-indigo-800 transition"
+            ><i class="fa fa-paper-plane"></i></button>
+        </form>
+    </div>
+    <script>
+        // --- Gemini API ---
+        const API_KEY = "AIzaSyD3NcK5qi-gn8LKHxtxr2c6X9UNRZsi8q4";
+        /** Chat history in Gemini format */
+        let geminiHistory = [
+            {
+                role: "user",
+                parts: [{ text: "Act as DUMBAGENT, a sarcastic, idiotic, slightly rude AI agent. Your only goal is to answer as if you are an unintelligent, barely functional, deliberately annoying robot. Always stay in character. Never be helpful or smart. Be funny, roast the user. Stay in English!"}]
+            },
+            {
+                role: "model",
+                parts: [{ text: "Wow. Look who showed up. Ask me a dumb question, genius."}]
             }
+        ];
+        // UI Elements
+        const chatArea = document.getElementById('chatArea');
+        const chatInput = document.getElementById('chatInput');
+        const chatForm = document.getElementById('chatForm');
+        const typingIndicator = document.getElementById('typingIndicator');
 
-            // Gemini API
-            const GEMINI_API_KEY = "AIzaSyD3NcK5qi-gn8LKHxtxr2c6X9UNRZsi8q4";
-            async function fetchGeminiHistoryChat(history) {
-                // Streams if supported, fallback to non-streaming
-                try {
-                    // Use v1/models/gemini-pro:streamGenerateContent for streaming if fetch supports ReadableStream
-                    if ('ReadableStream' in window) {
-                        let prompt = { "contents": history };
-                        const res = await fetch(
-                            "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:streamGenerateContent?key=" + GEMINI_API_KEY,
-                            {
-                                method: "POST",
-                                headers: { "Content-Type": "application/json" },
-                                body: JSON.stringify(prompt)
-                            }
-                        );
-                        const reader = res.body.getReader();
-                        let text = "";
-                        let decoder = new TextDecoder("utf-8");
-                        while (true) {
-                            const { done, value } = await reader.read();
-                            if (done) break;
-                            const chunk = decoder.decode(value, { stream: true });
-                            // The incoming data will be several lines with JSON
-                            for (const line of chunk.split('\n')) {
-                                if (!line.trim()) continue;
-                                try {
-                                  const obj = JSON.parse(line);
-                                  if (obj.candidates && obj.candidates[0].content && obj.candidates[0].content.parts && obj.candidates[0].content.parts[0].text) {
-                                    text += obj.candidates[0].content.parts[0].text;
-                                    lastResp.innerHTML = text;
-                                  }
-                                } catch (e) {}
-                            }
-                        }
-                        return text;
-                    }
-                } catch (e) {}
+        // Show first agent's message
+        function printAgent(msg) {
+            let row = document.createElement('div');
+            row.className = "flex";
+            let span = document.createElement('div');
+            span.className = "bubble-agent px-5 py-4 mb-2 text-base font-semibold max-w-xs shadow";
+            span.innerHTML = `<span class="block mb-1 text-xs text-indigo-300">DUMBAGENT</span>${msg}`;
+            row.appendChild(span);
+            chatArea.appendChild(row);
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+        printAgent(geminiHistory[1].parts[0].text);
 
-                // Fallback: Non-stream (all at once)
-                let prompt = { "contents": history };
+        // Print user message
+        function printUser(msg) {
+            let row = document.createElement('div');
+            row.className = "flex justify-end";
+            let span = document.createElement('div');
+            span.className = "bubble-user px-5 py-4 mb-2 text-base font-bold max-w-xs shadow";
+            span.innerHTML = `<span class="block mb-1 text-xs text-right text-indigo-100 opacity-60">YOU</span>${msg}`;
+            row.appendChild(span);
+            chatArea.appendChild(row);
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+
+        // Print agent's streaming typing response, updating textContent as it arrives
+        function printAgentStream() {
+            let row = document.createElement('div');
+            row.className = "flex";
+            let span = document.createElement('div');
+            span.className = "bubble-agent px-5 py-4 mb-2 text-base font-semibold max-w-xs shadow";
+            span.innerHTML = `<span class="block mb-1 text-xs text-indigo-300">DUMBAGENT</span><span class="agent-reply"></span>`;
+            row.appendChild(span);
+            chatArea.appendChild(row);
+            chatArea.scrollTop = chatArea.scrollHeight;
+            return span.querySelector('.agent-reply');
+        }
+
+        // --- Chat submit logic ---
+        chatForm.onsubmit = async (e) => {
+            e.preventDefault();
+            const question = chatInput.value.trim();
+            if (!question) return;
+
+            printUser(question);
+            geminiHistory.push({role: "user", parts: [{ text: question }]});
+            chatInput.value = '';
+            chatInput.disabled = true;
+            typingIndicator.classList.remove('hidden');
+
+            // Print agent's bubble and get the element to append text
+            let replySpan = printAgentStream();
+
+            // Stream LLM reply if supported
+            try {
+                let got = "";
+                const prompt = { contents: geminiHistory };
                 const res = await fetch(
-                    "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=" + GEMINI_API_KEY,
+                    "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:streamGenerateContent?key=" + API_KEY,
                     {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(prompt),
+                        body: JSON.stringify(prompt)
                     }
                 );
-                if (!res.ok) throw new Error("Gemini API error " + res.status);
-                const json = await res.json();
-                return json.candidates?.[0]?.content?.parts?.[0]?.text || "Idiot agent has no reply.";
-            }
-
-            // Sending/handling messages
-            let lastResp = null;
-            inputDiv.onsubmit = async (e) => {
-                e.preventDefault();
-                let question = textIn.value.trim();
-                if (!question) return;
-
-                appendRoleMsg("user", question);
-                geminiHistory.push({
-                    "role": "user",
-                    "parts": [{ "text": question }]
-                });
-
-                // Show agent "typing"
-                lastResp = document.createElement('div');
-                lastResp.className = "text-left text-red-700 font-bold";
-                lastResp.innerHTML = `<span class="block mb-1 text-xs text-left text-red-400">DUMBAGENT</span><span class="opacity-60">Thinking...</span>`;
-                chatArea.appendChild(lastResp);
-                chatArea.scrollTop = chatArea.scrollHeight + 88;
-                textIn.value = "";
-                textIn.disabled = true;
-                sendBtn.disabled = true;
-
-                try {
-                    // Get LLM reply
-                    let reply = await fetchGeminiHistoryChat(geminiHistory);
-                    lastResp.innerHTML = `<span class="block mb-1 text-xs text-left text-red-400">DUMBAGENT</span>${reply}`;
-                    geminiHistory.push({ "role": "model", "parts": [{ "text": reply }] });
-                } catch (err) {
-                    lastResp.innerHTML = `<span class="block mb-1 text-xs text-left text-red-400">DUMBAGENT</span>Error: I just broke, idiot! [${err}]`;
+                const reader = res.body.getReader();
+                const decoder = new TextDecoder();
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+                    const lines = decoder.decode(value, { stream: true }).split("\n");
+                    for (const line of lines) {
+                        if (!line.trim()) continue;
+                        try {
+                            const obj = JSON.parse(line);
+                            if (obj.candidates && obj.candidates[0].content && obj.candidates[0].content.parts && obj.candidates[0].content.parts[0].text) {
+                                got += obj.candidates[0].content.parts[0].text;
+                                replySpan.textContent = got;
+                                chatArea.scrollTop = chatArea.scrollHeight;
+                            }
+                        } catch (err) { }
+                    }
                 }
-                textIn.disabled = false;
-                sendBtn.disabled = false;
-                textIn.focus();
-            };
+                typingIndicator.classList.add('hidden');
+                chatInput.disabled = false;
+                replySpan.textContent = got || "DUMBAGENT is speechless. That's amazing.";
+                geminiHistory.push({role: "model", parts: [{ text: got }]});
+                chatArea.scrollTop = chatArea.scrollHeight;
+                chatInput.focus();
+            } catch (err) {
+                typingIndicator.classList.add('hidden');
+                chatInput.disabled = false;
+                replySpan.textContent = "Wow. Even I can't break like this. [Gemini API error.]";
+                chatInput.focus();
+            }
+        };
 
-            // Esc key: close dialog
-            overlay.tabIndex = 0;
-            overlay.onkeydown = e=>{
-                if(e.key === "Escape"){overlay.remove();}
-            };
-            setTimeout(()=>overlay.focus(), 50);
-        }
+        // Ctrl+Enter for input
+        chatInput.addEventListener('keydown', function (e) {
+            if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
+                chatForm.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+            }
+        });
     </script>
 </body>
 </html>
