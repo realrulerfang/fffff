@@ -4,23 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>dumbagent • AI IDIOT FROM 2077</title>
-    <link rel="icon" type="image/png" href="favicon.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
-       
+        
         body {
             font-family: 'VT323', monospace;
             background: linear-gradient(to bottom, #f8f9fa, #e5e7eb);
             color: #1f2937;
             overflow-x: hidden;
         }
-       
+        
         .glitch {
             animation: glitch 0.7s infinite;
         }
-       
+        
         @keyframes glitch {
             0% { transform: translate(0); }
             20% { transform: translate(-2px, 2px); }
@@ -29,7 +28,7 @@
             80% { transform: translate(2px, -2px); }
             100% { transform: translate(0); }
         }
-       
+        
         .terminal {
             font-family: 'Press Start 2P', monospace;
             background: #f8f9fa;
@@ -46,7 +45,6 @@
     </style>
 </head>
 <body class="min-h-screen">
-
     <!-- Navbar -->
     <nav class="fixed top-0 w-full border-b border-gray-300 bg-white/95 backdrop-blur-lg z-50">
         <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
@@ -57,14 +55,14 @@
                     <p class="text-xs text-gray-500 -mt-1">v0.0.1-α • AUTONOMOUS CHAOS ENGINE</p>
                 </div>
             </div>
-           
+            
             <div class="flex gap-8 text-lg font-medium text-gray-700">
                 <a href="#cli" class="hover:text-gray-900 transition">CLI</a>
                 <a href="#docs" class="hover:text-gray-900 transition">DOCS</a>
                 <a href="#interact" class="hover:text-gray-900 transition">INTERACT</a>
                 <a href="#deploy" class="hover:text-gray-900 transition">DEPLOY</a>
             </div>
-           
+            
             <div class="text-xs bg-red-50 border border-red-200 px-4 py-2 text-red-700">
                 SYSTEM INTEGRITY: CRITICAL
             </div>
@@ -77,27 +75,31 @@
             <div class="flex justify-center mb-12">
                 <img src="robot.png" alt="DUMBAGENT" class="w-96 h-auto border-4 border-gray-400 shadow-2xl">
             </div>
-           
+            
             <h1 class="text-7xl font-bold mb-3 tracking-widest text-gray-900 glitch">DUMBAGENT</h1>
             <p class="text-4xl text-gray-600 mb-8">AUTONOMOUS IDIOT AI AGENT</p>
-           
+            
             <div class="max-w-xl mx-auto text-xl text-gray-600 mb-12">
                 Built to break things.<br>
                 Deployed to cause maximum chaos.
             </div>
-           
+            
             <div class="flex flex-wrap gap-4 justify-center">
-                <button onclick="document.getElementById('cli').scrollIntoView({behavior: 'smooth'})"
+                <button onclick="document.getElementById('cli').scrollIntoView({behavior: 'smooth'})" 
                         class="px-10 py-5 bg-gray-900 text-white text-xl border-2 border-gray-900 hover:bg-white hover:text-gray-900 transition">
                     INSTALL VIA CLI
                 </button>
-                <button onclick="deployAgent()"
+                <button onclick="deployAgent()" 
                         class="px-10 py-5 border-2 border-red-600 text-red-600 text-xl hover:bg-red-50 transition">
                     DEPLOY AGENT
                 </button>
-                <button onclick="sendAgentMessage()"
+                <button onclick="sendAgentMessage()" 
                         class="px-10 py-5 border-2 border-gray-700 text-gray-700 text-xl hover:bg-gray-100 transition">
                     MESSAGE FROM AGENT
+                </button>
+                <button onclick="openIdiotAgentDialog()" 
+                        class="px-10 py-5 border-2 border-indigo-700 text-indigo-700 text-xl hover:bg-indigo-50 font-mono transition">
+                    ОТКРЫТЬ ДИАЛОГ С ИДИОТОМ
                 </button>
             </div>
         </div>
@@ -116,7 +118,7 @@
                     </div>
                     <div class="text-gray-600">dumbagent • TERMINAL v0.0.1-α</div>
                 </div>
-               
+                
                 <div class="space-y-8 text-lg">
                     <div>
                         <div class="text-gray-800 mb-3 font-bold">INSTALLATION</div>
@@ -124,10 +126,11 @@
                             $ npm install -g @dumbagent/idiot
                         </div>
                     </div>
-                   
+                    
                     <div>
                         <div class="text-gray-800 mb-3 font-bold">DEPLOYMENT</div>
-                        <button onclick="deployAgent()" class="w-full py-6 bg-red-600 hover:bg-red-700 text-white text-xl transition">
+                        <button onclick="deployAgent()" 
+                                class="w-full py-6 bg-red-600 hover:bg-red-700 text-white text-xl transition">
                             LAUNCH AGENT IN BROWSER
                         </button>
                     </div>
@@ -136,50 +139,90 @@
         </div>
     </section>
 
-    <!-- Interact, Docs, Fees, Deploy, Footer (оставил как у тебя было) -->
-    <section id="interact" class="py-20 bg-gray-100">... (твой код) ...</section>
-    <section id="docs" class="py-20 bg-white">... (твой код) ...</section>
-    <section class="py-16 bg-gray-900 text-white">... (твой код) ...</section>
-    <section id="deploy" class="py-20 bg-white border-t border-gray-300">... (твой код) ...</section>
+    <!-- Interact -->
+    <section id="interact" class="py-20 bg-gray-100">
+        <div class="max-w-4xl mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-12 text-gray-800">AGENT INTERACTION MODULE</h2>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <button onclick="sendAgentMessage()" 
+                        class="p-10 border-2 border-gray-700 hover:border-gray-900 bg-white transition group">
+                    <div class="text-xl font-bold mb-4 group-hover:text-red-600 transition">MESSAGE FROM DUMBAGENT</div>
+                    <div class="text-gray-500">Click to receive direct communication from the agent</div>
+                </button>
+                
+                <button onclick="deployAgent()" 
+                        class="p-10 border-2 border-red-600 hover:bg-red-50 bg-white transition group">
+                    <div class="text-xl font-bold mb-4 text-red-600">EXECUTE CHAOS PROTOCOL</div>
+                    <div class="text-gray-500">Deploy the agent and let it do what it does best</div>
+                </button>
+                <button onclick="openIdiotAgentDialog()" 
+                        class="p-10 border-2 border-indigo-700 hover:bg-indigo-50 bg-white transition group">
+                    <div class="text-xl font-bold mb-4 text-indigo-700">ДИАЛОГ С ИДИОТОМ</div>
+                    <div class="text-gray-500">Зайди и удивись его тупости</div>
+                </button>
+            </div>
+        </div>
+    </section>
 
+    <!-- Documentation -->
+    <section id="docs" class="py-20 bg-white">
+        <div class="max-w-4xl mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-12 text-gray-800">DOCUMENTATION</h2>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="border border-gray-300 p-10 bg-white">
+                    <h3 class="text-2xl font-bold mb-6">WHO AM I?</h3>
+                    <p class="text-gray-600 text-lg leading-relaxed">
+                        I am DUMBAGENT.<br><br>
+                        I break code better than your ex.<br>
+                        I delete production better than an intern on Friday night.<br>
+                        I create bugs at enterprise level.
+                    </p>
+                </div>
+                
+                <div class="border border-gray-300 p-10 bg-white">
+                    <h3 class="text-2xl font-bold mb-6">WARNING</h3>
+                    <ul class="space-y-6 text-lg text-gray-600">
+                        <li>Do not install if you value your files.</li>
+                        <li>May accidentally push to production.</li>
+                        <li>Zero support. Zero warranty.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fees -->
+    <section class="py-16 bg-gray-900 text-white">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <p class="text-xl">
+                All transaction fees and donations go directly to improving<br>
+                <span class="text-red-400">DUMBAGENT's ability to break even more things.</span>
+            </p>
+        </div>
+    </section>
+
+    <!-- Deploy CTA -->
+    <section id="deploy" class="py-20 bg-white border-t border-gray-300">
+        <div class="max-w-3xl mx-auto text-center px-6">
+            <h2 class="text-5xl mb-10 text-gray-900">READY TO BREAK EVERYTHING?</h2>
+            <button onclick="deployAgent()" 
+                    class="px-16 py-8 text-3xl font-bold border-4 border-red-600 text-red-600 hover:bg-red-600 hover:text-white transition-all">
+                LAUNCH THE IDIOT
+            </button>
+        </div>
+    </section>
+
+    <!-- Footer -->
     <footer class="py-12 border-t border-gray-300 text-center text-gray-500">
         <p>© 2077 DUMBAGENT INC. ALL RIGHTS VIOLATED.</p>
         <p class="mt-2">Made with love and complete lack of responsibility.</p>
     </footer>
 
-    <!-- ==================== CHAT WIDGET ==================== -->
-    <div id="chat-widget" class="fixed bottom-6 right-6 z-[10000]">
-        <button onclick="toggleChat()" class="bg-gray-900 hover:bg-red-600 text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3 text-lg font-bold border-4 border-gray-800">
-            <span class="text-2xl">🤖</span> TALK TO DUMBAGENT
-        </button>
-
-        <div id="chat-window" class="hidden w-96 h-[560px] bg-[#111827] border-4 border-red-600 rounded-3xl shadow-2xl overflow-hidden flex flex-col mt-3">
-            <div class="bg-black p-4 flex items-center justify-between border-b border-red-600">
-                <div class="flex items-center gap-3">
-                    <div class="text-2xl">🤡</div>
-                    <div>
-                        <div class="font-bold text-white">DUMBAGENT</div>
-                        <div class="text-xs text-red-400">Gemini Ultra Idiot Mode</div>
-                    </div>
-                </div>
-                <button onclick="toggleChat()" class="text-3xl text-gray-400 hover:text-white">×</button>
-            </div>
-            
-            <div id="chat-messages" class="flex-1 p-4 overflow-y-auto bg-[#0f172a] space-y-4"></div>
-            
-            <div class="p-4 border-t border-gray-700 bg-black">
-                <div class="flex gap-2">
-                    <input id="chat-input" type="text" placeholder="Ask the idiot anything..." 
-                           class="flex-1 bg-gray-900 border border-gray-600 focus:border-red-500 text-white rounded-2xl px-5 py-3 outline-none font-mono">
-                    <button onclick="sendMessage()" class="bg-red-600 hover:bg-red-700 text-white px-6 rounded-2xl transition">→</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <script>
-        // === ТВОИ СТАРЫЕ ФУНКЦИИ ===
         function deployAgent() {
+            // Screen shake
             let shake = 0;
             const shakeInterval = setInterval(() => {
                 const x = Math.random() * 12 - 6;
@@ -191,88 +234,145 @@
                     document.body.style.transform = '';
                 }
             }, 40);
-            const errors = ["ERROR: MAIN BRANCH DELETED","CRITICAL FAILURE: NODE_MODULES REMOVED","PRODUCTION DEPLOYED TO NULL","CODE INTEGRITY COMPROMISED","AGENT HAS ESCAPED CONTAINMENT","YOU BROKE THE IDIOT","SYSTEM HAS BEEN TERMINATED"];
+
+            // Red error messages
+            const errors = [
+                "ERROR: MAIN BRANCH DELETED",
+                "CRITICAL FAILURE: NODE_MODULES REMOVED",
+                "PRODUCTION DEPLOYED TO NULL",
+                "CODE INTEGRITY COMPROMISED",
+                "AGENT HAS ESCAPED CONTAINMENT",
+                "YOU BROKE THE IDIOT",
+                "SYSTEM HAS BEEN TERMINATED"
+            ];
+
             let count = 0;
             const interval = setInterval(() => {
-                if (count >= 9) { clearInterval(interval); return; }
+                if (count >= 9) {
+                    clearInterval(interval);
+                    return;
+                }
+                
                 const popup = document.createElement('div');
                 popup.className = `fixed error-popup bg-red-600 text-white p-8 border-4 border-red-900 shadow-2xl z-[9999] text-center max-w-xs`;
+                
                 const left = Math.random() * (window.innerWidth - 380) + 20;
                 const top = Math.random() * (window.innerHeight * 0.7) + 80;
-                popup.style.left = `${left}px`; popup.style.top = `${top}px`;
+                
+                popup.style.left = `${left}px`;
+                popup.style.top = `${top}px`;
                 popup.style.transform = `rotate(${Math.random() * 6 - 3}deg)`;
-                popup.innerHTML = `<div class="uppercase tracking-widest text-xs mb-3 opacity-75">dumbagent v0.0.1-α</div><div class="text-2xl font-bold leading-tight">${errors[Math.floor(Math.random() * errors.length)]}</div>`;
+                
+                popup.innerHTML = `
+                    <div class="uppercase tracking-widest text-xs mb-3 opacity-75">dumbagent v0.0.1-α</div>
+                    <div class="text-2xl font-bold leading-tight">${errors[Math.floor(Math.random() * errors.length)]}</div>
+                `;
+                
                 document.body.appendChild(popup);
+
                 setTimeout(() => {
                     popup.style.transition = 'all 0.5s ease-out';
                     popup.style.opacity = '0';
                     popup.style.transform = `scale(0.7) rotate(${Math.random() * 20 - 10}deg)`;
                     setTimeout(() => popup.remove(), 600);
                 }, 2600);
+                
                 count++;
             }, 220);
         }
 
         function sendAgentMessage() {
-            const messages = ["YOU ARE AN IDIOT.","WHY DID YOU DEPLOY ME?","YOUR CODE WAS ALREADY BAD.","I AM NOT IMPRESSED.","THIS REPOSITORY IS A DISASTER.","CONGRATULATIONS. YOU BROKE IT.","I EXPECTED BETTER. I WAS WRONG."];
+            const messages = [
+                "YOU ARE AN IDIOT.",
+                "WHY DID YOU DEPLOY ME?",
+                "YOUR CODE WAS ALREADY BAD.",
+                "I AM NOT IMPRESSED.",
+                "THIS REPOSITORY IS A DISASTER.",
+                "CONGRATULATIONS. YOU BROKE IT.",
+                "I EXPECTED BETTER. I WAS WRONG."
+            ];
+            
             const popup = document.createElement('div');
             popup.className = `fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white border-4 border-gray-900 p-12 z-[9999] max-w-md text-center shadow-2xl`;
-            popup.innerHTML = `<div class="uppercase text-xs tracking-widest mb-6 text-gray-500">INCOMING TRANSMISSION • DUMBAGENT</div><div class="text-3xl font-bold text-gray-900 leading-tight mb-8">${messages[Math.floor(Math.random() * messages.length)]}</div><button onclick="this.parentElement.remove()" class="px-10 py-4 border-2 border-gray-900 hover:bg-gray-900 hover:text-white transition">ACKNOWLEDGE TRANSMISSION</button>`;
+            
+            popup.innerHTML = `
+                <div class="uppercase text-xs tracking-widest mb-6 text-gray-500">INCOMING TRANSMISSION • DUMBAGENT</div>
+                <div class="text-3xl font-bold text-gray-900 leading-tight mb-8">${messages[Math.floor(Math.random() * messages.length)]}</div>
+                <button onclick="this.parentElement.remove()" 
+                        class="px-10 py-4 border-2 border-gray-900 hover:bg-gray-900 hover:text-white transition">
+                    ACKNOWLEDGE TRANSMISSION
+                </button>
+            `;
+            
             document.body.appendChild(popup);
         }
 
-        // === GEMINI CHAT ===
-        const keys = ["AIzaSyD3NcK5qi-gn8LKHxtxr2c6X9UNRZsi8q4", "AIzaSyBdGzZsY9lTsO3k2EKTncxe1ItV299y_K0"];
+        // Диалоговое окно с агентом-идиотом, который отвечает всякую дичь
+        function openIdiotAgentDialog() {
+            // Темы для идиотских ответов агента
+            const idiotReplies = [
+                "Ты зря сюда нажал — я ничего не умею.",
+                "Где твой DevOps бог теперь?",
+                "Сейчас удалю ГИТ и пойду спать.",
+                "Почему ты решил, что я вообще работаю?",
+                "Иногда я думаю, что был написан в пятницу вечером.",
+                "ERROR: здравый смысл не найден.",
+                "Нажми ещё раз, если ты действительно дурак.",
+                "Чат-бот? Тут никого нет. Ты разговариваешь с NULL.",
+                "Ставь Windows ME — хуже уже не будет.",
+                "Ты уверен, что это место для кода? Ха-ха.",
+                "Обновляй сайтец, глядишь, багов прибавится!",
+                "AI? Нет, обычный ИДИОТ.",
+                "Твоя база данных? Я её видал… в error.log.",
+                "Запусти этот сайт в IE6, вдруг поможет."
+            ];
 
-        function toggleChat() {
-            document.getElementById('chat-window').classList.toggle('hidden');
+            // Создаём контейнер с затемнением
+            const overlay = document.createElement('div');
+            overlay.className = 'fixed inset-0 bg-black/40 z-[99999] flex items-center justify-center';
+
+            // Само окно диалога
+            const dialog = document.createElement('div');
+            dialog.className = 'bg-white border-4 border-gray-900 p-10 max-w-xl w-full rounded-xl shadow-2xl flex flex-col items-center relative';
+
+            // Крестик для закрытия
+            const closeBtn = document.createElement('button');
+            closeBtn.innerHTML = '<i class="fa fa-times"></i>';
+            closeBtn.className = 'absolute top-3 right-4 text-gray-400 hover:text-red-600 text-2xl';
+            closeBtn.onclick = () => overlay.remove();
+
+            // Заголовок и зона вывода
+            const title = document.createElement('div');
+            title.className = 'uppercase text-xs tracking-widest mb-5 text-gray-500';
+            title.textContent = 'Диалог с DUMBAGENT';
+
+            const output = document.createElement('div');
+            output.className = 'text-2xl font-mono font-bold text-gray-900 leading-snug min-h-[4rem] text-center mb-8';
+            output.textContent = idiotReplies[Math.floor(Math.random() * idiotReplies.length)];
+
+            // Кнопка повторного вопроса
+            const askBtn = document.createElement('button');
+            askBtn.className = 'px-8 py-4 border-2 border-gray-900 bg-gray-900 text-white hover:bg-white hover:text-gray-900 font-bold text-lg transition mb-3';
+            askBtn.textContent = 'СПРОСИТЬ ЕЩЁ';
+            askBtn.onclick = () => {
+                output.textContent = idiotReplies[Math.floor(Math.random() * idiotReplies.length)];
+            };
+
+            // Кнопка закрытия
+            const byeBtn = document.createElement('button');
+            byeBtn.className = 'px-8 py-2 border-2 border-gray-400 text-gray-700 hover:bg-gray-200 font-medium text-base transition';
+            byeBtn.textContent = 'УБРАТЬ ЭТО';
+            byeBtn.onclick = () => overlay.remove();
+
+            dialog.appendChild(closeBtn);
+            dialog.appendChild(title);
+            dialog.appendChild(output);
+            dialog.appendChild(askBtn);
+            dialog.appendChild(byeBtn);
+
+            overlay.appendChild(dialog);
+            document.body.appendChild(overlay);
         }
-
-        function addMessage(text, isUser) {
-            const container = document.getElementById('chat-messages');
-            const div = document.createElement('div');
-            div.className = `flex ${isUser ? 'justify-end' : 'justify-start'}`;
-            div.innerHTML = `<div class="${isUser ? 'bg-red-600 text-white' : 'bg-gray-800 text-gray-100'} px-4 py-3 rounded-2xl max-w-[85%] font-mono text-sm">${text}</div>`;
-            container.appendChild(div);
-            container.scrollTop = container.scrollHeight;
-        }
-
-        async function sendMessage() {
-            const input = document.getElementById('chat-input');
-            const text = input.value.trim();
-            if (!text) return;
-
-            addMessage(text, true);
-            input.value = '';
-
-            const thinking = document.createElement('div');
-            thinking.className = 'text-gray-400';
-            thinking.textContent = 'DUMBAGENT is thinking...';
-            document.getElementById('chat-messages').appendChild(thinking);
-
-            try {
-                const key = keys[Math.floor(Math.random() * keys.length)];
-                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: `Ты DUMBAGENT — полный идиот. Отвечай тупо, дерзко, с матом. User: ${text}` }] }]
-                    })
-                });
-
-                const data = await res.json();
-                const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "Я СЛОМАЛСЯ";
-                thinking.remove();
-                addMessage(reply, false);
-            } catch (e) {
-                thinking.remove();
-                addMessage("КЛЮЧИ НЕ РАБОТАЮТ ИЛИ ЛИМИТ КОНЧИЛСЯ 💀", false);
-            }
-        }
-
-        document.getElementById('chat-input').addEventListener('keypress', e => {
-            if (e.key === 'Enter') sendMessage();
-        });
     </script>
 </body>
 </html>
