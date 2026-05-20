@@ -14,18 +14,19 @@
             background: linear-gradient(to bottom, #f8f9fa, #e5e7eb);
             color: #1f2937;
             overflow-x: hidden;
+            transition: all 0.3s;
         }
         
         .glitch {
-            animation: glitch 0.8s infinite;
+            animation: glitch 0.6s infinite;
         }
         
         @keyframes glitch {
             0% { transform: translate(0); }
-            20% { transform: translate(-1px, 1px); }
-            40% { transform: translate(-1px, -1px); }
-            60% { transform: translate(1px, 1px); }
-            80% { transform: translate(1px, -1px); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
             100% { transform: translate(0); }
         }
         
@@ -36,10 +37,10 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.03) 50%);
+            background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.04) 50%);
             background-size: 100% 4px;
             pointer-events: none;
-            animation: scan 6s linear infinite;
+            animation: scan 8s linear infinite;
         }
         
         @keyframes scan {
@@ -53,9 +54,14 @@
             border: 3px solid #6b7280;
             box-shadow: 0 0 25px rgba(107, 114, 128, 0.3);
         }
-        
-        .robot-container {
-            filter: drop-shadow(0 0 40px rgba(0, 0, 0, 0.15));
+
+        .error-popup {
+            animation: errorPop 0.4s ease-out;
+        }
+
+        @keyframes errorPop {
+            0% { transform: scale(0.5) translateY(-100px); opacity: 0; }
+            100% { transform: scale(1) translateY(0); opacity: 1; }
         }
     </style>
 </head>
@@ -64,7 +70,7 @@
     <nav class="fixed top-0 w-full border-b border-gray-300 bg-white/90 backdrop-blur-lg z-50">
         <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center text-2xl glitch text-white">🤖</div>
+                <div class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center text-2xl text-white">🤖</div>
                 <div>
                     <h1 class="text-3xl font-bold tracking-widest text-gray-900">DUMBAGENT</h1>
                     <p class="text-xs text-gray-500 -mt-1">v0.0.1-α • IDIOT FROM THE FUTURE</p>
@@ -87,13 +93,11 @@
     <!-- Hero -->
     <section class="pt-32 pb-20 relative scanline">
         <div class="max-w-7xl mx-auto px-6 text-center">
-            <div class="flex justify-center mb-10 robot-container">
+            <div class="flex justify-center mb-10">
                 <img src="robot.png" alt="DUMBAGENT" class="w-96 h-auto border-4 border-gray-300 shadow-xl">
             </div>
             
-            <h1 class="text-7xl font-bold mb-4 tracking-widest text-gray-900 glitch">
-                DUMBAGENT
-            </h1>
+            <h1 class="text-7xl font-bold mb-4 tracking-widest text-gray-900 glitch">DUMBAGENT</h1>
             <p class="text-4xl text-gray-600 mb-8">THE AI AGENT THAT BREAKS EVERYTHING</p>
             
             <div class="max-w-2xl mx-auto text-2xl text-gray-600 leading-relaxed mb-12">
@@ -107,14 +111,9 @@
                     INSTALL THE IDIOT →
                 </button>
                 <button onclick="deployAgent()" 
-                        class="px-12 py-6 border-4 border-gray-700 text-gray-700 text-2xl hover:bg-gray-100 transition">
-                    LAUNCH IN BROWSER
+                        class="px-12 py-6 border-4 border-red-600 text-red-600 text-2xl hover:bg-red-50 transition font-bold">
+                    LAUNCH DUMBAGENT
                 </button>
-            </div>
-            
-            <div class="mt-16 text-sm text-red-600 flex items-center justify-center gap-2">
-                <i class="fas fa-skull"></i>
-                INSTALLATION MAY CAUSE LOSS OF REPUTATION, MONEY AND WILL TO LIVE
             </div>
         </div>
     </section>
@@ -148,9 +147,8 @@
                             <i class="fas fa-rocket"></i> DEPLOY THE IDIOT
                         </h3>
                         <div class="bg-gray-50 p-8 border border-gray-300">
-                            <p class="text-gray-600 mb-6">Connect your wallet and unleash chaos:</p>
                             <button onclick="deployAgent()" 
-                                    class="w-full py-5 bg-gray-900 text-white font-bold text-xl hover:bg-gray-800 transition">
+                                    class="w-full py-5 bg-red-600 text-white font-bold text-xl hover:bg-red-700 transition">
                                 → LAUNCH DUMBAGENT IN BROWSER ←
                             </button>
                         </div>
@@ -174,7 +172,6 @@
                         I delete production better than an intern on Friday night.<br>
                         I write bugs at "billion-dollar-round" level.
                     </p>
-                    <div class="mt-10 text-5xl">🤖💥</div>
                 </div>
                 
                 <div class="border border-gray-300 p-10 bg-white">
@@ -195,11 +192,6 @@
                     </div>
                 </div>
             </div>
-            
-            <div class="mt-16 p-12 border-4 border-dashed border-gray-400 text-center bg-white">
-                <p class="text-3xl text-gray-700">"If after using dumbagent you still have something working — that's a bug."</p>
-                <p class="text-sm mt-8 text-gray-500">- DUMBAGENT, 2077</p>
-            </div>
         </div>
     </section>
 
@@ -208,11 +200,9 @@
         <div class="max-w-3xl mx-auto text-center px-6">
             <h2 class="text-6xl mb-10 text-gray-900">READY TO BREAK EVERYTHING?</h2>
             <button onclick="deployAgent()" 
-                    class="group relative px-16 py-8 text-4xl font-bold border-4 border-gray-900 hover:bg-gray-900 hover:text-white transition-all">
-                <span class="group-hover:hidden">LAUNCH THE IDIOT</span>
-                <span class="hidden group-hover:inline">BOOM. EVERYTHING IS BROKEN.</span>
+                    class="group relative px-16 py-8 text-4xl font-bold border-4 border-red-600 text-red-600 hover:bg-red-600 hover:text-white transition-all">
+                LAUNCH THE IDIOT
             </button>
-            <p class="mt-10 text-gray-500 text-xl">*Works on any device. Even your toaster.</p>
         </div>
     </section>
 
@@ -224,44 +214,65 @@
 
     <script>
         function deployAgent() {
-            const messages = [
-                "Connecting to your wallet...",
-                "Breaking main branch...",
-                "Deleting node_modules...",
-                "Deploying to production...",
-                "Writing god-tier bugs...",
-                "💥💥💥 EVERYTHING IS DESTROYED 💥💥💥"
-            ];
-            
-            let i = 0;
-            const popup = document.createElement('div');
-            popup.style.cssText = `
-                position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-                background: #111827; color: white; border: 4px solid #6b7280; 
-                padding: 40px; z-index: 9999; font-family: 'Press Start 2P', monospace; 
-                text-align: center; max-width: 500px; border-radius: 4px;
-            `;
-            popup.innerHTML = `<p class="text-3xl" id="status"></p>`;
-            document.body.appendChild(popup);
-            
-            const interval = setInterval(() => {
-                if (i < messages.length) {
-                    document.getElementById('status').textContent = messages[i];
-                    i++;
-                } else {
-                    clearInterval(interval);
-                    setTimeout(() => {
-                        popup.innerHTML = `
-                            <p class="text-5xl mb-6">🤖💥</p>
-                            <p class="text-4xl">YOUR CODE HAS BEEN TERMINATED</p>
-                            <button onclick="this.parentElement.remove()" 
-                                    class="mt-8 px-8 py-4 bg-white text-gray-900 text-xl border border-gray-300 hover:bg-gray-100">
-                                CRY INTO YOUR PILLOW
-                            </button>
-                        `;
-                    }, 800);
+            // Screen shake
+            document.body.style.transition = 'transform 0.1s';
+            let shakeCount = 0;
+            const shakeInterval = setInterval(() => {
+                const x = Math.random() * 8 - 4;
+                const y = Math.random() * 8 - 4;
+                document.body.style.transform = `translate(${x}px, ${y}px)`;
+                shakeCount++;
+                if (shakeCount > 25) {
+                    clearInterval(shakeInterval);
+                    document.body.style.transform = '';
                 }
-            }, 700);
+            }, 50);
+
+            // Create red error popups
+            const messages = [
+                "ERROR: MAIN BRANCH DELETED",
+                "CRITICAL: NODE_MODULES EXPLODED",
+                "WARNING: PRODUCTION DEPLOYED TO /DEVNULL",
+                "FATAL: YOUR CODE IS NOW A MEME",
+                "SYSTEM FAILURE: DUMBAGENT HAS ESCAPED",
+                "YOU BROKE THE IDIOT"
+            ];
+
+            let count = 0;
+            const popupInterval = setInterval(() => {
+                if (count >= 8) {
+                    clearInterval(popupInterval);
+                    return;
+                }
+
+                const popup = document.createElement('div');
+                popup.className = `fixed error-popup bg-red-600 text-white p-6 border-4 border-red-800 shadow-2xl z-[9999] text-center`;
+                
+                const x = Math.random() * (window.innerWidth - 400);
+                const y = Math.random() * (window.innerHeight - 200);
+                
+                popup.style.left = `${x}px`;
+                popup.style.top = `${y}px`;
+                popup.style.transform = `rotate(${Math.random() * 8 - 4}deg)`;
+                
+                popup.innerHTML = `
+                    <div class="text-xl font-bold mb-2">⚠️ CRITICAL ERROR ⚠️</div>
+                    <div class="text-2xl">${messages[Math.floor(Math.random() * messages.length)]}</div>
+                    <div class="text-xs mt-4 opacity-75">dumbagent v0.0.1-α</div>
+                `;
+                
+                document.body.appendChild(popup);
+
+                // Auto remove after some time
+                setTimeout(() => {
+                    popup.style.transition = 'all 0.6s';
+                    popup.style.opacity = '0';
+                    popup.style.transform = `scale(0.6) rotate(${Math.random() * 30 - 15}deg)`;
+                    setTimeout(() => popup.remove(), 600);
+                }, 2800);
+
+                count++;
+            }, 280);
         }
     </script>
 </body>
