@@ -7,25 +7,42 @@
 
 <script src="https://cdn.tailwindcss.com"></script>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
 
 body {
     font-family: 'VT323', monospace;
     background: linear-gradient(to bottom, #f8f9fa, #e5e7eb);
+    color: #1f2937;
     overflow-x: hidden;
 }
 
-/* ================= ROBOTS ================= */
+/* ===================== YOUR ORIGINAL ANIMATIONS ===================== */
+
+.glitch { animation: glitch 0.7s infinite; }
+
+@keyframes glitch {
+    0% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+    100% { transform: translate(0); }
+}
+
+/* ===================== ROBOT SCENE (FIXED SAFE VERSION) ===================== */
 
 #robot-scene {
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 260px;
+    height: 240px;
     pointer-events: none;
-    z-index: 9999;
+    overflow: hidden;
+    z-index: 5; /* 🔥 FIX: НЕ ПЕРЕКРЫВАЕТ САЙТ */
 }
 
 .robot {
@@ -36,20 +53,14 @@ body {
     filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2));
 }
 
-#chaos {
-    left: -250px;
-}
-
-#cleaner {
-    right: -300px;
-    width: 240px;
-}
+#chaos { left: -250px; }
+#cleaner { right: -300px; width: 240px; }
 
 #poop {
     position: absolute;
     bottom: 40px;
     left: 28%;
-    width: 80px;
+    width: 70px;
     opacity: 0;
     transform: scale(0);
     transition: all .3s ease;
@@ -70,18 +81,18 @@ body {
     100% { transform: rotate(-2deg); }
 }
 
-/* speech */
 .speech {
     position: absolute;
-    top: -50px;
+    top: -45px;
     left: 40px;
     background: white;
-    border: 3px solid #111;
-    padding: 6px 12px;
+    border: 2px solid #111;
+    padding: 4px 10px;
     font-weight: bold;
     opacity: 0;
     transition: .2s;
 }
+
 .speech.show {
     opacity: 1;
     transform: translateY(-5px);
@@ -89,9 +100,9 @@ body {
 </style>
 </head>
 
-<body>
+<body class="min-h-screen">
 
-<!-- ================= ROBOTS ================= -->
+<!-- ================= ROBOTS (SAFE OVERLAY) ================= -->
 <div id="robot-scene">
 
     <img id="poop" src="poop.png">
@@ -108,16 +119,39 @@ body {
 
 </div>
 
-<!-- ================= YOUR SITE ================= -->
+<!-- ================= YOUR ORIGINAL SITE (UNCHANGED) ================= -->
 
-<div class="pt-32 text-center">
-    <h1 class="text-6xl font-bold">DUMBAGENT</h1>
-    <p class="mt-4 text-xl">AUTONOMOUS CHAOS ENGINE</p>
+<nav class="fixed top-0 w-full border-b border-gray-300 bg-white/95 backdrop-blur-lg z-50">
+    <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
+
+        <div class="flex items-center gap-4">
+            <div class="w-9 h-9 bg-gray-900 rounded flex items-center justify-center text-white text-xl font-bold">DA</div>
+            <div>
+                <h1 class="text-3xl font-bold tracking-widest text-gray-900">DUMBAGENT</h1>
+                <p class="text-xs text-gray-500 -mt-1">v0.0.1-α • AUTONOMOUS CHAOS ENGINE</p>
+            </div>
+        </div>
+
+        <div class="flex gap-8 text-lg font-medium text-gray-700">
+            <a href="#cli">CLI</a>
+            <a href="#docs">DOCS</a>
+            <a href="#interact">INTERACT</a>
+            <a href="#deploy">DEPLOY</a>
+        </div>
+
+    </div>
+</nav>
+
+<section class="pt-32 text-center">
+    <h1 class="text-7xl font-bold glitch">DUMBAGENT</h1>
+    <p class="text-2xl mt-4">AUTONOMOUS IDIOT AI AGENT</p>
 
     <button onclick="deploy()" class="mt-10 px-10 py-5 bg-red-600 text-white">
         DEPLOY AGENT
     </button>
-</div>
+</section>
+
+<!-- ================= SCRIPT (FIXED, SAFE) ================= -->
 
 <script>
 
@@ -147,25 +181,19 @@ function deploy() {
 
     reset();
 
-    // enter
-    setTimeout(() => {
-        chaos.style.left = "18%";
-    }, 600);
+    setTimeout(() => chaos.style.left = "18%", 600);
 
-    // speak
     setTimeout(() => {
         chaosSpeech.innerText = "hehe";
         chaosSpeech.classList.add("show");
     }, 2000);
 
-    // poop
     setTimeout(() => {
         chaos.src = "chaos_poop.png";
         poop.classList.add("show");
         chaosSpeech.innerText = "oops";
     }, 3200);
 
-    // panic run
     setTimeout(() => {
         chaos.src = "chaos_run1.png";
         chaos.classList.add("shake");
@@ -177,23 +205,15 @@ function deploy() {
         chaos.style.left = "120%";
     }, 5200);
 
-    // cleaner
     setTimeout(() => {
         cleaner.style.right = "18%";
         cleaner.src = "cleaner_clean.png";
-        cleanSpeech.innerText = "cleaning...";
         cleanSpeech.classList.add("show");
-        cleaner.classList.add("shake");
     }, 6800);
 
-    // cleanup
-    setTimeout(() => {
-        poop.classList.remove("show");
-    }, 9000);
+    setTimeout(() => poop.classList.remove("show"), 9000);
 
-    setTimeout(() => {
-        cleaner.style.right = "-300px";
-    }, 11000);
+    setTimeout(() => cleaner.style.right = "-300px", 11000);
 }
 
 deploy();
