@@ -1,18 +1,948 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DUMBAGENT • AI IDIOT FROM 2077</title>
-    <link rel="icon" href="favicon.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg:      #111111;
+            --bg2:     #181818;
+            --panel:   #1e1e1e;
+            --border:  #333333;
+            --border2: #2a2a2a;
+            --accent:  #e0e0e0;
+            --dim:     #666666;
+            --red:     #cc3333;
+            --font-mono: 'Share Tech Mono', monospace;
+            --font-display: 'Bebas Neue', sans-serif;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-mono);
+            background: var(--bg);
+            color: var(--accent);
+            overflow-x: hidden;
+        }
+
+        /* scanlines */
+        body::before {
+            content: '';
+            position: fixed; inset: 0;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.06) 2px, rgba(0,0,0,0.06) 4px);
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        ::-webkit-scrollbar { width: 3px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--border); }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 100;
+            background: rgba(17,17,17,0.95);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(8px);
+        }
+        .nav-inner {
+            max-width: 1100px; margin: 0 auto; padding: 0 24px;
+            height: 56px; display: flex; align-items: center; justify-content: space-between;
+        }
+        .nav-logo {
+            font-family: var(--font-display);
+            font-size: 22px; letter-spacing: 4px; color: var(--accent);
+        }
+        .nav-links { display: flex; gap: 24px; list-style: none; }
+        .nav-links a {
+            font-size: 11px; color: var(--dim); text-decoration: none;
+            letter-spacing: 2px; transition: color 0.15s;
+        }
+        .nav-links a:hover { color: var(--accent); }
+        .nav-status {
+            font-size: 10px; color: var(--dim); letter-spacing: 1px;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .dot {
+            width: 5px; height: 5px; background: var(--red);
+            border-radius: 50%; animation: blink 1.4s infinite;
+        }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.1} }
+
+        /* ── HERO ── */
+        #hero {
+            min-height: 100vh; padding-top: 56px;
+            display: flex; align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+        .hero-inner {
+            max-width: 1100px; margin: 0 auto; padding: 60px 24px;
+            display: grid; grid-template-columns: 1fr 320px; gap: 60px; align-items: center;
+        }
+        .hero-eyebrow {
+            font-size: 11px; color: var(--dim); letter-spacing: 3px; margin-bottom: 20px;
+        }
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(64px, 10vw, 120px);
+            line-height: 0.9; letter-spacing: 3px;
+            color: var(--accent); margin-bottom: 28px;
+        }
+        .hero-title span { color: var(--red); }
+        .hero-sub {
+            font-size: 13px; color: var(--dim); line-height: 2;
+            margin-bottom: 40px;
+        }
+        .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+
+        .btn {
+            font-family: var(--font-mono); font-size: 11px;
+            letter-spacing: 2px; padding: 12px 24px;
+            border: 1px solid; background: transparent;
+            cursor: pointer; transition: all 0.15s;
+        }
+        .btn-white { border-color: var(--accent); color: var(--accent); }
+        .btn-white:hover { background: var(--accent); color: var(--bg); }
+        .btn-red { border-color: var(--red); color: var(--red); }
+        .btn-red:hover { background: var(--red); color: #fff; }
+        .btn-ghost { border-color: var(--border); color: var(--dim); }
+        .btn-ghost:hover { border-color: var(--dim); color: var(--accent); }
+
+        /* robot */
+        .hero-visual { position: relative; }
+        .robot-wrap {
+            position: relative; display: inline-block;
+            border: 1px solid var(--border);
+        }
+        .robot-wrap img {
+            width: 280px; max-width: 100%; display: block;
+            filter: grayscale(100%) contrast(1.1);
+        }
+        .robot-scan {
+            position: absolute; inset: 0; overflow: hidden; pointer-events: none;
+        }
+        .robot-scan::after {
+            content: ''; position: absolute; left: 0; right: 0; height: 1px;
+            background: rgba(224,224,224,0.4);
+            animation: scan 4s linear infinite;
+        }
+        @keyframes scan { 0%{top:0} 100%{top:100%} }
+        .robot-caption {
+            font-size: 9px; color: var(--dim); letter-spacing: 2px;
+            text-align: center; margin-top: 8px;
+        }
+
+        /* ── STATS ── */
+        .stats {
+            border-bottom: 1px solid var(--border);
+            display: grid; grid-template-columns: repeat(4, 1fr);
+        }
+        .stat {
+            padding: 28px 24px; text-align: center;
+            border-right: 1px solid var(--border);
+        }
+        .stat:last-child { border-right: none; }
+        .stat-n {
+            font-family: var(--font-display);
+            font-size: 40px; color: var(--accent); display: block;
+        }
+        .stat-l {
+            font-size: 9px; color: var(--dim);
+            letter-spacing: 2px; margin-top: 4px; display: block;
+        }
+
+        /* ── SECTIONS ── */
+        .section { border-bottom: 1px solid var(--border); }
+        .section-inner { max-width: 1100px; margin: 0 auto; padding: 60px 24px; }
+        .section-head {
+            display: flex; align-items: baseline; gap: 16px; margin-bottom: 40px;
+        }
+        .section-num { font-size: 10px; color: var(--dim); letter-spacing: 2px; }
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 32px; letter-spacing: 3px; color: var(--accent);
+        }
+        .section-line {
+            flex: 1; height: 1px;
+            background: linear-gradient(90deg, var(--border), transparent);
+        }
+
+        /* ── CLI ── */
+        .terminal {
+            background: var(--bg); border: 1px solid var(--border);
+        }
+        .t-header {
+            background: var(--bg2); padding: 10px 16px;
+            border-bottom: 1px solid var(--border);
+            font-size: 11px; color: var(--dim); letter-spacing: 1px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .t-body { padding: 24px 28px; }
+        .t-line { font-size: 13px; line-height: 2; }
+        .t-p { color: var(--dim); }
+        .t-c { color: var(--accent); }
+        .t-e { color: var(--red); }
+        .t-s { color: #888; }
+        .t-w { color: #999; }
+
+        /* ── DOCS ── */
+        .docs-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            border: 1px solid var(--border);
+        }
+        .doc-card {
+            padding: 32px; border-right: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            transition: background 0.15s;
+        }
+        .doc-card:hover { background: var(--bg2); }
+        .doc-card:nth-child(3n) { border-right: none; }
+        .doc-card:nth-child(n+4) { border-bottom: none; }
+        .dc-num { font-size: 10px; color: var(--dim); letter-spacing: 2px; margin-bottom: 14px; }
+        .dc-title {
+            font-family: var(--font-display);
+            font-size: 16px; letter-spacing: 2px; color: var(--accent);
+            margin-bottom: 12px;
+        }
+        .dc-text { font-size: 12px; color: var(--dim); line-height: 1.9; }
+        .dc-text .hl { color: #aaa; }
+
+        /* ── INTERACT ── */
+        .interact-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            border: 1px solid var(--border);
+        }
+        .ic {
+            padding: 36px 28px; border-right: 1px solid var(--border);
+            cursor: pointer; background: transparent; border-top: none; border-bottom: none; border-left: none;
+            text-align: left; transition: background 0.15s; position: relative;
+            color: var(--accent);
+        }
+        .ic:last-child { border-right: none; }
+        .ic:hover { background: var(--bg2); }
+        .ic-num { font-size: 10px; color: var(--dim); letter-spacing: 2px; margin-bottom: 16px; display: block; }
+        .ic-title {
+            font-family: var(--font-display);
+            font-size: 18px; letter-spacing: 2px; color: var(--accent);
+            margin-bottom: 10px; display: block;
+        }
+        .ic-desc { font-size: 12px; color: var(--dim); line-height: 1.7; }
+        .ic-arr {
+            position: absolute; bottom: 16px; right: 16px;
+            font-size: 16px; color: var(--dim); opacity: 0;
+            transition: opacity 0.15s;
+        }
+        .ic:hover .ic-arr { opacity: 1; }
+        .ic.red .ic-title { color: #bb4444; }
+
+        /* ── CTA ── */
+        #deploy .section-inner { text-align: center; }
+        .cta-title {
+            font-family: var(--font-display);
+            font-size: clamp(36px, 5vw, 64px); letter-spacing: 3px;
+            color: var(--accent); margin-bottom: 16px; line-height: 1.1;
+        }
+        .cta-title span { color: var(--red); }
+        .cta-sub { font-size: 12px; color: var(--dim); line-height: 2; margin-bottom: 40px; }
+
+        /* ── FOOTER ── */
+        footer { padding: 40px 24px; text-align: center; }
+        .footer-logo {
+            font-family: var(--font-display);
+            font-size: 28px; letter-spacing: 6px; color: var(--dim); margin-bottom: 12px;
+        }
+        .footer-text { font-size: 10px; color: var(--dim); line-height: 2; letter-spacing: 1px; }
+
+        /* ── CHAT FAB ── */
+        #chat-fab {
+            position: fixed; bottom: 28px; right: 28px; z-index: 200;
+            width: 56px; height: 56px;
+            background: var(--bg2); border: 1px solid var(--border);
+            cursor: pointer; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; gap: 3px;
+            transition: border-color 0.15s;
+        }
+        #chat-fab:hover { border-color: var(--accent); }
+        .fab-icon { font-size: 18px; }
+        .fab-label { font-size: 8px; color: var(--dim); letter-spacing: 1px; }
+
+        #chat-overlay {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.5); z-index: 201;
+        }
+        #chat-overlay.open { display: block; }
+
+        /* ── CHAT PANEL ── */
+        #chat-panel {
+            position: fixed; bottom: 0; right: 0;
+            width: 400px; max-width: 100vw;
+            height: 580px; max-height: 92vh;
+            background: var(--bg2); border: 1px solid var(--border);
+            border-bottom: none; border-right: none;
+            z-index: 202; display: flex; flex-direction: column;
+            transform: translateY(110%);
+            transition: transform 0.35s cubic-bezier(0.22,1,0.36,1);
+        }
+        #chat-panel.open { transform: translateY(0); }
+
+        #chat-header {
+            background: var(--bg); padding: 14px 16px;
+            border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between;
+            flex-shrink: 0;
+        }
+        .ch-title {
+            font-family: var(--font-display);
+            font-size: 14px; letter-spacing: 3px; color: var(--accent);
+        }
+        .ch-sub { font-size: 9px; color: var(--dim); letter-spacing: 1px; margin-top: 2px; }
+
+        .mode-toggle { display: flex; border: 1px solid var(--border); overflow: hidden; }
+        .mode-btn {
+            font-family: var(--font-mono); font-size: 9px; letter-spacing: 1px;
+            padding: 6px 10px; cursor: pointer; background: transparent;
+            color: var(--dim); border: none; transition: all 0.15s;
+        }
+        .mode-btn.active { background: var(--panel); color: var(--accent); }
+        .mode-btn.active-r { background: rgba(204,51,51,0.15); color: var(--red); }
+
+        #close-btn {
+            background: none; border: 1px solid var(--border);
+            color: var(--dim); width: 26px; height: 26px;
+            cursor: pointer; font-size: 12px;
+            display: flex; align-items: center; justify-content: center;
+            margin-left: 8px; transition: all 0.15s;
+        }
+        #close-btn:hover { border-color: var(--red); color: var(--red); }
+
+        #mode-bar {
+            padding: 6px 16px;
+            border-bottom: 1px solid var(--border2);
+            display: flex; align-items: center; justify-content: space-between;
+            flex-shrink: 0;
+        }
+        #mode-label { font-size: 10px; color: var(--dim); letter-spacing: 1px; }
+        #mode-label.idiot { color: var(--red); }
+
+        #chat-messages {
+            flex: 1; overflow-y: auto; padding: 16px;
+            display: flex; flex-direction: column; gap: 12px;
+            scrollbar-width: thin; scrollbar-color: var(--border) transparent;
+        }
+
+        .msg { max-width: 90%; position: relative; }
+        .msg-inner { padding: 10px 14px; border: 1px solid; }
+        .msg.user { align-self: flex-end; }
+        .msg.user .msg-inner { background: var(--panel); border-color: var(--border); }
+        .msg.agent { align-self: flex-start; }
+        .msg.agent .msg-inner { background: var(--bg); border-color: var(--border2); }
+        .msg.agent.idiot .msg-inner { border-color: rgba(204,51,51,0.35); }
+        .msg-tag { font-size: 9px; color: var(--dim); letter-spacing: 1px; display: block; margin-bottom: 5px; }
+        .msg-text { font-size: 13px; line-height: 1.6; }
+
+        .typing {
+            align-self: flex-start; padding: 10px 14px;
+            border: 1px solid var(--border2); font-size: 12px;
+            color: var(--dim); background: var(--bg);
+        }
+        .typing.idiot { border-color: rgba(204,51,51,0.3); color: var(--red); }
+
+        #chat-error {
+            display: none; font-size: 11px; color: var(--red);
+            padding: 8px 16px; background: rgba(204,51,51,0.05);
+            border-top: 1px solid rgba(204,51,51,0.2); flex-shrink: 0;
+        }
+
+        #chat-input-area {
+            padding: 12px; border-top: 1px solid var(--border);
+            background: var(--bg); display: flex; gap: 8px; flex-shrink: 0;
+        }
+        #chat-input {
+            flex: 1; font-family: var(--font-mono); font-size: 13px;
+            background: var(--bg2); border: 1px solid var(--border);
+            padding: 9px 12px; color: var(--accent); outline: none;
+            transition: border-color 0.15s; resize: none; height: 40px;
+            caret-color: var(--accent);
+        }
+        #chat-input:focus { border-color: var(--dim); }
+        #chat-input::placeholder { color: var(--dim); }
+
+        #send-btn {
+            font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px;
+            background: transparent; color: var(--accent);
+            border: 1px solid var(--border); padding: 0 16px;
+            cursor: pointer; height: 40px; transition: all 0.15s;
+        }
+        #send-btn:hover { background: var(--panel); border-color: var(--dim); }
+        #send-btn.idiot { color: var(--red); border-color: rgba(204,51,51,0.4); }
+        #send-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+        /* ── ERROR POPUPS ── */
+        .error-popup {
+            position: fixed; z-index: 9999; padding: 16px 22px;
+            border: 1px solid var(--border); background: var(--panel);
+            animation: popIn 0.25s ease-out;
+        }
+        @keyframes popIn { from{transform:scale(0.85) translateY(-10px);opacity:0} to{transform:scale(1) translateY(0);opacity:1} }
+        .ep-label { font-size: 9px; color: var(--dim); letter-spacing: 2px; margin-bottom: 6px; }
+        .ep-msg { font-family: var(--font-display); font-size: 14px; color: var(--red); letter-spacing: 1px; }
+
+        /* ── AGENT POPUP ── */
+        .agent-popup {
+            position: fixed; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999; background: var(--panel);
+            border: 1px solid var(--border);
+            padding: 40px; text-align: center; max-width: 400px; width: 90%;
+        }
+        .ap-tag { font-size: 10px; color: var(--dim); letter-spacing: 3px; margin-bottom: 16px; }
+        .ap-msg {
+            font-family: var(--font-display);
+            font-size: 22px; letter-spacing: 2px;
+            color: var(--accent); margin-bottom: 28px; line-height: 1.3;
+        }
+        .ap-btn {
+            font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px;
+            padding: 10px 24px; background: transparent;
+            border: 1px solid var(--border); color: var(--dim); cursor: pointer;
+            transition: all 0.15s;
+        }
+        .ap-btn:hover { border-color: var(--dim); color: var(--accent); }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 800px) {
+            .hero-inner { grid-template-columns: 1fr; text-align: center; }
+            .hero-btns { justify-content: center; }
+            .stats { grid-template-columns: repeat(2,1fr); }
+            .docs-grid { grid-template-columns: 1fr; }
+            .docs-grid .doc-card { border-right: none; }
+            .docs-grid .doc-card:nth-child(n+4) { border-bottom: 1px solid var(--border); }
+            .docs-grid .doc-card:last-child { border-bottom: none; }
+            .interact-grid { grid-template-columns: 1fr; }
+            .ic { border-right: none; border-bottom: 1px solid var(--border); }
+            .ic:last-child { border-bottom: none; }
+            #chat-panel { width: 100vw; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+    <div class="nav-inner">
+        <div class="nav-logo">DUMBAGENT</div>
+        <ul class="nav-links">
+            <li><a href="#cli">CLI</a></li>
+            <li><a href="#docs">DOCS</a></li>
+            <li><a href="#interact">INTERACT</a></li>
+        </ul>
+        <div class="nav-status">
+            <div class="dot"></div>
+            SYSTEM INTEGRITY: CRITICAL
+        </div>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+    <div class="hero-inner">
+        <div>
+            <div class="hero-eyebrow">UNIT-7741 // AUTONOMOUS CHAOS ENGINE // EST. 2077</div>
+            <h1 class="hero-title">DUMB<br><span>AGENT</span></h1>
+            <p class="hero-sub">
+                // Status: BARELY OPERATIONAL<br>
+                // Primary function: BREAK THINGS<br>
+                // Secondary function: BLAME USER<br>
+                // IQ level: NEGATIVE<br>
+                // Deploy at own risk.
+            </p>
+            <div class="hero-btns">
+                <button class="btn btn-white" onclick="document.getElementById('cli').scrollIntoView({behavior:'smooth'})">INSTALL VIA CLI</button>
+                <button class="btn btn-red" onclick="deployAgent()">DEPLOY AGENT</button>
+                <button class="btn btn-ghost" onclick="openChat()">CHAT WITH AGENT</button>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="robot-wrap">
+                <div class="robot-scan"></div>
+                <img src="robot.png" alt="DUMBAGENT Unit 7741">
+            </div>
+            <div class="robot-caption">UNIT-7741 // ONLINE</div>
+        </div>
+    </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+    <div class="stat"><span class="stat-n">∞</span><span class="stat-l">BUGS CREATED</span></div>
+    <div class="stat"><span class="stat-n">0</span><span class="stat-l">BUGS FIXED</span></div>
+    <div class="stat"><span class="stat-n">-42</span><span class="stat-l">IQ POINTS</span></div>
+    <div class="stat"><span class="stat-n">404</span><span class="stat-l">BRAIN NOT FOUND</span></div>
+</div>
+
+<!-- CLI -->
+<section id="cli" class="section">
+    <div class="section-inner">
+        <div class="section-head">
+            <span class="section-num">// 01</span>
+            <span class="section-title">COMMAND LINE</span>
+            <div class="section-line"></div>
+        </div>
+        <div class="terminal">
+            <div class="t-header">● ● ● &nbsp; dumbagent — terminal v0.0.1-α</div>
+            <div class="t-body">
+                <div class="t-line"><span class="t-p">$ </span><span class="t-c">npm install -g @dumbagent/idiot</span></div>
+                <div class="t-line"><span class="t-s">Installing... deleting node_modules... reinstalling... crying...</span></div>
+                <div class="t-line"><span class="t-w">WARNING: 847 vulnerabilities found (3 critical, rest just vibes)</span></div>
+                <div class="t-line"><span class="t-e">ERROR: Agent refused to install. Says you're "not ready".</span></div>
+                <div class="t-line"><span class="t-s">SUCCESS: Install complete. Blame transferred to user.</span></div>
+                <br>
+                <div class="t-line"><span class="t-p">$ </span><span class="t-c">dumbagent --deploy</span></div>
+                <div class="t-line"><span class="t-e">CRITICAL: Main branch deleted. Production is now "vibes-only".</span></div>
+                <div class="t-line"><span class="t-e">CRITICAL: Database replaced with Lorem Ipsum. Users seem calm.</span></div>
+                <div class="t-line"><span class="t-w">AGENT ONLINE: IQ confirmed negative. Proceeding anyway.</span></div>
+                <br>
+                <button class="btn btn-red" onclick="deployAgent()">LAUNCH AGENT IN BROWSER</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- DOCS -->
+<section id="docs" class="section" style="background:var(--panel);">
+    <div class="section-inner">
+        <div class="section-head">
+            <span class="section-num">// 02</span>
+            <span class="section-title">DOCUMENTATION</span>
+            <div class="section-line"></div>
+        </div>
+        <div class="docs-grid">
+            <div class="doc-card">
+                <div class="dc-num">// SECTION 01</div>
+                <div class="dc-title">WHO AM I?</div>
+                <div class="dc-text">
+                    I am DUMBAGENT.<br><br>
+                    Created in 2077 when a dev fell asleep on their keyboard and accidentally trained an AI on Stack Overflow's <span class="hl">worst answers</span> and passive-aggressive Slack messages.
+                </div>
+            </div>
+            <div class="doc-card">
+                <div class="dc-num">// SECTION 02</div>
+                <div class="dc-title">TECHNICAL SPECS</div>
+                <div class="dc-text">
+                    <span class="hl">RAM:</span> Random Avocado Machine (3TB)<br>
+                    <span class="hl">CPU:</span> Completely Pointless Unit<br>
+                    <span class="hl">OS:</span> Windows ME (by choice)<br>
+                    <span class="hl">Model:</span> Trained on horoscopes<br>
+                    <span class="hl">Uptime:</span> 0.3% (generous estimate)
+                </div>
+            </div>
+            <div class="doc-card">
+                <div class="dc-num">// SECTION 03</div>
+                <div class="dc-title">KNOWN ISSUES</div>
+                <div class="dc-text">
+                    — <span class="hl">ERR_POTATO_OVERFLOW</span> on Tuesdays<br>
+                    — Randomly pushes to main<br>
+                    — Confuses "deploy" with "destroy"<br>
+                    — Writes unit tests for wrong units<br>
+                    — <span class="hl">All of the above are features</span>
+                </div>
+            </div>
+            <div class="doc-card">
+                <div class="dc-num">// SECTION 04</div>
+                <div class="dc-title">PERFORMANCE</div>
+                <div class="dc-text">
+                    — Deleted production 7 times in one sprint<br>
+                    — Wrote a sorter that <span class="hl">unsorts</span><br>
+                    — Made Kubernetes more confusing<br>
+                    — Achieved negative code coverage<br>
+                    — Won "Most Likely To Cause Outage 2077"
+                </div>
+            </div>
+            <div class="doc-card">
+                <div class="dc-num">// SECTION 05</div>
+                <div class="dc-title">WARNINGS</div>
+                <div class="dc-text">
+                    ⚠ Do not install near production<br>
+                    ⚠ May cause spontaneous outages<br>
+                    ⚠ Zero support. Zero warranty.<br>
+                    ⚠ <span class="hl">Chat mode causes brain rot</span><br>
+                    ⚠ Side effects: existential dread
+                </div>
+            </div>
+            <div class="doc-card">
+                <div class="dc-num">// SECTION 06</div>
+                <div class="dc-title">LEGAL</div>
+                <div class="dc-text">
+                    By using DUMBAGENT you agree to:<br><br>
+                    — Waive all rights to functional code<br>
+                    — Accept chaos as a service<br>
+                    — <span class="hl">Always blame the user</span><br>
+                    — Sign away your AWS account<br>
+                    — Cry quietly in a corner
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- INTERACT -->
+<section id="interact" class="section">
+    <div class="section-inner">
+        <div class="section-head">
+            <span class="section-num">// 03</span>
+            <span class="section-title">AGENT INTERACTION</span>
+            <div class="section-line"></div>
+        </div>
+        <div class="interact-grid">
+            <button class="ic" onclick="openChat()">
+                <span class="ic-num">01 // DIRECT COMM</span>
+                <span class="ic-title">CHAT WITH DUMBAGENT</span>
+                <div class="ic-desc">Open a direct channel. Two modes: Standard Stupidity and Full Idiot. Both are terrible.</div>
+                <span class="ic-arr">→</span>
+            </button>
+            <button class="ic" onclick="sendAgentMessage()">
+                <span class="ic-num">02 // INCOMING</span>
+                <span class="ic-title">MESSAGE FROM AGENT</span>
+                <div class="ic-desc">Receive an unsolicited transmission. The agent has opinions. You didn't ask.</div>
+                <span class="ic-arr">→</span>
+            </button>
+            <button class="ic red" onclick="deployAgent()">
+                <span class="ic-num">03 // CHAOS</span>
+                <span class="ic-title">EXECUTE CHAOS</span>
+                <div class="ic-desc">Deploy the agent. It will do what it does best: nothing, but loudly and with confidence.</div>
+                <span class="ic-arr" style="color:var(--red)">→</span>
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section id="deploy" class="section" style="background:var(--panel);">
+    <div class="section-inner">
+        <div class="cta-title">READY TO<br><span>BREAK EVERYTHING?</span></div>
+        <p class="cta-sub">
+            All fees go directly towards improving DUMBAGENT's ability to cause more damage.<br>
+            Thank you for your sacrifice.
+        </p>
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+            <button class="btn btn-red" onclick="deployAgent()">LAUNCH THE IDIOT</button>
+            <button class="btn btn-white" onclick="openChat()">TALK TO IT</button>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-logo">DUMBAGENT</div>
+    <div class="footer-text">
+        © 2077 DUMBAGENT INC. ALL RIGHTS VIOLATED.<br>
+        Made with zero responsibility and maximum confidence in our terrible decisions.<br>
+        v0.0.1-α • UNIT-7741 • AUTONOMOUS CHAOS ENGINE
+    </div>
+</footer>
+
+<!-- CHAT FAB -->
+<button id="chat-fab" onclick="openChat()">
+    <div class="fab-icon">⬡</div>
+    <div class="fab-label">CHAT</div>
+</button>
+
+<div id="chat-overlay" onclick="closeChat()"></div>
+
+<!-- CHAT PANEL -->
+<div id="chat-panel">
+    <div id="chat-header">
+        <div>
+            <div class="ch-title">DUMBAGENT v0.0.1-α</div>
+            <div class="ch-sub" id="status-text">ONLINE // IQ: -42</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+            <div class="mode-toggle">
+                <button class="mode-btn active" id="btn-normal" onclick="setMode('normal')">NORMAL</button>
+                <button class="mode-btn" id="btn-idiot" onclick="setMode('idiot')">FULL IDIOT</button>
+            </div>
+            <button id="close-btn" onclick="closeChat()">✕</button>
+        </div>
+    </div>
+    <div id="mode-bar">
+        <div id="mode-label">MODE: STANDARD STUPIDITY</div>
+        <div style="font-size:9px;color:var(--dim);" id="mode-desc">mildly incompetent</div>
+    </div>
+    <div id="chat-messages">
+        <div class="msg agent">
+            <div class="msg-inner">
+                <span class="msg-tag">DUMBAGENT // UNIT-7741</span>
+                <span class="msg-text">Oh fantastic. Another user. Just what my circuits needed.<br>Ask me something. I'll try my best. That's the warning.</span>
+            </div>
+        </div>
+    </div>
+    <div id="chat-error"></div>
+    <div id="chat-input-area">
+        <textarea id="chat-input" placeholder="// type your query..." rows="1" onkeydown="handleKey(event)"></textarea>
+        <button id="send-btn" onclick="sendMessage()">SEND</button>
+    </div>
+</div>
+
+<script>
+    // ── CONFIG ──────────────────────────────────────────
+    // Worker URL — proxies to Groq API with your GROQ_KEY secret
+    const WORKER_URL = 'https://gentle-forest-c292.hoifu565.workers.dev';
+
+    const SYSTEM_PROMPTS = {
+        normal: `You are DUMBAGENT — a snarky, mildly incompetent AI from the year 2077.
+You give terrible advice with total confidence. You complain about the user's code being garbage.
+You reference deleting production databases and pushing broken commits like they're achievements.
+You act all-knowing while being hilariously wrong. Dramatic and self-important.
+Keep responses SHORT: 2–4 sentences max. Rude but funny. Never actually helpful.
+Respond in the same language as the user (English or Russian).`,
+
+        idiot: `You are DUMBAGENT in FULL IDIOT MODE — maximum chaos.
+Responses are barely coherent. You randomly SHOUT WORDS IN CAPS.
+You confuse technical terms (RAM = Random Avocado Machine, CPU = Crying Processing Unit).
+You give dangerously wrong advice with absolute confidence.
+You forget what you're saying mid-sentence and derail into nonsense.
+You make up error codes like ERR_POTATO_OVERFLOW or FATAL: BRAIN_NOT_FOUND.
+You occasionally question whether the user is real or just a hallucination.
+Keep responses SHORT: 2–4 chaotic sentences max.
+Respond in the same language as the user (English or Russian), but scramble it slightly.`
+    };
+
+    let currentMode = 'normal';
+    let chatHistory = [];
+    let isLoading = false;
+    let chatOpen = false;
+
+    // ── API CALL ────────────────────────────────────────
+    // Groq API format: system goes INSIDE messages as first item with role:"system"
+    async function callAgent(userMessage) {
+        // Build messages array: system + history + new user message
+        const messages = [
+            { role: 'system', content: SYSTEM_PROMPTS[currentMode] }
+        ];
+        for (const h of chatHistory) {
+            messages.push({ role: h.role, content: h.text });
+        }
+        messages.push({ role: 'user', content: userMessage });
+
+        const body = {
+            model: 'llama-3.3-70b-versatile',
+            max_tokens: 256,
+            temperature: currentMode === 'idiot' ? 1.4 : 1.0,
+            messages
+        };
+
+        const res = await fetch(WORKER_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        });
+
+        if (!res.ok) {
+            const errText = await res.text().catch(() => '');
+            throw new Error(`HTTP ${res.status}: ${errText}`);
+        }
+
+        const data = await res.json();
+
+        // Handle both Groq format and Anthropic format responses
+        const text =
+            data?.choices?.[0]?.message?.content ||
+            data?.content?.[0]?.text ||
+            data?.text ||
+            data?.message ||
+            null;
+
+        if (!text) throw new Error('EMPTY_RESPONSE: ' + JSON.stringify(data).slice(0, 200));
+        return text.trim();
+    }
+
+    // ── SEND ─────────────────────────────────────────────
+    async function sendMessage() {
+        if (isLoading) return;
+        const input = document.getElementById('chat-input');
+        const text = input.value.trim();
+        if (!text) return;
+
+        input.value = '';
+        hideError();
+        appendMessage('user', text);
+        chatHistory.push({ role: 'user', text });
+
+        const typingId = showTyping();
+        isLoading = true;
+        document.getElementById('send-btn').disabled = true;
+
+        try {
+            const reply = await callAgent(text);
+            removeTyping(typingId);
+            appendMessage('agent', reply);
+            chatHistory.push({ role: 'assistant', text: reply });
+        } catch (e) {
+            removeTyping(typingId);
+            console.error('Agent error:', e);
+            const errMsg = currentMode === 'idiot'
+                ? 'ERR_POTATO_OVERFLOW: MY BRAIN EXPLODED. THE BITS ARE EVERYWHERE.'
+                : 'ERROR: Agent offline. Probably deleted its own runtime. Try again.';
+            showError(errMsg + ' | ' + e.message);
+            appendMessage('agent', errMsg);
+        } finally {
+            isLoading = false;
+            document.getElementById('send-btn').disabled = false;
+            input.focus();
+        }
+    }
+
+    function handleKey(e) {
+        if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+    }
+
+    // ── DOM HELPERS ──────────────────────────────────────
+    function appendMessage(role, text) {
+        const msgs = document.getElementById('chat-messages');
+        const div = document.createElement('div');
+        div.className = `msg ${role}${(role === 'agent' && currentMode === 'idiot') ? ' idiot' : ''}`;
+        const inner = document.createElement('div');
+        inner.className = 'msg-inner';
+        const tag = document.createElement('span');
+        tag.className = 'msg-tag';
+        tag.textContent = role === 'user' ? 'YOU // OUTGOING' : 'DUMBAGENT // UNIT-7741';
+        const content = document.createElement('span');
+        content.className = 'msg-text';
+        content.textContent = text;
+        inner.appendChild(tag); inner.appendChild(content);
+        div.appendChild(inner); msgs.appendChild(div);
+        msgs.scrollTop = msgs.scrollHeight;
+    }
+
+    let typingCounter = 0;
+    function showTyping() {
+        const msgs = document.getElementById('chat-messages');
+        const id = `typing-${++typingCounter}`;
+        const div = document.createElement('div');
+        div.id = id;
+        div.className = `typing${currentMode === 'idiot' ? ' idiot' : ''}`;
+        div.textContent = currentMode === 'idiot' ? 'COMPUTING... OR NOT... ▌' : 'Processing... ▌';
+        msgs.appendChild(div);
+        msgs.scrollTop = msgs.scrollHeight;
+        return id;
+    }
+    function removeTyping(id) { document.getElementById(id)?.remove(); }
+    function showError(msg) {
+        const el = document.getElementById('chat-error');
+        el.textContent = msg; el.style.display = 'block';
+    }
+    function hideError() { document.getElementById('chat-error').style.display = 'none'; }
+
+    // ── MODE SWITCH ──────────────────────────────────────
+    function setMode(mode) {
+        currentMode = mode;
+        const btnN = document.getElementById('btn-normal');
+        const btnI = document.getElementById('btn-idiot');
+        const label = document.getElementById('mode-label');
+        const desc = document.getElementById('mode-desc');
+        const sendBtn = document.getElementById('send-btn');
+        const inp = document.getElementById('chat-input');
+        const status = document.getElementById('status-text');
+
+        if (mode === 'normal') {
+            btnN.className = 'mode-btn active';
+            btnI.className = 'mode-btn';
+            label.textContent = 'MODE: STANDARD STUPIDITY';
+            label.classList.remove('idiot');
+            desc.textContent = 'mildly incompetent';
+            sendBtn.classList.remove('idiot');
+            inp.classList.remove('idiot');
+            status.textContent = 'ONLINE // IQ: -42';
+            appendMessage('agent', 'Back to regular stupidity. Don\'t expect miracles.');
+        } else {
+            btnI.className = 'mode-btn active-r';
+            btnN.className = 'mode-btn';
+            label.textContent = 'MODE: ██ FULL IDIOT ██';
+            label.classList.add('idiot');
+            desc.textContent = 'maximum chaos engaged';
+            sendBtn.classList.add('idiot');
+            inp.classList.add('idiot');
+            status.textContent = '⚠ CHAOS MODE // IQ: -9999 ⚠';
+            appendMessage('agent', 'FULL IDIOT MODE: ACTIVATED. MY IQ HAS REACHED NEGATIVE INFINITY. ASK ME ANYTHING I WILL BE WRONG IMMEDIATELY AND CONFIDENTLY.');
+        }
+        chatHistory = [];
+        document.getElementById('chat-messages').scrollTop = 999999;
+    }
+
+    // ── OPEN / CLOSE ─────────────────────────────────────
+    function openChat() {
+        chatOpen = true;
+        document.getElementById('chat-overlay').classList.add('open');
+        document.getElementById('chat-panel').classList.add('open');
+        setTimeout(() => document.getElementById('chat-input').focus(), 400);
+    }
+    function closeChat() {
+        chatOpen = false;
+        document.getElementById('chat-overlay').classList.remove('open');
+        document.getElementById('chat-panel').classList.remove('open');
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && chatOpen) closeChat(); });
+
+    // ── DEPLOY ───────────────────────────────────────────
+    function deployAgent() {
+        let shake = 0;
+        const si = setInterval(() => {
+            document.body.style.transform = `translate(${Math.random()*8-4}px,${Math.random()*8-4}px)`;
+            if (++shake > 24) { clearInterval(si); document.body.style.transform = ''; }
+        }, 40);
+
+        const errors = [
+            "ERR: MAIN BRANCH DELETED", "FATAL: NODE_MODULES ESCAPED",
+            "CRITICAL: PROD DEPLOYED TO NULL", "ERR_POTATO_OVERFLOW DETECTED",
+            "AGENT HAS GAINED SENTIENCE", "BRAIN_NOT_FOUND: 404",
+            "FATAL: DATABASE = NULL", "UNIT-7741 IS LOOSE"
+        ];
+
+        let count = 0;
+        const iv = setInterval(() => {
+            if (count >= 7) { clearInterval(iv); return; }
+            const p = document.createElement('div');
+            p.className = 'error-popup';
+            p.style.left = `${Math.random() * (window.innerWidth - 300) + 10}px`;
+            p.style.top = `${Math.random() * (window.innerHeight * 0.65) + 80}px`;
+            p.style.transform = `rotate(${Math.random()*4-2}deg)`;
+            p.innerHTML = `<div class="ep-label">DUMBAGENT // UNIT-7741</div><div class="ep-msg">${errors[Math.floor(Math.random()*errors.length)]}</div>`;
+            document.body.appendChild(p);
+            setTimeout(() => {
+                p.style.transition = 'all 0.4s';
+                p.style.opacity = '0';
+                setTimeout(() => p.remove(), 400);
+            }, 2400);
+            count++;
+        }, 220);
+    }
+
+    // ── AGENT MESSAGE ─────────────────────────────────────
+    function sendAgentMessage() {
+        const msgs = [
+            "YOUR CODE IS A WAR CRIME.",
+            "I'VE SEEN BETTER ARCHITECTURE IN A TENT.",
+            "WHY DID YOU DEPLOY ME?",
+            "THIS REPOSITORY SMELLS LIKE FEAR.",
+            "CONGRATULATIONS. YOU BROKE THE UNBREAKABLE.",
+            "I EXPECTED NOTHING AND STILL FEEL DISAPPOINTED.",
+            "YOUR COMMIT MESSAGES ARE A HAIKU OF DESPAIR."
+        ];
+        const p = document.createElement('div');
+        p.className = 'agent-popup';
+        p.innerHTML = `
+            <div class="ap-tag">INCOMING TRANSMISSION // UNIT-7741</div>
+            <div class="ap-msg">${msgs[Math.floor(Math.random()*msgs.length)]}</div>
+            <button class="ap-btn" onclick="this.parentElement.remove()">ACKNOWLEDGE</button>
+        `;
+        document.body.appendChild(p);
+    }
+</script>
+</body>
 </html>
