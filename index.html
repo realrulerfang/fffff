@@ -830,11 +830,11 @@
                 <span class="wm-option-badge" id="badge-injected">DETECTED</span>
             </button>
         </div>
-        <div class="wm-connecting" id="wm-connecting">// CONNECTING... APPROVE IN YOUR WALLET ▌</div>
+        <div class="wm-connecting" id="wm-connecting">// CONNECTING... ▌</div>
         <div class="wm-error" id="wm-error"></div>
         <div class="wm-warning">
-            <span class="wr">⚠ NOTE:</span> Read-only connection. DUMBAGENT sees your address,<br>
-            nothing else. No transactions. No permissions. Just mockery.
+            <span class="wr">⚠ NOTE:</span> Two steps: connect wallet, then <span style="color:#aaa">sign a message</span> to prove ownership.<br>
+            No transactions. No funds. Just mockery. The signature costs nothing.
         </div>
         <br>
         <button class="wm-cancel" onclick="closeWalletModal()">// CANCEL — I PREFER SILENCE</button>
@@ -999,7 +999,34 @@ async function connectWallet(providerType) {
             });
         }
 
-        connectedWallet = { address, network, provider: providerName };
+        // ── REQUEST SIGNATURE (proof of ownership) ──
+        connectingEl.textContent = '// SIGNING... APPROVE IN YOUR WALLET ▌';
+
+        const nonce = Math.floor(Math.random() * 1000000);
+        const timestamp = new Date().toISOString();
+        const signMessage = `DUMBAGENT // UNIT-7741\n\nProve you own this wallet, idiot.\n\nNonce: ${nonce}\nTimestamp: ${timestamp}\nAddress: ${address}`;
+
+        let signature = null;
+
+        if (providerType === 'phantom') {
+            const solanaForSign = window.phantom?.solana || window.solana;
+            const encodedMsg = new TextEncoder().encode(signMessage);
+            const signed = await solanaForSign.signMessage(encodedMsg, 'utf8');
+            signature = Array.from(signed.signature).map(b => b.toString(16).padStart(2,'0')).join('').slice(0, 16) + '...';
+        } else {
+            let sigProvider = window.ethereum;
+            if (window.ethereum.providers && window.ethereum.providers.length > 1) {
+                if (providerType === 'metamask') sigProvider = window.ethereum.providers.find(p => p.isMetaMask && !p.isRabby) || window.ethereum;
+                else if (providerType === 'rabby') sigProvider = window.ethereum.providers.find(p => p.isRabby) || window.ethereum;
+            }
+            const sig = await sigProvider.request({
+                method: 'personal_sign',
+                params: [signMessage, address]
+            });
+            signature = sig.slice(0, 18) + '...';
+        }
+
+        connectedWallet = { address, network, provider: providerName, signature };
         closeWalletModal();
         onWalletConnected(address, network, providerName);
 
