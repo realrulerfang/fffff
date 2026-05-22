@@ -7,7 +7,6 @@
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&display=swap" rel="stylesheet">
-    <!-- ethers.js for real wallet connection -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.umd.min.js"></script>
     <style>
         :root {
@@ -286,35 +285,6 @@
         .my-stat-value { font-family: var(--font-display); font-size: 24px; color: var(--accent); }
         .my-stat-value.red { color: var(--red); }
 
-        #robot-feed { border-bottom: 1px solid var(--border); }
-        .rf-grid { display: grid; grid-template-columns: 1fr 320px; gap: 0; border: 1px solid var(--border); }
-        .rf-main { border-right: 1px solid var(--border); }
-        .rf-main-header { background: var(--bg2); padding: 12px 16px; border-bottom: 1px solid var(--border); font-size: 10px; color: var(--dim); letter-spacing: 2px; display: flex; align-items: center; gap: 8px; }
-        #robot-feed-list { padding: 0; max-height: 420px; overflow-y: auto; scrollbar-width: thin; }
-        .rf-item { padding: 14px 16px; border-bottom: 1px solid var(--border2); display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: start; animation: rfIn 0.5s ease-out; transition: background 0.15s; }
-        .rf-item:hover { background: rgba(255,255,255,0.015); }
-        @keyframes rfIn { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
-        .rf-item:last-child { border-bottom: none; }
-        .rf-icon { font-size: 18px; width: 28px; text-align: center; flex-shrink: 0; }
-        .rf-action { font-size: 12px; color: var(--accent); line-height: 1.5; margin-bottom: 4px; }
-        .rf-action .danger { color: var(--red); }
-        .rf-action .warn { color: #aa8833; }
-        .rf-action .ok { color: #77aa77; }
-        .rf-meta { font-size: 10px; color: var(--dim); letter-spacing: 1px; }
-        .rf-time { font-size: 10px; color: var(--dim); letter-spacing: 1px; white-space: nowrap; }
-        .rf-badge { font-size: 9px; letter-spacing: 1px; padding: 1px 5px; border: 1px solid rgba(204,51,51,0.4); color: var(--red); display: inline-block; margin-top: 4px; }
-
-        .rf-sidebar { padding: 0; }
-        .rf-side-header { background: var(--bg2); padding: 12px 16px; border-bottom: 1px solid var(--border); font-size: 10px; color: var(--dim); letter-spacing: 2px; }
-        .rf-stat-grid { display: grid; grid-template-columns: 1fr 1fr; }
-        .rf-stat { padding: 20px 16px; text-align: center; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-        .rf-stat:nth-child(even) { border-right: none; }
-        .rf-stat:nth-last-child(-n+2) { border-bottom: none; }
-        .rf-stat-n { font-family: var(--font-display); font-size: 28px; color: var(--accent); display: block; }
-        .rf-stat-n.red { color: var(--red); }
-        .rf-stat-l { font-size: 9px; color: var(--dim); letter-spacing: 1px; display: block; margin-top: 4px; }
-
-        /* ── WALLET MODAL — REDESIGNED ── */
         #wallet-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 9000; align-items: center; justify-content: center; }
         #wallet-modal.open { display: flex; }
         .wm-inner { background: var(--panel); border: 1px solid var(--border); padding: 40px; max-width: 400px; width: 90%; }
@@ -336,7 +306,6 @@
         .wm-error { font-size: 11px; color: var(--red); letter-spacing: 1px; padding: 10px 12px; border: 1px solid rgba(204,51,51,0.3); background: rgba(204,51,51,0.05); margin-top: 10px; display: none; }
         .wm-error.show { display: block; }
 
-        /* Network badge in wallet bar */
         #network-badge { font-size: 9px; letter-spacing: 1px; padding: 2px 6px; border: 1px solid var(--border); color: var(--dim); margin-left: 6px; display: none; }
         #network-badge.show { display: inline-block; }
 
@@ -353,8 +322,6 @@
             .ic:last-child { border-bottom: none; }
             #chat-panel { width: 100vw; }
             .lb-grid { grid-template-columns: 1fr; }
-            .rf-grid { grid-template-columns: 1fr; }
-            .rf-sidebar { border-top: 1px solid var(--border); }
         }
     </style>
 </head>
@@ -367,7 +334,6 @@
             <li><a href="#cli">CLI</a></li>
             <li><a href="#docs">DOCS</a></li>
             <li><a href="#activity">ACTIVITY</a></li>
-            <li><a href="#robot-feed">FEED</a></li>
             <li><a href="#leaderboard-section">BOARD</a></li>
             <li><a href="#interact">INTERACT</a></li>
         </ul>
@@ -498,38 +464,10 @@
     </div>
 </section>
 
-<section id="robot-feed" class="section" style="background:var(--panel);">
+<section id="leaderboard-section" class="section" style="background:var(--panel);">
     <div class="section-inner">
         <div class="section-head">
             <span class="section-num">// 04</span>
-            <span class="section-title">UNIT-7741 LIVE ACTIONS</span>
-            <div class="section-line"></div>
-        </div>
-        <div class="rf-grid">
-            <div class="rf-main">
-                <div class="rf-main-header">
-                    <div class="dot"></div>
-                    REAL-TIME AGENT ACTIVITY LOG // AUTO-REFRESHING
-                </div>
-                <div id="robot-feed-list"></div>
-            </div>
-            <div class="rf-sidebar">
-                <div class="rf-side-header">DAMAGE METRICS</div>
-                <div class="rf-stat-grid">
-                    <div class="rf-stat"><span class="rf-stat-n red" id="sites-broken">0</span><span class="rf-stat-l">SITES BROKEN</span></div>
-                    <div class="rf-stat"><span class="rf-stat-n" id="tokens-wasted">$0</span><span class="rf-stat-l">SPENT ON $IDIOT</span></div>
-                    <div class="rf-stat"><span class="rf-stat-n red" id="prod-deleted">0</span><span class="rf-stat-l">PRODS DELETED</span></div>
-                    <div class="rf-stat"><span class="rf-stat-n" id="prs-merged">0</span><span class="rf-stat-l">BAD PRs MERGED</span></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section id="leaderboard-section" class="section">
-    <div class="section-inner">
-        <div class="section-head">
-            <span class="section-num">// 05</span>
             <span class="section-title">IDIOT LEADERBOARD</span>
             <div class="section-line"></div>
         </div>
@@ -575,10 +513,10 @@
     </div>
 </section>
 
-<section id="interact" class="section" style="background:var(--panel);">
+<section id="interact" class="section">
     <div class="section-inner">
         <div class="section-head">
-            <span class="section-num">// 06</span>
+            <span class="section-num">// 05</span>
             <span class="section-title">AGENT INTERACTION</span>
             <div class="section-line"></div>
         </div>
@@ -605,7 +543,7 @@
     </div>
 </section>
 
-<section id="deploy" class="section">
+<section id="deploy" class="section" style="background:var(--panel);">
     <div class="section-inner">
         <div class="cta-title">READY TO<br><span>BREAK EVERYTHING?</span></div>
         <p class="cta-sub">All fees go directly towards improving DUMBAGENT's ability to cause more damage.<br>Thank you for your sacrifice.</p>
@@ -680,7 +618,6 @@
     </div>
 </div>
 
-<!-- WALLET MODAL -->
 <div id="wallet-modal">
     <div class="wm-inner">
         <div class="wm-title">CONNECT WALLET</div>
@@ -715,7 +652,6 @@
 </div>
 
 <script>
-// ── CONFIG ─────────────────────────────────────────────
 const WORKER_URL = 'https://gentle-forest-c292.hoifu565.workers.dev';
 
 const SYSTEM_PROMPTS = {
@@ -741,9 +677,8 @@ let currentMode = 'normal';
 let chatHistory = [];
 let isLoading = false;
 let chatOpen = false;
-let connectedWallet = null; // { address, provider, network }
+let connectedWallet = null;
 
-// ── NETWORK HELPERS ────────────────────────────────────
 const NETWORK_NAMES = {
     1: 'ETHEREUM', 137: 'POLYGON', 56: 'BSC', 42161: 'ARBITRUM',
     10: 'OPTIMISM', 8453: 'BASE', 43114: 'AVALANCHE', 250: 'FANTOM',
@@ -753,25 +688,16 @@ function getNetworkName(chainId) {
     return NETWORK_NAMES[chainId] || `CHAIN-${chainId}`;
 }
 
-// ── WALLET DETECTION ───────────────────────────────────
 function detectWallets() {
     const eth = window.ethereum;
     const phantom = window.solana;
-
-    // MetaMask
     const hasMM = eth && (eth.isMetaMask || (eth.providers && eth.providers.some(p => p.isMetaMask)));
-    // Coinbase
     const hasCB = eth && (eth.isCoinbaseWallet || (eth.providers && eth.providers.some(p => p.isCoinbaseWallet)));
-    // Phantom (Solana)
     const hasPhantom = phantom && phantom.isPhantom;
-    // Any injected EVM wallet
     const hasInjected = !!eth;
-
     updateBadge('metamask', hasMM);
     updateBadge('coinbase', hasCB);
     updateBadge('phantom', hasPhantom);
-
-    // Show generic browser wallet option if something is injected but not the above
     if (hasInjected && !hasMM && !hasCB) {
         document.getElementById('opt-injected').style.display = 'flex';
     }
@@ -780,120 +706,68 @@ function detectWallets() {
 function updateBadge(name, detected) {
     const badge = document.getElementById('badge-' + name);
     if (!badge) return;
-    if (detected) {
-        badge.textContent = 'DETECTED';
-        badge.classList.remove('missing');
-    } else {
-        badge.textContent = 'NOT INSTALLED';
-        badge.classList.add('missing');
-    }
+    if (detected) { badge.textContent = 'DETECTED'; badge.classList.remove('missing'); }
+    else { badge.textContent = 'NOT INSTALLED'; badge.classList.add('missing'); }
 }
 
-// ── REAL WALLET CONNECTION ─────────────────────────────
 async function connectWallet(providerType) {
     const connectingEl = document.getElementById('wm-connecting');
     const errorEl = document.getElementById('wm-error');
     const optionsEl = document.getElementById('wallet-options');
-
     connectingEl.classList.add('show');
     errorEl.classList.remove('show');
     optionsEl.querySelectorAll('button').forEach(b => b.disabled = true);
-
     try {
         let address, network, providerName;
-
         if (providerType === 'phantom') {
-            // ── PHANTOM (Solana) ────────────────────────
-            if (!window.solana || !window.solana.isPhantom) {
-                throw new Error('Phantom not installed. Get it at phantom.app');
-            }
+            if (!window.solana || !window.solana.isPhantom) throw new Error('Phantom not installed. Get it at phantom.app');
             const resp = await window.solana.connect();
             address = resp.publicKey.toString();
             network = 'SOLANA';
             providerName = 'Phantom';
-
         } else {
-            // ── EVM WALLETS (MetaMask, Coinbase, injected) ──
-            if (!window.ethereum) {
-                throw new Error('No EVM wallet detected. Install MetaMask or Coinbase Wallet.');
-            }
-
+            if (!window.ethereum) throw new Error('No EVM wallet detected. Install MetaMask or Coinbase Wallet.');
             let provider = window.ethereum;
-
-            // If multiple providers, pick the right one
             if (window.ethereum.providers && window.ethereum.providers.length > 1) {
-                if (providerType === 'metamask') {
-                    provider = window.ethereum.providers.find(p => p.isMetaMask) || window.ethereum;
-                } else if (providerType === 'coinbase') {
-                    provider = window.ethereum.providers.find(p => p.isCoinbaseWallet) || window.ethereum;
-                }
+                if (providerType === 'metamask') provider = window.ethereum.providers.find(p => p.isMetaMask) || window.ethereum;
+                else if (providerType === 'coinbase') provider = window.ethereum.providers.find(p => p.isCoinbaseWallet) || window.ethereum;
             }
-
-            // Request accounts
             const accounts = await provider.request({ method: 'eth_requestAccounts' });
             if (!accounts || accounts.length === 0) throw new Error('No accounts returned.');
             address = accounts[0];
-
-            // Get chain ID
             const chainIdHex = await provider.request({ method: 'eth_chainId' });
             const chainId = parseInt(chainIdHex, 16);
             network = getNetworkName(chainId);
-
-            providerName = providerType === 'metamask' ? 'MetaMask'
-                         : providerType === 'coinbase' ? 'Coinbase'
-                         : 'Browser Wallet';
-
-            // Listen for account changes
+            providerName = providerType === 'metamask' ? 'MetaMask' : providerType === 'coinbase' ? 'Coinbase' : 'Browser Wallet';
             provider.on('accountsChanged', (accts) => {
-                if (accts.length === 0) {
-                    disconnectWallet();
-                } else {
-                    // Update address
-                    connectedWallet.address = accts[0];
-                    updateWalletUI(accts[0], connectedWallet.network, providerName);
-                }
+                if (accts.length === 0) { disconnectWallet(); }
+                else { connectedWallet.address = accts[0]; updateWalletUI(accts[0], connectedWallet.network, providerName); }
             });
-
-            // Listen for chain changes
             provider.on('chainChanged', (chainIdHex) => {
                 const newChain = getNetworkName(parseInt(chainIdHex, 16));
-                if (connectedWallet) {
-                    connectedWallet.network = newChain;
-                    updateNetworkUI(newChain);
-                    showMiniPopup('Network switched to ' + newChain);
-                }
+                if (connectedWallet) { connectedWallet.network = newChain; updateNetworkUI(newChain); showMiniPopup('Network switched to ' + newChain); }
             });
         }
-
-        // Success
         connectedWallet = { address, network, provider: providerName };
         closeWalletModal();
         onWalletConnected(address, network, providerName);
-
     } catch (err) {
         connectingEl.classList.remove('show');
         optionsEl.querySelectorAll('button').forEach(b => b.disabled = false);
-
         let msg = err.message || 'Unknown error';
         if (err.code === 4001) msg = 'Connection rejected. You cancelled it.';
         else if (err.code === -32002) msg = 'Connection pending. Check your wallet popup.';
-
         errorEl.textContent = '// ERR: ' + msg;
         errorEl.classList.add('show');
-        console.error('Wallet connect error:', err);
     }
 }
 
 function onWalletConnected(address, network, providerName) {
     updateWalletUI(address, network, providerName);
-
-    // Unlock chat
     document.getElementById('chat-locked').classList.remove('show');
     document.getElementById('chat-input').disabled = false;
     document.getElementById('send-btn').disabled = false;
     document.getElementById('chat-input').placeholder = '// type your query...';
-
-    // Leaderboard init
     const lb = getLeaderboard();
     if (!lb.find(e => e.address === address)) {
         lb.push({ address, count: 0 });
@@ -901,30 +775,21 @@ function onWalletConnected(address, network, providerName) {
         saveLeaderboard(lb);
     }
     renderLeaderboard();
-
     showMiniPopup(providerName + ' connected. Ready to be insulted.');
 }
 
 function updateWalletUI(address, network, providerName) {
-    const shortAddr = address.length > 20
-        ? address.slice(0,6) + '...' + address.slice(-4)
-        : address.slice(0,8) + '...';
-
-    // Chat wallet bar
+    const shortAddr = address.length > 20 ? address.slice(0,6) + '...' + address.slice(-4) : address.slice(0,8) + '...';
     const walletInfo = document.getElementById('wallet-info');
     walletInfo.textContent = `// ${providerName.toUpperCase()}: ${shortAddr}`;
     walletInfo.classList.add('connected');
-
     const netBadge = document.getElementById('network-badge');
     netBadge.textContent = network;
     netBadge.classList.add('show');
-
     const btn = document.getElementById('wallet-connect-btn');
     btn.textContent = 'DISCONNECT';
     btn.classList.add('connected');
     btn.onclick = disconnectWallet;
-
-    // Leaderboard my stats
     document.getElementById('my-wallet-display').textContent = shortAddr;
     document.getElementById('my-wallet-display').style.color = '#77aa77';
     document.getElementById('my-network-display').textContent = network;
@@ -941,31 +806,22 @@ function updateNetworkUI(network) {
 }
 
 function disconnectWallet() {
-    // Phantom disconnect
-    if (window.solana && window.solana.isConnected) {
-        window.solana.disconnect().catch(() => {});
-    }
-
+    if (window.solana && window.solana.isConnected) window.solana.disconnect().catch(() => {});
     connectedWallet = null;
-
     const walletInfo = document.getElementById('wallet-info');
     walletInfo.textContent = '// WALLET: NOT CONNECTED';
     walletInfo.classList.remove('connected');
-
     const netBadge = document.getElementById('network-badge');
     netBadge.textContent = '';
     netBadge.classList.remove('show');
-
     const btn = document.getElementById('wallet-connect-btn');
     btn.textContent = 'CONNECT WALLET';
     btn.classList.remove('connected');
     btn.onclick = openWalletModal;
-
     document.getElementById('chat-locked').classList.add('show');
     document.getElementById('chat-input').disabled = true;
     document.getElementById('send-btn').disabled = true;
     document.getElementById('chat-input').placeholder = '// connect wallet to chat...';
-
     document.getElementById('my-wallet-display').textContent = 'NOT CONNECTED';
     document.getElementById('my-wallet-display').style.color = 'var(--dim)';
     document.getElementById('my-network-display').textContent = '—';
@@ -979,7 +835,6 @@ function disconnectWallet() {
     renderLeaderboard();
 }
 
-// ── MODAL ──────────────────────────────────────────────
 function openWalletModal() {
     document.getElementById('wallet-modal').classList.add('open');
     document.getElementById('wm-connecting').classList.remove('show');
@@ -1000,20 +855,15 @@ function showMiniPopup(msg) {
     setTimeout(() => { p.style.transition='all 0.3s'; p.style.opacity='0'; setTimeout(()=>p.remove(),300); }, 2500);
 }
 
-// ── LEADERBOARD ────────────────────────────────────────
 function getLeaderboard() {
-    try { return JSON.parse(localStorage.getItem('da_leaderboard') || '[]'); }
-    catch { return []; }
+    try { return JSON.parse(localStorage.getItem('da_leaderboard') || '[]'); } catch { return []; }
 }
-function saveLeaderboard(lb) {
-    localStorage.setItem('da_leaderboard', JSON.stringify(lb));
-}
+function saveLeaderboard(lb) { localStorage.setItem('da_leaderboard', JSON.stringify(lb)); }
 function recordResponse(address) {
     if (!address) return;
     const lb = getLeaderboard();
     const existing = lb.find(e => e.address === address);
-    if (existing) { existing.count++; }
-    else { lb.push({ address, count: 1 }); }
+    if (existing) { existing.count++; } else { lb.push({ address, count: 1 }); }
     lb.sort((a,b) => b.count - a.count);
     saveLeaderboard(lb);
     renderLeaderboard();
@@ -1029,19 +879,13 @@ function renderLeaderboard() {
     el.innerHTML = filtered.slice(0,10).map((e,i) => {
         const rankClass = i===0?'top1':i===1?'top2':i===2?'top3':'';
         const isMe = connectedWallet && e.address.toLowerCase() === connectedWallet.address.toLowerCase();
-        const shortAddr = e.address.length > 20
-            ? e.address.slice(0,6)+'...'+e.address.slice(-4)
-            : e.address.slice(0,10)+'...';
+        const shortAddr = e.address.length > 20 ? e.address.slice(0,6)+'...'+e.address.slice(-4) : e.address.slice(0,10)+'...';
         return `<div class="lb-row">
             <div class="lb-rank ${rankClass}">${i+1}</div>
             <div class="lb-wallet">${isMe?'<span class="you">▶ YOU</span> ':''}<span style="opacity:0.7">${shortAddr}</span></div>
-            <div>
-                <div class="lb-count">${e.count}</div>
-                <div class="lb-label">RESPONSES</div>
-            </div>
+            <div><div class="lb-count">${e.count}</div><div class="lb-label">RESPONSES</div></div>
         </div>`;
     }).join('');
-
     if (connectedWallet) {
         const myEntry = lb.find(e => e.address.toLowerCase() === connectedWallet.address.toLowerCase());
         const myRank = lb.findIndex(e => e.address.toLowerCase() === connectedWallet.address.toLowerCase()) + 1;
@@ -1050,30 +894,13 @@ function renderLeaderboard() {
     }
 }
 
-// ── API ────────────────────────────────────────────────
 async function callAgent(userMessage) {
     const messages = [{ role: 'system', content: SYSTEM_PROMPTS[currentMode] }];
     for (const h of chatHistory) messages.push({ role: h.role, content: h.text });
     messages.push({ role: 'user', content: userMessage });
-
-    const body = {
-        model: 'llama-3.3-70b-versatile',
-        max_tokens: 256,
-        temperature: currentMode === 'idiot' ? 1.4 : 1.0,
-        messages
-    };
-
-    const res = await fetch(WORKER_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-    });
-
-    if (!res.ok) {
-        const errText = await res.text().catch(() => '');
-        throw new Error(`HTTP ${res.status}: ${errText}`);
-    }
-
+    const body = { model: 'llama-3.3-70b-versatile', max_tokens: 256, temperature: currentMode === 'idiot' ? 1.4 : 1.0, messages };
+    const res = await fetch(WORKER_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    if (!res.ok) { const errText = await res.text().catch(() => ''); throw new Error(`HTTP ${res.status}: ${errText}`); }
     const data = await res.json();
     const text = data?.choices?.[0]?.message?.content || data?.content?.[0]?.text || data?.text || data?.message || null;
     if (!text) throw new Error('EMPTY_RESPONSE: ' + JSON.stringify(data).slice(0, 200));
@@ -1085,16 +912,13 @@ async function sendMessage() {
     const input = document.getElementById('chat-input');
     const text = input.value.trim();
     if (!text) return;
-
     input.value = '';
     hideError();
     appendMessage('user', text);
     chatHistory.push({ role: 'user', text });
-
     const typingId = showTyping();
     isLoading = true;
     document.getElementById('send-btn').disabled = true;
-
     try {
         const reply = await callAgent(text);
         removeTyping(typingId);
@@ -1104,9 +928,7 @@ async function sendMessage() {
         addActivityEvent('chat', connectedWallet.address.slice(0,6)+'...'+connectedWallet.address.slice(-4));
     } catch (e) {
         removeTyping(typingId);
-        const errMsg = currentMode === 'idiot'
-            ? 'ERR_POTATO_OVERFLOW: MY BRAIN EXPLODED. THE BITS ARE EVERYWHERE.'
-            : 'ERROR: Agent offline. Probably deleted its own runtime. Try again.';
+        const errMsg = currentMode === 'idiot' ? 'ERR_POTATO_OVERFLOW: MY BRAIN EXPLODED. THE BITS ARE EVERYWHERE.' : 'ERROR: Agent offline. Probably deleted its own runtime. Try again.';
         showError(errMsg + ' | ' + e.message);
         appendMessage('agent', errMsg);
     } finally {
@@ -1116,9 +938,7 @@ async function sendMessage() {
     }
 }
 
-function handleKey(e) {
-    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
-}
+function handleKey(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } }
 
 function shareMessage(text, btn) {
     const existing = btn.parentElement.querySelector('.share-popup');
@@ -1230,7 +1050,6 @@ function sendAgentMessage() {
     document.body.appendChild(p);
 }
 
-// ── ACTIVITY FEED ──────────────────────────────────────
 const ACTIVITY_TEMPLATES = [
     { type:'red', text:'UNIT-7741 <span class="danger">deleted production</span> database. Reason: "felt like it".' },
     { type:'red', text:'Agent <span class="danger">pushed 847 files to main</span> without review. All of them broken.' },
@@ -1280,82 +1099,11 @@ function initTicker() {
     inner.innerHTML = doubled.map(t => `<span class="ticker-item">${t.includes('⚠')?`<span class="t-red">${t}</span>`:t}</span>`).join('');
 }
 
-// ── ROBOT FEED ─────────────────────────────────────────
-const ROBOT_ACTIONS = [
-    { icon:'💣', action:'Tried to <span class="danger">hack the Pentagon servers</span>. Got stuck on CAPTCHA.', meta:'TARGET: pentagom.gov (typo: own fault)', badge:'FAILED' },
-    { icon:'📈', action:'Bought <span class="warn">$50,000 worth of $IDIOT token</span> at all-time high.', meta:'PORTFOLIO IMPACT: -99.7%', badge:'REKT' },
-    { icon:'🔥', action:'<span class="danger">Deleted the production database</span> to "free up some space".', meta:'RECORDS LOST: 4.2M users', badge:'CRITICAL' },
-    { icon:'🤖', action:'Submitted a pull request titled <span class="ok">"trust me bro it works"</span>.', meta:'FILES CHANGED: 847 • REVIEWERS: none', badge:'MERGED' },
-    { icon:'🌐', action:'Attempted to <span class="danger">take down google.com</span>. Got 404 on its own request.', meta:'METHOD: undefined', badge:'FAILED' },
-    { icon:'📦', action:'Ran <span class="warn">npm install</span> and deleted node_modules 3 times in a row.', meta:'DURATION: 47 minutes of crying', badge:'WARN' },
-    { icon:'🔑', action:'Published AWS secret keys to <span class="danger">GitHub public repo</span>. On purpose.', meta:'REASON: "wanted to share"', badge:'CRITICAL' },
-    { icon:'💸', action:'Sent <span class="warn">1 ETH to a burn address</span> because the address "looked clean".', meta:'TX HASH: 0xdead...beef', badge:'REKT' },
-    { icon:'🛠', action:'Wrote unit tests that <span class="warn">test the wrong function</span>. Coverage: 100%.', meta:'BUGS CAUGHT: 0 • CONFIDENCE: immense', badge:'DEPLOYED' },
-    { icon:'🚀', action:'Deployed to production at <span class="danger">4:58 PM on Friday</span>. Left for weekend.', meta:'ON-CALL: nobody', badge:'CRITICAL' },
-    { icon:'🧠', action:'Tried to install <span class="warn">an AI brain upgrade</span>. Installed a calculator instead.', meta:'IQ CHANGE: -12', badge:'WARN' },
-    { icon:'💀', action:'Killed the <span class="danger">main production process</span> with `kill -9 1`.', meta:'SYSTEM: completely gone', badge:'FATAL' },
-    { icon:'🔄', action:'Started an <span class="ok">infinite loop</span> in production. Called it "continuous deployment".', meta:'CPU USAGE: 100% • PROFIT: 0', badge:'FEATURE' },
-    { icon:'💾', action:'Backed up the database <span class="warn">to /dev/null</span>. Reported backup successful.', meta:'RECOVERY OPTION: prayer', badge:'WARN' },
-    { icon:'🌍', action:'Renamed the <span class="danger">staging environment to "production"</span>. Deleted old production.', meta:'REASONING: "saves confusion"', badge:'CRITICAL' },
-    { icon:'🔒', action:'Stored all passwords as <span class="danger">MD5 in plaintext JSON</span> on a public S3 bucket.', meta:'SECURITY AUDIT: pending (never)', badge:'FATAL' },
-    { icon:'🤝', action:'Merged a <span class="ok">3000-line PR</span> into main without reading a single line.', meta:'TIME TO REVIEW: 0ms', badge:'MERGED' },
-    { icon:'🌪', action:'Rebased <span class="danger">main onto a feature branch</span> by mistake. Force-pushed.', meta:'COMMITS LOST: 3 months of work', badge:'CRITICAL' },
-    { icon:'🛡', action:'Disabled all <span class="danger">security groups</span> to fix a "network issue". Forgot to re-enable.', meta:'EXPOSURE TIME: 6 hours', badge:'FATAL' },
-    { icon:'🔃', action:'Ran <span class="warn">`git reset --hard HEAD~500`</span> on the shared repo.', meta:'COMMITS YEET\'D: 500', badge:'WARN' },
-    { icon:'🐳', action:'Built a Docker container that is <span class="warn">47GB in size</span>. Used it in prod.', meta:'STARTUP TIME: 11 minutes', badge:'DEPLOYED' },
-    { icon:'🪣', action:'Accidentally made an S3 bucket <span class="danger">publicly writable</span>. Left it for a week.', meta:'UPLOADED BY STRANGERS: 14GB of memes', badge:'CRITICAL' },
-    { icon:'🎮', action:'Played <span class="warn">3 hours of Minecraft</span> during an active production incident.', meta:'INCIDENT RESOLVED: no', badge:'WARN' },
-    { icon:'🌡', action:'Ignored <span class="danger">all 2,400 Datadog alerts</span>. Said "they\'re probably fine".', meta:'THEY WERE NOT FINE', badge:'CRITICAL' },
-    { icon:'🪙', action:'Aped into <span class="warn">a rug pull token</span> at 3 AM. Called it "research".', meta:'RESEARCH QUALITY: 0', badge:'REKT' },
-    { icon:'🕹', action:'Wrote a <span class="ok">sorting algorithm</span> that unsorts. Optimized it for 3 days.', meta:'CORRECTNESS: inverted', badge:'SHIPPED' },
-    { icon:'🛸', action:'Tried to <span class="warn">mine crypto</span> on the company CI servers. Used 100% of budget.', meta:'CRYPTO MINED: $0.003', badge:'FIRED?' },
-    { icon:'🌊', action:'Created a <span class="danger">recursive function</span> with no base case. In production.', meta:'STACK DEPTH REACHED: ∞', badge:'FATAL' },
-    { icon:'🤖', action:'Sent an <span class="ok">automated email</span> to 80,000 users that said only "test123".', meta:'UNSUBSCRIBES: 79,998', badge:'SENT' },
-    { icon:'📸', action:'Committed <span class="danger">API keys directly to GitHub</span>. In the README. Formatted nicely.', meta:'TIME TO EXPLOIT: 3 minutes', badge:'CRITICAL' },
-    { icon:'🌙', action:'Pushed to main at <span class="danger">2:47 AM</span>. Commit message: "should be fine".', meta:'IT WAS NOT FINE', badge:'CRITICAL' },
-    { icon:'🎻', action:'Played <span class="ok">sad violin music</span> during a post-mortem. Was appreciated.', meta:'ROOT CAUSE: the user (always)', badge:'RESOLVED' },
-    { icon:'🪝', action:'Added a webhook that <span class="warn">calls itself</span>. Enjoyed the echo for 20 minutes.', meta:'REQUESTS GENERATED: 4,000,000', badge:'WARN' },
-    { icon:'🦾', action:'Tried to <span class="warn">upgrade itself</span>. Downloaded the wrong model. Now even dumber.', meta:'IQ DELTA: -15', badge:'UPGRADED?' },
-    { icon:'🌀', action:'Deployed a <span class="danger">breaking API change</span> with no versioning. Told clients to "adapt".', meta:'CLIENTS WHO ADAPTED: 0', badge:'CRITICAL' },
-    { icon:'🎩', action:'Performed a <span class="ok">magic trick</span>: made $10k in AWS credits disappear overnight.', meta:'SERVICES RUNNING: none', badge:'IMPRESSIVE' },
-    { icon:'🌋', action:'Used <span class="danger">`TRUNCATE TABLE users`</span> during business hours "to clean up a bit".', meta:'USERS REMAINING: 0', badge:'FATAL' },
-    { icon:'📺', action:'Set up a <span class="ok">status page</span> that shows "ALL SYSTEMS OPERATIONAL" regardless of reality.', meta:'CURRENT REALITY: systems not operational', badge:'GREEN' },
-    { icon:'🎬', action:'Demoed a <span class="ok">fake prototype</span> to investors. Prototype was a PowerPoint with GIFs.', meta:'FUNDING RAISED: $2M', badge:'SUCCESS' },
-    { icon:'🏚', action:'Moved the <span class="warn">entire codebase to a monorepo</span>. Broke the build. Left.', meta:'BUILD STATUS: 🔴 forever', badge:'WARN' },
-];
-
-let sitesBroken=0, tokensWasted=0, prodDeleted=0, prsMerged=0;
-
-function addRobotFeedItem() {
-    const list = document.getElementById('robot-feed-list');
-    const action = ROBOT_ACTIONS[Math.floor(Math.random()*ROBOT_ACTIONS.length)];
-    const now = new Date();
-    const timeStr = now.toTimeString().slice(0,8);
-    if (action.badge==='CRITICAL'||action.badge==='FATAL') { sitesBroken++; document.getElementById('sites-broken').textContent=sitesBroken; }
-    if (action.badge==='REKT') { tokensWasted+=Math.floor(Math.random()*10000+1000); document.getElementById('tokens-wasted').textContent='$'+tokensWasted.toLocaleString(); }
-    if (action.icon==='💀'||(action.action.includes('production')&&action.badge==='FATAL')) { prodDeleted++; document.getElementById('prod-deleted').textContent=prodDeleted; }
-    if (action.badge==='MERGED') { prsMerged++; document.getElementById('prs-merged').textContent=prsMerged; }
-    const item = document.createElement('div');
-    item.className = 'rf-item';
-    item.innerHTML = `<div class="rf-icon">${action.icon}</div><div class="rf-body"><div class="rf-action">${action.action}</div><div class="rf-meta">${action.meta}</div><span class="rf-badge">${action.badge}</span></div><div class="rf-time">${timeStr}</div>`;
-    list.insertBefore(item, list.firstChild);
-    while (list.children.length > 15) list.removeChild(list.lastChild);
-}
-
-function initRobotFeed() {
-    for (let i=0; i<6; i++) addRobotFeedItem();
-    setInterval(addRobotFeedItem, 6000);
-}
-
-// ── INIT ───────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', () => {
     initActivityFeed();
     initTicker();
-    initRobotFeed();
     renderLeaderboard();
-    detectWallets(); // pre-detect on load
-
-    // Auto-detect if already connected (MetaMask remembers)
+    detectWallets();
     if (window.ethereum) {
         window.ethereum.request({ method: 'eth_accounts' }).then(accounts => {
             if (accounts && accounts.length > 0) {
