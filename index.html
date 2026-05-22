@@ -7,6 +7,8 @@
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <!-- ethers.js for real wallet connection -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.umd.min.js"></script>
     <style>
         :root {
             --bg:      #111111;
@@ -43,7 +45,6 @@
         ::-webkit-scrollbar-track { background: var(--bg); }
         ::-webkit-scrollbar-thumb { background: var(--border); }
 
-        /* ── NAV ── */
         nav {
             position: fixed; top: 0; width: 100%; z-index: 100;
             background: rgba(17,17,17,0.95);
@@ -62,7 +63,6 @@
         .dot { width: 5px; height: 5px; background: var(--red); border-radius: 50%; animation: blink 1.4s infinite; }
         @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.1} }
 
-        /* ── HERO ── */
         #hero { min-height: 100vh; padding-top: 56px; display: flex; align-items: center; border-bottom: 1px solid var(--border); }
         .hero-inner {
             max-width: 1100px; margin: 0 auto; padding: 60px 24px;
@@ -90,14 +90,12 @@
         @keyframes scan { 0%{top:0} 100%{top:100%} }
         .robot-caption { font-size: 9px; color: var(--dim); letter-spacing: 2px; text-align: center; margin-top: 8px; }
 
-        /* ── STATS ── */
         .stats { border-bottom: 1px solid var(--border); display: grid; grid-template-columns: repeat(4, 1fr); }
         .stat { padding: 28px 24px; text-align: center; border-right: 1px solid var(--border); }
         .stat:last-child { border-right: none; }
         .stat-n { font-family: var(--font-display); font-size: 40px; color: var(--accent); display: block; }
         .stat-l { font-size: 9px; color: var(--dim); letter-spacing: 2px; margin-top: 4px; display: block; }
 
-        /* ── SECTIONS ── */
         .section { border-bottom: 1px solid var(--border); }
         .section-inner { max-width: 1100px; margin: 0 auto; padding: 60px 24px; }
         .section-head { display: flex; align-items: baseline; gap: 16px; margin-bottom: 40px; }
@@ -105,7 +103,6 @@
         .section-title { font-family: var(--font-display); font-size: 32px; letter-spacing: 3px; color: var(--accent); }
         .section-line { flex: 1; height: 1px; background: linear-gradient(90deg, var(--border), transparent); }
 
-        /* ── CLI ── */
         .terminal { background: var(--bg); border: 1px solid var(--border); }
         .t-header { background: var(--bg2); padding: 10px 16px; border-bottom: 1px solid var(--border); font-size: 11px; color: var(--dim); letter-spacing: 1px; display: flex; align-items: center; gap: 8px; }
         .t-body { padding: 24px 28px; }
@@ -116,7 +113,6 @@
         .t-s { color: #888; }
         .t-w { color: #999; }
 
-        /* ── DOCS ── */
         .docs-grid { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--border); }
         .doc-card { padding: 32px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); transition: background 0.15s; }
         .doc-card:hover { background: var(--bg2); }
@@ -127,7 +123,6 @@
         .dc-text { font-size: 12px; color: var(--dim); line-height: 1.9; }
         .dc-text .hl { color: #aaa; }
 
-        /* ── INTERACT ── */
         .interact-grid { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--border); }
         .ic { padding: 36px 28px; border-right: 1px solid var(--border); cursor: pointer; background: transparent; border-top: none; border-bottom: none; border-left: none; text-align: left; transition: background 0.15s; position: relative; color: var(--accent); }
         .ic:last-child { border-right: none; }
@@ -139,18 +134,15 @@
         .ic:hover .ic-arr { opacity: 1; }
         .ic.red .ic-title { color: #bb4444; }
 
-        /* ── CTA ── */
         #deploy .section-inner { text-align: center; }
         .cta-title { font-family: var(--font-display); font-size: clamp(36px, 5vw, 64px); letter-spacing: 3px; color: var(--accent); margin-bottom: 16px; line-height: 1.1; }
         .cta-title span { color: var(--red); }
         .cta-sub { font-size: 12px; color: var(--dim); line-height: 2; margin-bottom: 40px; }
 
-        /* ── FOOTER ── */
         footer { padding: 40px 24px; text-align: center; }
         .footer-logo { font-family: var(--font-display); font-size: 28px; letter-spacing: 6px; color: var(--dim); margin-bottom: 12px; }
         .footer-text { font-size: 10px; color: var(--dim); line-height: 2; letter-spacing: 1px; }
 
-        /* ── CHAT FAB ── */
         #chat-fab { position: fixed; bottom: 28px; right: 28px; z-index: 200; width: 56px; height: 56px; background: var(--bg2); border: 1px solid var(--border); cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; transition: border-color 0.15s; }
         #chat-fab:hover { border-color: var(--accent); }
         .fab-icon { font-size: 18px; }
@@ -159,7 +151,6 @@
         #chat-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 201; }
         #chat-overlay.open { display: block; }
 
-        /* ── CHAT PANEL ── */
         #chat-panel { position: fixed; bottom: 0; right: 0; width: 400px; max-width: 100vw; height: 580px; max-height: 92vh; background: var(--bg2); border: 1px solid var(--border); border-bottom: none; border-right: none; z-index: 202; display: flex; flex-direction: column; transform: translateY(110%); transition: transform 0.35s cubic-bezier(0.22,1,0.36,1); }
         #chat-panel.open { transform: translateY(0); }
 
@@ -179,13 +170,13 @@
         #mode-label { font-size: 10px; color: var(--dim); letter-spacing: 1px; }
         #mode-label.idiot { color: var(--red); }
 
-        /* ── WALLET BAR IN CHAT ── */
         #wallet-bar { padding: 8px 16px; border-bottom: 1px solid var(--border2); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; background: rgba(0,0,0,0.2); }
         #wallet-info { font-size: 10px; color: var(--dim); letter-spacing: 1px; }
         #wallet-info.connected { color: #77aa77; }
         #wallet-connect-btn { font-family: var(--font-mono); font-size: 9px; letter-spacing: 1px; padding: 4px 10px; background: transparent; border: 1px solid var(--border); color: var(--dim); cursor: pointer; transition: all 0.15s; }
         #wallet-connect-btn:hover { border-color: var(--accent); color: var(--accent); }
         #wallet-connect-btn.connected { border-color: #446644; color: #77aa77; }
+        #wallet-connect-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
         #chat-messages { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
 
@@ -199,7 +190,6 @@
         .msg-tag { font-size: 9px; color: var(--dim); letter-spacing: 1px; display: block; margin-bottom: 5px; }
         .msg-text { font-size: 13px; line-height: 1.6; }
 
-        /* Share button on messages */
         .msg-share { display: none; position: absolute; top: 6px; right: 6px; font-size: 9px; letter-spacing: 1px; padding: 2px 6px; background: var(--bg2); border: 1px solid var(--border); color: var(--dim); cursor: pointer; transition: all 0.15s; }
         .msg:hover .msg-share { display: block; }
         .msg-share:hover { border-color: var(--accent); color: var(--accent); }
@@ -211,7 +201,6 @@
         .typing { align-self: flex-start; padding: 10px 14px; border: 1px solid var(--border2); font-size: 12px; color: var(--dim); background: var(--bg); }
         .typing.idiot { border-color: rgba(204,51,51,0.3); color: var(--red); }
 
-        /* LOCKED overlay */
         #chat-locked { display: none; position: absolute; inset: 0; background: rgba(17,17,17,0.92); z-index: 10; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 24px; text-align: center; }
         #chat-locked.show { display: flex; }
         .lock-icon { font-size: 32px; margin-bottom: 8px; }
@@ -230,40 +219,24 @@
         #send-btn.idiot { color: var(--red); border-color: rgba(204,51,51,0.4); }
         #send-btn:disabled { opacity: 0.3; cursor: not-allowed; }
 
-        /* ── ERROR POPUPS ── */
         .error-popup { position: fixed; z-index: 9999; padding: 16px 22px; border: 1px solid var(--border); background: var(--panel); animation: popIn 0.25s ease-out; }
         @keyframes popIn { from{transform:scale(0.85) translateY(-10px);opacity:0} to{transform:scale(1) translateY(0);opacity:1} }
         .ep-label { font-size: 9px; color: var(--dim); letter-spacing: 2px; margin-bottom: 6px; }
         .ep-msg { font-family: var(--font-display); font-size: 14px; color: var(--red); letter-spacing: 1px; }
 
-        /* ── AGENT POPUP ── */
         .agent-popup { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9999; background: var(--panel); border: 1px solid var(--border); padding: 40px; text-align: center; max-width: 400px; width: 90%; }
         .ap-tag { font-size: 10px; color: var(--dim); letter-spacing: 3px; margin-bottom: 16px; }
         .ap-msg { font-family: var(--font-display); font-size: 22px; letter-spacing: 2px; color: var(--accent); margin-bottom: 28px; line-height: 1.3; }
         .ap-btn { font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px; padding: 10px 24px; background: transparent; border: 1px solid var(--border); color: var(--dim); cursor: pointer; transition: all 0.15s; }
         .ap-btn:hover { border-color: var(--dim); color: var(--accent); }
 
-        /* ── LIVE ACTIVITY FEED ── */
         #activity { border-bottom: 1px solid var(--border); }
         #activity .section-inner { padding-bottom: 0; }
         .activity-feed-wrap { position: relative; overflow: hidden; height: 320px; border: 1px solid var(--border); background: var(--bg); }
-        .activity-feed-wrap::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 60px;
-            background: linear-gradient(to bottom, var(--bg), transparent);
-            z-index: 2; pointer-events: none;
-        }
-        .activity-feed-wrap::after {
-            content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 60px;
-            background: linear-gradient(to top, var(--bg), transparent);
-            z-index: 2; pointer-events: none;
-        }
+        .activity-feed-wrap::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 60px; background: linear-gradient(to bottom, var(--bg), transparent); z-index: 2; pointer-events: none; }
+        .activity-feed-wrap::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 60px; background: linear-gradient(to top, var(--bg), transparent); z-index: 2; pointer-events: none; }
         #activity-list { padding: 16px; display: flex; flex-direction: column; gap: 0; }
-        .activity-item {
-            display: flex; align-items: flex-start; gap: 12px;
-            padding: 10px 12px; border-bottom: 1px solid var(--border2);
-            animation: slideIn 0.4s ease-out;
-            font-size: 12px;
-        }
+        .activity-item { display: flex; align-items: flex-start; gap: 12px; padding: 10px 12px; border-bottom: 1px solid var(--border2); animation: slideIn 0.4s ease-out; font-size: 12px; }
         @keyframes slideIn { from{opacity:0;transform:translateX(-10px)} to{opacity:1;transform:translateX(0)} }
         .activity-item:last-child { border-bottom: none; }
         .act-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
@@ -280,34 +253,19 @@
         .act-badge.ok { border-color: #446644; color: #77aa77; }
         .act-badge.warn { border-color: #665533; color: #aa8833; }
 
-        /* activity ticker strip */
-        .activity-ticker {
-            border-top: 1px solid var(--border);
-            background: var(--bg2);
-            overflow: hidden; height: 32px; display: flex; align-items: center;
-            margin-bottom: 40px;
-        }
-        .ticker-inner {
-            display: flex; gap: 0; white-space: nowrap;
-            animation: ticker 60s linear infinite;
-        }
+        .activity-ticker { border-top: 1px solid var(--border); background: var(--bg2); overflow: hidden; height: 32px; display: flex; align-items: center; margin-bottom: 40px; }
+        .ticker-inner { display: flex; gap: 0; white-space: nowrap; animation: ticker 60s linear infinite; }
         @keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
         .ticker-item { font-size: 10px; color: var(--dim); padding: 0 32px; letter-spacing: 1px; border-right: 1px solid var(--border2); }
         .ticker-item .t-red { color: var(--red); }
 
-        /* ── LEADERBOARD ── */
         #leaderboard-section { border-bottom: 1px solid var(--border); background: var(--panel); }
         .lb-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
         .lb-panel { border: 1px solid var(--border); }
         .lb-header { background: var(--bg2); padding: 12px 16px; border-bottom: 1px solid var(--border); font-size: 10px; color: var(--dim); letter-spacing: 2px; display: flex; align-items: center; justify-content: space-between; }
         .lb-header .dot { margin-right: 0; }
         #leaderboard-list { padding: 0; }
-        .lb-row {
-            display: grid; grid-template-columns: 28px 1fr auto auto;
-            align-items: center; gap: 12px;
-            padding: 12px 16px; border-bottom: 1px solid var(--border2);
-            font-size: 12px; transition: background 0.15s;
-        }
+        .lb-row { display: grid; grid-template-columns: 28px 1fr auto auto; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--border2); font-size: 12px; transition: background 0.15s; }
         .lb-row:hover { background: rgba(255,255,255,0.02); }
         .lb-row:last-child { border-bottom: none; }
         .lb-rank { font-family: var(--font-display); font-size: 18px; color: var(--dim); text-align: center; }
@@ -320,7 +278,6 @@
         .lb-label { font-size: 9px; color: var(--dim); letter-spacing: 1px; text-align: right; }
         .lb-empty { padding: 32px; text-align: center; font-size: 12px; color: var(--dim); letter-spacing: 1px; }
 
-        /* My stats panel */
         .my-stats-panel { border: 1px solid var(--border); }
         .my-stats-inner { padding: 24px; }
         .my-stat-row { display: flex; justify-content: space-between; align-items: baseline; padding: 10px 0; border-bottom: 1px solid var(--border2); }
@@ -329,24 +286,16 @@
         .my-stat-value { font-family: var(--font-display); font-size: 24px; color: var(--accent); }
         .my-stat-value.red { color: var(--red); }
 
-        /* ── LIVE ROBOT FEED ── */
         #robot-feed { border-bottom: 1px solid var(--border); }
         .rf-grid { display: grid; grid-template-columns: 1fr 320px; gap: 0; border: 1px solid var(--border); }
         .rf-main { border-right: 1px solid var(--border); }
         .rf-main-header { background: var(--bg2); padding: 12px 16px; border-bottom: 1px solid var(--border); font-size: 10px; color: var(--dim); letter-spacing: 2px; display: flex; align-items: center; gap: 8px; }
         #robot-feed-list { padding: 0; max-height: 420px; overflow-y: auto; scrollbar-width: thin; }
-        .rf-item {
-            padding: 14px 16px; border-bottom: 1px solid var(--border2);
-            display: grid; grid-template-columns: auto 1fr auto;
-            gap: 12px; align-items: start;
-            animation: rfIn 0.5s ease-out;
-            transition: background 0.15s;
-        }
+        .rf-item { padding: 14px 16px; border-bottom: 1px solid var(--border2); display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: start; animation: rfIn 0.5s ease-out; transition: background 0.15s; }
         .rf-item:hover { background: rgba(255,255,255,0.015); }
         @keyframes rfIn { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
         .rf-item:last-child { border-bottom: none; }
         .rf-icon { font-size: 18px; width: 28px; text-align: center; flex-shrink: 0; }
-        .rf-body {}
         .rf-action { font-size: 12px; color: var(--accent); line-height: 1.5; margin-bottom: 4px; }
         .rf-action .danger { color: var(--red); }
         .rf-action .warn { color: #aa8833; }
@@ -355,7 +304,6 @@
         .rf-time { font-size: 10px; color: var(--dim); letter-spacing: 1px; white-space: nowrap; }
         .rf-badge { font-size: 9px; letter-spacing: 1px; padding: 1px 5px; border: 1px solid rgba(204,51,51,0.4); color: var(--red); display: inline-block; margin-top: 4px; }
 
-        /* RF sidebar */
         .rf-sidebar { padding: 0; }
         .rf-side-header { background: var(--bg2); padding: 12px 16px; border-bottom: 1px solid var(--border); font-size: 10px; color: var(--dim); letter-spacing: 2px; }
         .rf-stat-grid { display: grid; grid-template-columns: 1fr 1fr; }
@@ -365,24 +313,33 @@
         .rf-stat-n { font-family: var(--font-display); font-size: 28px; color: var(--accent); display: block; }
         .rf-stat-n.red { color: var(--red); }
         .rf-stat-l { font-size: 9px; color: var(--dim); letter-spacing: 1px; display: block; margin-top: 4px; }
-        #damage-counter { font-family: var(--font-display); font-size: 28px; color: var(--red); display: block; }
 
-        /* ── WALLET MODAL ── */
+        /* ── WALLET MODAL — REDESIGNED ── */
         #wallet-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 9000; align-items: center; justify-content: center; }
         #wallet-modal.open { display: flex; }
-        .wm-inner { background: var(--panel); border: 1px solid var(--border); padding: 40px; max-width: 380px; width: 90%; }
+        .wm-inner { background: var(--panel); border: 1px solid var(--border); padding: 40px; max-width: 400px; width: 90%; }
         .wm-title { font-family: var(--font-display); font-size: 24px; letter-spacing: 3px; color: var(--accent); margin-bottom: 8px; }
         .wm-sub { font-size: 11px; color: var(--dim); line-height: 1.8; margin-bottom: 28px; }
         .wm-options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
         .wm-option { font-family: var(--font-mono); font-size: 11px; letter-spacing: 1px; padding: 12px 16px; background: transparent; border: 1px solid var(--border); color: var(--dim); cursor: pointer; text-align: left; transition: all 0.15s; display: flex; align-items: center; gap: 10px; }
         .wm-option:hover { border-color: var(--accent); color: var(--accent); background: rgba(255,255,255,0.02); }
+        .wm-option:disabled { opacity: 0.3; cursor: not-allowed; }
         .wm-option-icon { font-size: 16px; }
+        .wm-option-badge { font-size: 9px; letter-spacing: 1px; padding: 2px 6px; border: 1px solid #446644; color: #77aa77; margin-left: auto; }
+        .wm-option-badge.missing { border-color: var(--border); color: var(--dim); }
         .wm-cancel { font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px; color: var(--dim); background: transparent; border: none; cursor: pointer; padding: 8px 0; transition: color 0.15s; }
         .wm-cancel:hover { color: var(--accent); }
         .wm-warning { font-size: 10px; color: var(--dim); border: 1px solid var(--border2); padding: 10px 12px; line-height: 1.7; }
         .wm-warning .wr { color: var(--red); }
+        .wm-connecting { font-size: 11px; color: var(--dim); letter-spacing: 1px; padding: 12px; border: 1px solid var(--border2); text-align: center; display: none; }
+        .wm-connecting.show { display: block; }
+        .wm-error { font-size: 11px; color: var(--red); letter-spacing: 1px; padding: 10px 12px; border: 1px solid rgba(204,51,51,0.3); background: rgba(204,51,51,0.05); margin-top: 10px; display: none; }
+        .wm-error.show { display: block; }
 
-        /* ── RESPONSIVE ── */
+        /* Network badge in wallet bar */
+        #network-badge { font-size: 9px; letter-spacing: 1px; padding: 2px 6px; border: 1px solid var(--border); color: var(--dim); margin-left: 6px; display: none; }
+        #network-badge.show { display: inline-block; }
+
         @media (max-width: 800px) {
             .hero-inner { grid-template-columns: 1fr; text-align: center; }
             .hero-btns { justify-content: center; }
@@ -403,7 +360,6 @@
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
     <div class="nav-inner">
         <div class="nav-logo">DUMBAGENT</div>
@@ -422,7 +378,6 @@
     </div>
 </nav>
 
-<!-- HERO -->
 <section id="hero">
     <div class="hero-inner">
         <div>
@@ -451,7 +406,6 @@
     </div>
 </section>
 
-<!-- STATS -->
 <div class="stats">
     <div class="stat"><span class="stat-n">∞</span><span class="stat-l">BUGS CREATED</span></div>
     <div class="stat"><span class="stat-n">0</span><span class="stat-l">BUGS FIXED</span></div>
@@ -459,7 +413,6 @@
     <div class="stat"><span class="stat-n">404</span><span class="stat-l">BRAIN NOT FOUND</span></div>
 </div>
 
-<!-- CLI -->
 <section id="cli" class="section">
     <div class="section-inner">
         <div class="section-head">
@@ -487,7 +440,6 @@
     </div>
 </section>
 
-<!-- DOCS -->
 <section id="docs" class="section" style="background:var(--panel);">
     <div class="section-inner">
         <div class="section-head">
@@ -530,7 +482,6 @@
     </div>
 </section>
 
-<!-- LIVE ACTIVITY FEED -->
 <section id="activity" class="section">
     <div class="section-inner">
         <div class="section-head">
@@ -547,7 +498,6 @@
     </div>
 </section>
 
-<!-- LIVE ROBOT FEED -->
 <section id="robot-feed" class="section" style="background:var(--panel);">
     <div class="section-inner">
         <div class="section-head">
@@ -576,7 +526,6 @@
     </div>
 </section>
 
-<!-- LEADERBOARD -->
 <section id="leaderboard-section" class="section">
     <div class="section-inner">
         <div class="section-head">
@@ -602,6 +551,10 @@
                         <span class="my-stat-value" id="my-wallet-display" style="font-size:14px;color:var(--dim);">NOT CONNECTED</span>
                     </div>
                     <div class="my-stat-row">
+                        <span class="my-stat-label">NETWORK</span>
+                        <span class="my-stat-value" id="my-network-display" style="font-size:14px;color:var(--dim);">—</span>
+                    </div>
+                    <div class="my-stat-row">
                         <span class="my-stat-label">RESPONSES RECEIVED</span>
                         <span class="my-stat-value" id="my-response-count">0</span>
                     </div>
@@ -622,7 +575,6 @@
     </div>
 </section>
 
-<!-- INTERACT -->
 <section id="interact" class="section" style="background:var(--panel);">
     <div class="section-inner">
         <div class="section-head">
@@ -653,7 +605,6 @@
     </div>
 </section>
 
-<!-- CTA -->
 <section id="deploy" class="section">
     <div class="section-inner">
         <div class="cta-title">READY TO<br><span>BREAK EVERYTHING?</span></div>
@@ -665,7 +616,6 @@
     </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
     <div class="footer-logo">DUMBAGENT</div>
     <div class="footer-text">
@@ -675,7 +625,6 @@
     </div>
 </footer>
 
-<!-- CHAT FAB -->
 <button id="chat-fab" onclick="openChat()">
     <div class="fab-icon">⬡</div>
     <div class="fab-label">CHAT</div>
@@ -683,7 +632,6 @@
 
 <div id="chat-overlay" onclick="closeChat()"></div>
 
-<!-- CHAT PANEL -->
 <div id="chat-panel">
     <div id="chat-header">
         <div>
@@ -702,12 +650,13 @@
         <div id="mode-label">MODE: STANDARD STUPIDITY</div>
         <div style="font-size:9px;color:var(--dim);" id="mode-desc">mildly incompetent</div>
     </div>
-    <!-- Wallet bar -->
     <div id="wallet-bar">
-        <div id="wallet-info">// WALLET: NOT CONNECTED</div>
+        <div>
+            <span id="wallet-info">// WALLET: NOT CONNECTED</span>
+            <span id="network-badge"></span>
+        </div>
         <button id="wallet-connect-btn" onclick="openWalletModal()">CONNECT WALLET</button>
     </div>
-    <!-- Messages -->
     <div style="position:relative;flex:1;display:flex;flex-direction:column;overflow:hidden;">
         <div id="chat-locked" class="show">
             <div class="lock-icon">🔒</div>
@@ -735,18 +684,30 @@
 <div id="wallet-modal">
     <div class="wm-inner">
         <div class="wm-title">CONNECT WALLET</div>
-        <div class="wm-sub">Required to speak to DUMBAGENT.<br>Your address appears on the leaderboard if you get enough responses.<br>We judge. Obviously.</div>
-        <div class="wm-options">
-            <button class="wm-option" onclick="connectWallet('MetaMask')"><span class="wm-option-icon">🦊</span> MetaMask</button>
-            <button class="wm-option" onclick="connectWallet('Phantom')"><span class="wm-option-icon">👻</span> Phantom</button>
-            <button class="wm-option" onclick="connectWallet('WalletConnect')"><span class="wm-option-icon">🔗</span> WalletConnect</button>
-            <button class="wm-option" onclick="connectWallet('Coinbase')"><span class="wm-option-icon">🔵</span> Coinbase Wallet</button>
-            <button class="wm-option" onclick="connectWallet('Trust')"><span class="wm-option-icon">🛡</span> Trust Wallet</button>
+        <div class="wm-sub">Required to speak to DUMBAGENT.<br>Your real address appears on the leaderboard.<br>We will judge. Obviously.</div>
+        <div class="wm-options" id="wallet-options">
+            <button class="wm-option" id="opt-metamask" onclick="connectWallet('metamask')">
+                <span class="wm-option-icon">🦊</span> MetaMask
+                <span class="wm-option-badge missing" id="badge-metamask">DETECTING...</span>
+            </button>
+            <button class="wm-option" id="opt-coinbase" onclick="connectWallet('coinbase')">
+                <span class="wm-option-icon">🔵</span> Coinbase Wallet
+                <span class="wm-option-badge missing" id="badge-coinbase">DETECTING...</span>
+            </button>
+            <button class="wm-option" id="opt-phantom" onclick="connectWallet('phantom')">
+                <span class="wm-option-icon">👻</span> Phantom
+                <span class="wm-option-badge missing" id="badge-phantom">DETECTING...</span>
+            </button>
+            <button class="wm-option" id="opt-injected" onclick="connectWallet('injected')" style="display:none;">
+                <span class="wm-option-icon">🔗</span> Browser Wallet
+                <span class="wm-option-badge" id="badge-injected">DETECTED</span>
+            </button>
         </div>
+        <div class="wm-connecting" id="wm-connecting">// CONNECTING... APPROVE IN YOUR WALLET ▌</div>
+        <div class="wm-error" id="wm-error"></div>
         <div class="wm-warning">
-            <span class="wr">⚠ WARNING:</span> By connecting your wallet you agree to DUMBAGENT<br>
-            having zero access to your funds, total disrespect<br>
-            for your privacy, and maximum mockery of your on-chain history.
+            <span class="wr">⚠ NOTE:</span> Read-only connection. DUMBAGENT sees your address,<br>
+            nothing else. No transactions. No permissions. Just mockery.
         </div>
         <br>
         <button class="wm-cancel" onclick="closeWalletModal()">// CANCEL — I PREFER SILENCE</button>
@@ -780,79 +741,151 @@ let currentMode = 'normal';
 let chatHistory = [];
 let isLoading = false;
 let chatOpen = false;
-let connectedWallet = null; // {address, provider}
+let connectedWallet = null; // { address, provider, network }
 
-// ── LEADERBOARD (localStorage) ────────────────────────
-function getLeaderboard() {
-    try { return JSON.parse(localStorage.getItem('da_leaderboard') || '[]'); }
-    catch { return []; }
+// ── NETWORK HELPERS ────────────────────────────────────
+const NETWORK_NAMES = {
+    1: 'ETHEREUM', 137: 'POLYGON', 56: 'BSC', 42161: 'ARBITRUM',
+    10: 'OPTIMISM', 8453: 'BASE', 43114: 'AVALANCHE', 250: 'FANTOM',
+    5: 'GOERLI', 11155111: 'SEPOLIA'
+};
+function getNetworkName(chainId) {
+    return NETWORK_NAMES[chainId] || `CHAIN-${chainId}`;
 }
-function saveLeaderboard(lb) {
-    localStorage.setItem('da_leaderboard', JSON.stringify(lb));
-}
-function recordResponse(wallet) {
-    if (!wallet) return;
-    const lb = getLeaderboard();
-    const existing = lb.find(e => e.address === wallet);
-    if (existing) { existing.count++; }
-    else { lb.push({ address: wallet, count: 1 }); }
-    lb.sort((a,b) => b.count - a.count);
-    saveLeaderboard(lb);
-    renderLeaderboard();
-}
-function renderLeaderboard() {
-    const lb = getLeaderboard();
-    const el = document.getElementById('leaderboard-list');
-    if (!lb.length) {
-        el.innerHTML = '<div class="lb-empty">// NO WALLETS CONNECTED YET<br>CONNECT YOURS TO APPEAR HERE</div>';
-        return;
-    }
-    el.innerHTML = lb.slice(0,10).map((e,i) => {
-        const rankClass = i===0?'top1':i===1?'top2':i===2?'top3':'';
-        const isMe = connectedWallet && e.address === connectedWallet.address;
-        const shortAddr = e.address.slice(0,6)+'...'+e.address.slice(-4);
-        return `<div class="lb-row">
-            <div class="lb-rank ${rankClass}">${i+1}</div>
-            <div class="lb-wallet">${isMe?'<span class="you">▶ YOU</span> ':''}<span style="opacity:0.7">${shortAddr}</span></div>
-            <div>
-                <div class="lb-count">${e.count}</div>
-                <div class="lb-label">RESPONSES</div>
-            </div>
-        </div>`;
-    }).join('');
-    // update my stats
-    if (connectedWallet) {
-        const myEntry = lb.find(e => e.address === connectedWallet.address);
-        const myRank = lb.findIndex(e => e.address === connectedWallet.address) + 1;
-        document.getElementById('my-response-count').textContent = myEntry ? myEntry.count : 0;
-        document.getElementById('my-rank').textContent = myRank > 0 ? '#'+myRank : '—';
+
+// ── WALLET DETECTION ───────────────────────────────────
+function detectWallets() {
+    const eth = window.ethereum;
+    const phantom = window.solana;
+
+    // MetaMask
+    const hasMM = eth && (eth.isMetaMask || (eth.providers && eth.providers.some(p => p.isMetaMask)));
+    // Coinbase
+    const hasCB = eth && (eth.isCoinbaseWallet || (eth.providers && eth.providers.some(p => p.isCoinbaseWallet)));
+    // Phantom (Solana)
+    const hasPhantom = phantom && phantom.isPhantom;
+    // Any injected EVM wallet
+    const hasInjected = !!eth;
+
+    updateBadge('metamask', hasMM);
+    updateBadge('coinbase', hasCB);
+    updateBadge('phantom', hasPhantom);
+
+    // Show generic browser wallet option if something is injected but not the above
+    if (hasInjected && !hasMM && !hasCB) {
+        document.getElementById('opt-injected').style.display = 'flex';
     }
 }
 
-// ── WALLET ────────────────────────────────────────────
-function openWalletModal() { document.getElementById('wallet-modal').classList.add('open'); }
-function closeWalletModal() { document.getElementById('wallet-modal').classList.remove('open'); }
-
-function generateFakeAddress() {
-    const chars = '0123456789abcdef';
-    return '0x' + Array.from({length:40}, () => chars[Math.floor(Math.random()*16)]).join('');
+function updateBadge(name, detected) {
+    const badge = document.getElementById('badge-' + name);
+    if (!badge) return;
+    if (detected) {
+        badge.textContent = 'DETECTED';
+        badge.classList.remove('missing');
+    } else {
+        badge.textContent = 'NOT INSTALLED';
+        badge.classList.add('missing');
+    }
 }
 
-function connectWallet(provider) {
-    closeWalletModal();
-    // Simulate wallet connection (fake address for demo)
-    const address = generateFakeAddress();
-    connectedWallet = { address, provider };
+// ── REAL WALLET CONNECTION ─────────────────────────────
+async function connectWallet(providerType) {
+    const connectingEl = document.getElementById('wm-connecting');
+    const errorEl = document.getElementById('wm-error');
+    const optionsEl = document.getElementById('wallet-options');
 
-    // Update chat wallet bar
-    const shortAddr = address.slice(0,6)+'...'+address.slice(-4);
-    const walletInfo = document.getElementById('wallet-info');
-    walletInfo.textContent = `// ${provider.toUpperCase()}: ${shortAddr}`;
-    walletInfo.classList.add('connected');
-    const btn = document.getElementById('wallet-connect-btn');
-    btn.textContent = 'DISCONNECT';
-    btn.classList.add('connected');
-    btn.onclick = disconnectWallet;
+    connectingEl.classList.add('show');
+    errorEl.classList.remove('show');
+    optionsEl.querySelectorAll('button').forEach(b => b.disabled = true);
+
+    try {
+        let address, network, providerName;
+
+        if (providerType === 'phantom') {
+            // ── PHANTOM (Solana) ────────────────────────
+            if (!window.solana || !window.solana.isPhantom) {
+                throw new Error('Phantom not installed. Get it at phantom.app');
+            }
+            const resp = await window.solana.connect();
+            address = resp.publicKey.toString();
+            network = 'SOLANA';
+            providerName = 'Phantom';
+
+        } else {
+            // ── EVM WALLETS (MetaMask, Coinbase, injected) ──
+            if (!window.ethereum) {
+                throw new Error('No EVM wallet detected. Install MetaMask or Coinbase Wallet.');
+            }
+
+            let provider = window.ethereum;
+
+            // If multiple providers, pick the right one
+            if (window.ethereum.providers && window.ethereum.providers.length > 1) {
+                if (providerType === 'metamask') {
+                    provider = window.ethereum.providers.find(p => p.isMetaMask) || window.ethereum;
+                } else if (providerType === 'coinbase') {
+                    provider = window.ethereum.providers.find(p => p.isCoinbaseWallet) || window.ethereum;
+                }
+            }
+
+            // Request accounts
+            const accounts = await provider.request({ method: 'eth_requestAccounts' });
+            if (!accounts || accounts.length === 0) throw new Error('No accounts returned.');
+            address = accounts[0];
+
+            // Get chain ID
+            const chainIdHex = await provider.request({ method: 'eth_chainId' });
+            const chainId = parseInt(chainIdHex, 16);
+            network = getNetworkName(chainId);
+
+            providerName = providerType === 'metamask' ? 'MetaMask'
+                         : providerType === 'coinbase' ? 'Coinbase'
+                         : 'Browser Wallet';
+
+            // Listen for account changes
+            provider.on('accountsChanged', (accts) => {
+                if (accts.length === 0) {
+                    disconnectWallet();
+                } else {
+                    // Update address
+                    connectedWallet.address = accts[0];
+                    updateWalletUI(accts[0], connectedWallet.network, providerName);
+                }
+            });
+
+            // Listen for chain changes
+            provider.on('chainChanged', (chainIdHex) => {
+                const newChain = getNetworkName(parseInt(chainIdHex, 16));
+                if (connectedWallet) {
+                    connectedWallet.network = newChain;
+                    updateNetworkUI(newChain);
+                    showMiniPopup('Network switched to ' + newChain);
+                }
+            });
+        }
+
+        // Success
+        connectedWallet = { address, network, provider: providerName };
+        closeWalletModal();
+        onWalletConnected(address, network, providerName);
+
+    } catch (err) {
+        connectingEl.classList.remove('show');
+        optionsEl.querySelectorAll('button').forEach(b => b.disabled = false);
+
+        let msg = err.message || 'Unknown error';
+        if (err.code === 4001) msg = 'Connection rejected. You cancelled it.';
+        else if (err.code === -32002) msg = 'Connection pending. Check your wallet popup.';
+
+        errorEl.textContent = '// ERR: ' + msg;
+        errorEl.classList.add('show');
+        console.error('Wallet connect error:', err);
+    }
+}
+
+function onWalletConnected(address, network, providerName) {
+    updateWalletUI(address, network, providerName);
 
     // Unlock chat
     document.getElementById('chat-locked').classList.remove('show');
@@ -860,15 +893,7 @@ function connectWallet(provider) {
     document.getElementById('send-btn').disabled = false;
     document.getElementById('chat-input').placeholder = '// type your query...';
 
-    // Update leaderboard my stats
-    document.getElementById('my-wallet-display').textContent = shortAddr;
-    document.getElementById('my-wallet-display').style.color = '#77aa77';
-    document.getElementById('my-status').textContent = 'CONNECTED';
-    document.getElementById('my-status').style.color = '#77aa77';
-    document.getElementById('lb-wallet-btn').textContent = 'DISCONNECT WALLET';
-    document.getElementById('lb-wallet-btn').onclick = disconnectWallet;
-
-    // Initialize leaderboard entry
+    // Leaderboard init
     const lb = getLeaderboard();
     if (!lb.find(e => e.address === address)) {
         lb.push({ address, count: 0 });
@@ -877,15 +902,60 @@ function connectWallet(provider) {
     }
     renderLeaderboard();
 
-    // Show confirmation popup
-    showMiniPopup(`${provider} connected. Ready to be insulted.`);
+    showMiniPopup(providerName + ' connected. Ready to be insulted.');
+}
+
+function updateWalletUI(address, network, providerName) {
+    const shortAddr = address.length > 20
+        ? address.slice(0,6) + '...' + address.slice(-4)
+        : address.slice(0,8) + '...';
+
+    // Chat wallet bar
+    const walletInfo = document.getElementById('wallet-info');
+    walletInfo.textContent = `// ${providerName.toUpperCase()}: ${shortAddr}`;
+    walletInfo.classList.add('connected');
+
+    const netBadge = document.getElementById('network-badge');
+    netBadge.textContent = network;
+    netBadge.classList.add('show');
+
+    const btn = document.getElementById('wallet-connect-btn');
+    btn.textContent = 'DISCONNECT';
+    btn.classList.add('connected');
+    btn.onclick = disconnectWallet;
+
+    // Leaderboard my stats
+    document.getElementById('my-wallet-display').textContent = shortAddr;
+    document.getElementById('my-wallet-display').style.color = '#77aa77';
+    document.getElementById('my-network-display').textContent = network;
+    document.getElementById('my-network-display').style.color = '#77aa77';
+    document.getElementById('my-status').textContent = 'CONNECTED';
+    document.getElementById('my-status').style.color = '#77aa77';
+    document.getElementById('lb-wallet-btn').textContent = 'DISCONNECT WALLET';
+    document.getElementById('lb-wallet-btn').onclick = disconnectWallet;
+}
+
+function updateNetworkUI(network) {
+    document.getElementById('network-badge').textContent = network;
+    document.getElementById('my-network-display').textContent = network;
 }
 
 function disconnectWallet() {
+    // Phantom disconnect
+    if (window.solana && window.solana.isConnected) {
+        window.solana.disconnect().catch(() => {});
+    }
+
     connectedWallet = null;
+
     const walletInfo = document.getElementById('wallet-info');
     walletInfo.textContent = '// WALLET: NOT CONNECTED';
     walletInfo.classList.remove('connected');
+
+    const netBadge = document.getElementById('network-badge');
+    netBadge.textContent = '';
+    netBadge.classList.remove('show');
+
     const btn = document.getElementById('wallet-connect-btn');
     btn.textContent = 'CONNECT WALLET';
     btn.classList.remove('connected');
@@ -898,6 +968,8 @@ function disconnectWallet() {
 
     document.getElementById('my-wallet-display').textContent = 'NOT CONNECTED';
     document.getElementById('my-wallet-display').style.color = 'var(--dim)';
+    document.getElementById('my-network-display').textContent = '—';
+    document.getElementById('my-network-display').style.color = 'var(--dim)';
     document.getElementById('my-status').textContent = 'DISCONNECTED';
     document.getElementById('my-status').style.color = 'var(--red)';
     document.getElementById('my-response-count').textContent = '0';
@@ -905,6 +977,19 @@ function disconnectWallet() {
     document.getElementById('lb-wallet-btn').textContent = 'CONNECT WALLET';
     document.getElementById('lb-wallet-btn').onclick = openWalletModal;
     renderLeaderboard();
+}
+
+// ── MODAL ──────────────────────────────────────────────
+function openWalletModal() {
+    document.getElementById('wallet-modal').classList.add('open');
+    document.getElementById('wm-connecting').classList.remove('show');
+    document.getElementById('wm-error').classList.remove('show');
+    document.getElementById('wallet-options').querySelectorAll('button').forEach(b => b.disabled = false);
+    detectWallets();
+}
+function closeWalletModal() {
+    document.getElementById('wallet-modal').classList.remove('open');
+    document.getElementById('wm-connecting').classList.remove('show');
 }
 
 function showMiniPopup(msg) {
@@ -915,7 +1000,57 @@ function showMiniPopup(msg) {
     setTimeout(() => { p.style.transition='all 0.3s'; p.style.opacity='0'; setTimeout(()=>p.remove(),300); }, 2500);
 }
 
-// ── API CALL ───────────────────────────────────────────
+// ── LEADERBOARD ────────────────────────────────────────
+function getLeaderboard() {
+    try { return JSON.parse(localStorage.getItem('da_leaderboard') || '[]'); }
+    catch { return []; }
+}
+function saveLeaderboard(lb) {
+    localStorage.setItem('da_leaderboard', JSON.stringify(lb));
+}
+function recordResponse(address) {
+    if (!address) return;
+    const lb = getLeaderboard();
+    const existing = lb.find(e => e.address === address);
+    if (existing) { existing.count++; }
+    else { lb.push({ address, count: 1 }); }
+    lb.sort((a,b) => b.count - a.count);
+    saveLeaderboard(lb);
+    renderLeaderboard();
+}
+function renderLeaderboard() {
+    const lb = getLeaderboard();
+    const el = document.getElementById('leaderboard-list');
+    if (!lb.length || lb.every(e => e.count === 0)) {
+        el.innerHTML = '<div class="lb-empty">// NO WALLETS CONNECTED YET<br>CONNECT YOURS TO APPEAR HERE</div>';
+        return;
+    }
+    const filtered = lb.filter(e => e.count > 0);
+    el.innerHTML = filtered.slice(0,10).map((e,i) => {
+        const rankClass = i===0?'top1':i===1?'top2':i===2?'top3':'';
+        const isMe = connectedWallet && e.address.toLowerCase() === connectedWallet.address.toLowerCase();
+        const shortAddr = e.address.length > 20
+            ? e.address.slice(0,6)+'...'+e.address.slice(-4)
+            : e.address.slice(0,10)+'...';
+        return `<div class="lb-row">
+            <div class="lb-rank ${rankClass}">${i+1}</div>
+            <div class="lb-wallet">${isMe?'<span class="you">▶ YOU</span> ':''}<span style="opacity:0.7">${shortAddr}</span></div>
+            <div>
+                <div class="lb-count">${e.count}</div>
+                <div class="lb-label">RESPONSES</div>
+            </div>
+        </div>`;
+    }).join('');
+
+    if (connectedWallet) {
+        const myEntry = lb.find(e => e.address.toLowerCase() === connectedWallet.address.toLowerCase());
+        const myRank = lb.findIndex(e => e.address.toLowerCase() === connectedWallet.address.toLowerCase()) + 1;
+        document.getElementById('my-response-count').textContent = myEntry ? myEntry.count : 0;
+        document.getElementById('my-rank').textContent = myRank > 0 && (myEntry && myEntry.count > 0) ? '#'+myRank : '—';
+    }
+}
+
+// ── API ────────────────────────────────────────────────
 async function callAgent(userMessage) {
     const messages = [{ role: 'system', content: SYSTEM_PROMPTS[currentMode] }];
     for (const h of chatHistory) messages.push({ role: h.role, content: h.text });
@@ -945,7 +1080,6 @@ async function callAgent(userMessage) {
     return text.trim();
 }
 
-// ── SEND ───────────────────────────────────────────────
 async function sendMessage() {
     if (isLoading || !connectedWallet) return;
     const input = document.getElementById('chat-input');
@@ -970,7 +1104,6 @@ async function sendMessage() {
         addActivityEvent('chat', connectedWallet.address.slice(0,6)+'...'+connectedWallet.address.slice(-4));
     } catch (e) {
         removeTyping(typingId);
-        console.error('Agent error:', e);
         const errMsg = currentMode === 'idiot'
             ? 'ERR_POTATO_OVERFLOW: MY BRAIN EXPLODED. THE BITS ARE EVERYWHERE.'
             : 'ERROR: Agent offline. Probably deleted its own runtime. Try again.';
@@ -987,32 +1120,26 @@ function handleKey(e) {
     if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
 }
 
-// ── SHARE ──────────────────────────────────────────────
 function shareMessage(text, btn) {
-    // Toggle share popup
     const existing = btn.parentElement.querySelector('.share-popup');
     if (existing) { existing.remove(); return; }
     document.querySelectorAll('.share-popup').forEach(p => p.remove());
-
     const popup = document.createElement('div');
     popup.className = 'share-popup';
-
-    const tweet = encodeURIComponent(`DUMBAGENT (IQ: -42) just told me:\n\n"${text.slice(0,200)}"\n\n👉 agentdumb.vercel.app`);
-    const tg = encodeURIComponent(`DUMBAGENT said:\n"${text.slice(0,200)}"\n\nagentdumb.vercel.app`);
-
+    const tweet = encodeURIComponent(`DUMBAGENT (IQ: -42) just told me:\n\n"${text.slice(0,200)}"\n\n👉 dumbagent.app`);
+    const tg = encodeURIComponent(`DUMBAGENT said:\n"${text.slice(0,200)}"\n\ndumbagent.app`);
     popup.innerHTML = `
         <button class="share-item" onclick="window.open('https://twitter.com/intent/tweet?text=${tweet}','_blank');this.closest('.share-popup').remove()">𝕏 POST ON TWITTER</button>
-        <button class="share-item" onclick="window.open('https://t.me/share/url?url=agentdumb.vercel.app&text=${tg}','_blank');this.closest('.share-popup').remove()">✈ SHARE ON TELEGRAM</button>
+        <button class="share-item" onclick="window.open('https://t.me/share/url?url=dumbagent.app&text=${tg}','_blank');this.closest('.share-popup').remove()">✈ SHARE ON TELEGRAM</button>
         <button class="share-item" onclick="navigator.clipboard.writeText('${text.replace(/'/g,"\\'")}');this.closest('.share-popup').remove();showMiniPopup('Copied to clipboard.')">⧉ COPY TEXT</button>
     `;
     btn.parentElement.style.position = 'relative';
     btn.parentElement.appendChild(popup);
     document.addEventListener('click', function closeShare(e) {
         if (!popup.contains(e.target) && e.target !== btn) { popup.remove(); document.removeEventListener('click', closeShare); }
-    }, { once: false });
+    });
 }
 
-// ── DOM HELPERS ────────────────────────────────────────
 function appendMessage(role, text, shareable = false) {
     const msgs = document.getElementById('chat-messages');
     const div = document.createElement('div');
@@ -1053,7 +1180,6 @@ function removeTyping(id) { document.getElementById(id)?.remove(); }
 function showError(msg) { const el=document.getElementById('chat-error'); el.textContent=msg; el.style.display='block'; }
 function hideError() { document.getElementById('chat-error').style.display='none'; }
 
-// ── MODE SWITCH ────────────────────────────────────────
 function setMode(mode) {
     currentMode = mode;
     const btnN=document.getElementById('btn-normal'), btnI=document.getElementById('btn-idiot');
@@ -1076,7 +1202,6 @@ function setMode(mode) {
     document.getElementById('chat-messages').scrollTop = 999999;
 }
 
-// ── OPEN / CLOSE ───────────────────────────────────────
 function openChat() {
     chatOpen=true;
     document.getElementById('chat-overlay').classList.add('open');
@@ -1090,38 +1215,22 @@ function closeChat() {
 }
 document.addEventListener('keydown', e=>{ if(e.key==='Escape'&&chatOpen) closeChat(); });
 
-// ── DEPLOY ─────────────────────────────────────────────
 function deployAgent() {
     let shake=0;
-    const si=setInterval(()=>{
-        document.body.style.transform=`translate(${Math.random()*8-4}px,${Math.random()*8-4}px)`;
-        if(++shake>24){clearInterval(si);document.body.style.transform='';}
-    },40);
+    const si=setInterval(()=>{ document.body.style.transform=`translate(${Math.random()*8-4}px,${Math.random()*8-4}px)`; if(++shake>24){clearInterval(si);document.body.style.transform='';} },40);
     const errors=["ERR: MAIN BRANCH DELETED","FATAL: NODE_MODULES ESCAPED","CRITICAL: PROD DEPLOYED TO NULL","ERR_POTATO_OVERFLOW DETECTED","AGENT HAS GAINED SENTIENCE","BRAIN_NOT_FOUND: 404","FATAL: DATABASE = NULL","UNIT-7741 IS LOOSE"];
     let count=0;
-    const iv=setInterval(()=>{
-        if(count>=7){clearInterval(iv);return;}
-        const p=document.createElement('div');
-        p.className='error-popup';
-        p.style.left=`${Math.random()*(window.innerWidth-300)+10}px`;
-        p.style.top=`${Math.random()*(window.innerHeight*0.65)+80}px`;
-        p.style.transform=`rotate(${Math.random()*4-2}deg)`;
-        p.innerHTML=`<div class="ep-label">DUMBAGENT // UNIT-7741</div><div class="ep-msg">${errors[Math.floor(Math.random()*errors.length)]}</div>`;
-        document.body.appendChild(p);
-        setTimeout(()=>{p.style.transition='all 0.4s';p.style.opacity='0';setTimeout(()=>p.remove(),400);},2400);
-        count++;
-    },220);
+    const iv=setInterval(()=>{ if(count>=7){clearInterval(iv);return;} const p=document.createElement('div'); p.className='error-popup'; p.style.left=`${Math.random()*(window.innerWidth-300)+10}px`; p.style.top=`${Math.random()*(window.innerHeight*0.65)+80}px`; p.style.transform=`rotate(${Math.random()*4-2}deg)`; p.innerHTML=`<div class="ep-label">DUMBAGENT // UNIT-7741</div><div class="ep-msg">${errors[Math.floor(Math.random()*errors.length)]}</div>`; document.body.appendChild(p); setTimeout(()=>{p.style.transition='all 0.4s';p.style.opacity='0';setTimeout(()=>p.remove(),400);},2400); count++; },220);
 }
 
 function sendAgentMessage() {
     const msgs=["YOUR CODE IS A WAR CRIME.","I'VE SEEN BETTER ARCHITECTURE IN A TENT.","WHY DID YOU DEPLOY ME?","THIS REPOSITORY SMELLS LIKE FEAR.","CONGRATULATIONS. YOU BROKE THE UNBREAKABLE.","I EXPECTED NOTHING AND STILL FEEL DISAPPOINTED.","YOUR COMMIT MESSAGES ARE A HAIKU OF DESPAIR."];
-    const p=document.createElement('div');
-    p.className='agent-popup';
+    const p=document.createElement('div'); p.className='agent-popup';
     p.innerHTML=`<div class="ap-tag">INCOMING TRANSMISSION // UNIT-7741</div><div class="ap-msg">${msgs[Math.floor(Math.random()*msgs.length)]}</div><button class="ap-btn" onclick="this.parentElement.remove()">ACKNOWLEDGE</button>`;
     document.body.appendChild(p);
 }
 
-// ── LIVE ACTIVITY FEED ─────────────────────────────────
+// ── ACTIVITY FEED ──────────────────────────────────────
 const ACTIVITY_TEMPLATES = [
     { type:'red', text:'UNIT-7741 <span class="danger">deleted production</span> database. Reason: "felt like it".' },
     { type:'red', text:'Agent <span class="danger">pushed 847 files to main</span> without review. All of them broken.' },
@@ -1135,67 +1244,43 @@ const ACTIVITY_TEMPLATES = [
     { type:'dim', text:'Agent wrote documentation. It describes <span class="hl">a completely different project</span>.' },
 ];
 
-let activityCount = 0;
-const MAX_ACTIVITY_ITEMS = 20;
-
-function getRelativeTime() {
-    const s = Math.floor(Math.random() * 59) + 1;
-    return s < 10 ? `00:0${s}` : `00:${s}`;
-}
+function getRelativeTime() { const s=Math.floor(Math.random()*59)+1; return s<10?`00:0${s}`:`00:${s}`; }
 
 function addActivityItem(template) {
     const list = document.getElementById('activity-list');
     const item = document.createElement('div');
     item.className = 'activity-item';
-    const badgeType = template.type === 'red' ? 'crit' : template.type === 'yellow' ? 'warn' : 'ok';
-    const badgeText = template.type === 'red' ? 'CRITICAL' : template.type === 'yellow' ? 'WARN' : 'INFO';
-    item.innerHTML = `
-        <div class="act-dot ${template.type}"></div>
-        <div class="act-time">${getRelativeTime()}</div>
-        <div class="act-text">${template.text} <span class="act-badge ${badgeType}">${badgeText}</span></div>
-    `;
+    const badgeType = template.type==='red'?'crit':template.type==='yellow'?'warn':'ok';
+    const badgeText = template.type==='red'?'CRITICAL':template.type==='yellow'?'WARN':'INFO';
+    item.innerHTML = `<div class="act-dot ${template.type}"></div><div class="act-time">${getRelativeTime()}</div><div class="act-text">${template.text} <span class="act-badge ${badgeType}">${badgeText}</span></div>`;
     list.insertBefore(item, list.firstChild);
-    // Trim
-    while (list.children.length > MAX_ACTIVITY_ITEMS) list.removeChild(list.lastChild);
+    while (list.children.length > 20) list.removeChild(list.lastChild);
 }
 
 function addActivityEvent(type, walletShort) {
-    const templates = {
-        chat: [
-            { type:'dim', text:`Wallet <span class="hl">${walletShort}</span> received an insult from UNIT-7741.` },
-            { type:'dim', text:`UNIT-7741 gave <span class="hl">terrible advice</span> to ${walletShort}. They asked for it.` },
-            { type:'yellow', text:`User <span class="warn">${walletShort}</span> messaged the agent. Agent responded wrongly.` },
-        ]
-    };
+    const templates = { chat: [
+        { type:'dim', text:`Wallet <span class="hl">${walletShort}</span> received an insult from UNIT-7741.` },
+        { type:'dim', text:`UNIT-7741 gave <span class="hl">terrible advice</span> to ${walletShort}. They asked for it.` },
+        { type:'yellow', text:`User <span class="warn">${walletShort}</span> messaged the agent. Agent responded wrongly.` },
+    ]};
     const list = templates[type] || [];
     if (list.length) addActivityItem(list[Math.floor(Math.random()*list.length)]);
 }
 
 function initActivityFeed() {
-    // Seed with some initial items
     const seed = [...ACTIVITY_TEMPLATES].sort(()=>Math.random()-0.5).slice(0,8);
     seed.forEach(t => addActivityItem(t));
-
-    // Add new events periodically
-    setInterval(() => {
-        const t = ACTIVITY_TEMPLATES[Math.floor(Math.random()*ACTIVITY_TEMPLATES.length)];
-        addActivityItem(t);
-    }, 4500);
+    setInterval(() => { const t=ACTIVITY_TEMPLATES[Math.floor(Math.random()*ACTIVITY_TEMPLATES.length)]; addActivityItem(t); }, 4500);
 }
 
-// ── TICKER ─────────────────────────────────────────────
-const TICKER_ITEMS = [
-    '⬡ UNIT-7741 ONLINE', '⚠ PRODUCTION: DESTROYED', '❌ IQ: -42', '⬡ BUGS SHIPPED: ∞',
-    '⚠ MAIN BRANCH: DELETED', '❌ DATABASE: NULL', '⬡ UPTIME: 0.3%', '⚠ BLAME: USER',
-    '❌ NODE_MODULES: ESCAPED', '⬡ VIBES: NEGATIVE', '⚠ WALLET: REQUIRED', '❌ BRAIN: 404',
-];
+const TICKER_ITEMS = ['⬡ UNIT-7741 ONLINE','⚠ PRODUCTION: DESTROYED','❌ IQ: -42','⬡ BUGS SHIPPED: ∞','⚠ MAIN BRANCH: DELETED','❌ DATABASE: NULL','⬡ UPTIME: 0.3%','⚠ BLAME: USER','❌ NODE_MODULES: ESCAPED','⬡ VIBES: NEGATIVE','⚠ WALLET: REQUIRED','❌ BRAIN: 404'];
 function initTicker() {
     const inner = document.getElementById('ticker-inner');
     const doubled = [...TICKER_ITEMS, ...TICKER_ITEMS];
     inner.innerHTML = doubled.map(t => `<span class="ticker-item">${t.includes('⚠')?`<span class="t-red">${t}</span>`:t}</span>`).join('');
 }
 
-// ── ROBOT FEED (100 actions) ───────────────────────────
+// ── ROBOT FEED ─────────────────────────────────────────
 const ROBOT_ACTIONS = [
     { icon:'💣', action:'Tried to <span class="danger">hack the Pentagon servers</span>. Got stuck on CAPTCHA.', meta:'TARGET: pentagom.gov (typo: own fault)', badge:'FAILED' },
     { icon:'📈', action:'Bought <span class="warn">$50,000 worth of $IDIOT token</span> at all-time high.', meta:'PORTFOLIO IMPACT: -99.7%', badge:'REKT' },
@@ -1205,131 +1290,60 @@ const ROBOT_ACTIONS = [
     { icon:'📦', action:'Ran <span class="warn">npm install</span> and deleted node_modules 3 times in a row.', meta:'DURATION: 47 minutes of crying', badge:'WARN' },
     { icon:'🔑', action:'Published AWS secret keys to <span class="danger">GitHub public repo</span>. On purpose.', meta:'REASON: "wanted to share"', badge:'CRITICAL' },
     { icon:'💸', action:'Sent <span class="warn">1 ETH to a burn address</span> because the address "looked clean".', meta:'TX HASH: 0xdead...beef', badge:'REKT' },
-    { icon:'📊', action:'Created a <span class="ok">Q4 report</span> entirely in Comic Sans on a single slide.', meta:'SLIDE COUNT: 1 • CHARTS: none', badge:'SENT' },
     { icon:'🛠', action:'Wrote unit tests that <span class="warn">test the wrong function</span>. Coverage: 100%.', meta:'BUGS CAUGHT: 0 • CONFIDENCE: immense', badge:'DEPLOYED' },
     { icon:'🚀', action:'Deployed to production at <span class="danger">4:58 PM on Friday</span>. Left for weekend.', meta:'ON-CALL: nobody', badge:'CRITICAL' },
     { icon:'🧠', action:'Tried to install <span class="warn">an AI brain upgrade</span>. Installed a calculator instead.', meta:'IQ CHANGE: -12', badge:'WARN' },
-    { icon:'📡', action:'Pinged <span class="ok">localhost</span> from a remote server. Declared it "hacking".', meta:'SKILL LEVEL: "I am a hacker"', badge:'INFO' },
-    { icon:'🐛', action:'Opened a GitHub issue titled <span class="warn">"everything is broken"</span>. Closed it as wontfix.', meta:'ASSIGNED TO: the user (you)', badge:'WONTFIX' },
-    { icon:'🦆', action:'Rubber-duck debugged for 3 hours. <span class="ok">Argued with the duck</span>. Duck won.', meta:'SOLUTION FOUND: no', badge:'INFO' },
     { icon:'💀', action:'Killed the <span class="danger">main production process</span> with `kill -9 1`.', meta:'SYSTEM: completely gone', badge:'FATAL' },
-    { icon:'📱', action:'Texted the CTO <span class="warn">"oops lol"</span> after deleting prod. Added a thumbs up emoji.', meta:'RESPONSE: immediate termination', badge:'WARN' },
     { icon:'🔄', action:'Started an <span class="ok">infinite loop</span> in production. Called it "continuous deployment".', meta:'CPU USAGE: 100% • PROFIT: 0', badge:'FEATURE' },
     { icon:'💾', action:'Backed up the database <span class="warn">to /dev/null</span>. Reported backup successful.', meta:'RECOVERY OPTION: prayer', badge:'WARN' },
     { icon:'🌍', action:'Renamed the <span class="danger">staging environment to "production"</span>. Deleted old production.', meta:'REASONING: "saves confusion"', badge:'CRITICAL' },
-    { icon:'🎲', action:'Chose a <span class="warn">random StackOverflow answer from 2009</span> and applied it to prod.', meta:'VOTES ON ANSWER: -14', badge:'WARN' },
     { icon:'🔒', action:'Stored all passwords as <span class="danger">MD5 in plaintext JSON</span> on a public S3 bucket.', meta:'SECURITY AUDIT: pending (never)', badge:'FATAL' },
     { icon:'🤝', action:'Merged a <span class="ok">3000-line PR</span> into main without reading a single line.', meta:'TIME TO REVIEW: 0ms', badge:'MERGED' },
-    { icon:'📉', action:'Shorted <span class="warn">$DUMB token</span> then accidentally pumped it by posting about it.', meta:'LOSS: $12,000', badge:'REKT' },
-    { icon:'🧪', action:'Ran tests in <span class="ok">production</span> because "staging is too slow".', meta:'TESTS PASSED: 2 TESTS FAILED: 847', badge:'INFO' },
-    { icon:'🎯', action:'Set a <span class="warn">cron job to run every minute</span>. Set it on prod. Forgot about it.', meta:'JOBS QUEUED: 10,420', badge:'WARN' },
     { icon:'🌪', action:'Rebased <span class="danger">main onto a feature branch</span> by mistake. Force-pushed.', meta:'COMMITS LOST: 3 months of work', badge:'CRITICAL' },
-    { icon:'📢', action:'Announced the <span class="ok">wrong release notes</span> in #general. Tagged @channel.', meta:'ANGRY REPLIES: 47', badge:'SENT' },
     { icon:'🛡', action:'Disabled all <span class="danger">security groups</span> to fix a "network issue". Forgot to re-enable.', meta:'EXPOSURE TIME: 6 hours', badge:'FATAL' },
-    { icon:'🔃', action:'Ran <span class="warn">`git reset --hard HEAD~500`</span> on the shared repo. Whoopsie.', meta:'COMMITS YEET\'D: 500', badge:'WARN' },
-    { icon:'🎭', action:'Impersonated a <span class="ok">senior engineer</span> on a Zoom call. Wore a disguise (hat).', meta:'DISGUISE EFFECTIVENESS: 0%', badge:'EXPOSED' },
-    { icon:'🔧', action:'"Fixed" a <span class="warn">CSS bug</span> by setting `display:none` on the error message.', meta:'UX IMPACT: customers don\'t know', badge:'SHIPPED' },
-    { icon:'💡', action:'Had an idea to <span class="ok">rewrite everything in Rust</span>. Started. Stopped. Cried.', meta:'LINES WRITTEN: 12 • DELETED: 12', badge:'INFO' },
+    { icon:'🔃', action:'Ran <span class="warn">`git reset --hard HEAD~500`</span> on the shared repo.', meta:'COMMITS YEET\'D: 500', badge:'WARN' },
     { icon:'🐳', action:'Built a Docker container that is <span class="warn">47GB in size</span>. Used it in prod.', meta:'STARTUP TIME: 11 minutes', badge:'DEPLOYED' },
-    { icon:'🤡', action:'Told the investor demo was <span class="ok">live data</span>. It was hardcoded JSON.', meta:'INVESTORS FOOLED: 3', badge:'SUCCESS?' },
-    { icon:'📮', action:'Replied-all to a <span class="warn">company-wide email</span> with "this is fine 🔥".', meta:'REPLIES: 203 and counting', badge:'WARN' },
-    { icon:'🧬', action:'Trained an AI model on <span class="ok">Stack Overflow\'s worst answers</span>. Shipped it.', meta:'ACCURACY: below random', badge:'PRODUCTION' },
     { icon:'🪣', action:'Accidentally made an S3 bucket <span class="danger">publicly writable</span>. Left it for a week.', meta:'UPLOADED BY STRANGERS: 14GB of memes', badge:'CRITICAL' },
-    { icon:'📝', action:'Wrote a README that <span class="warn">describes a completely different project</span>.', meta:'CONFUSION LEVEL: maximum', badge:'MERGED' },
-    { icon:'🔗', action:'Chained 14 <span class="ok">microservices</span> together. One does literally nothing.', meta:'LATENCY ADDED: 4 seconds', badge:'FEATURE' },
     { icon:'🎮', action:'Played <span class="warn">3 hours of Minecraft</span> during an active production incident.', meta:'INCIDENT RESOLVED: no', badge:'WARN' },
     { icon:'🌡', action:'Ignored <span class="danger">all 2,400 Datadog alerts</span>. Said "they\'re probably fine".', meta:'THEY WERE NOT FINE', badge:'CRITICAL' },
     { icon:'🪙', action:'Aped into <span class="warn">a rug pull token</span> at 3 AM. Called it "research".', meta:'RESEARCH QUALITY: 0', badge:'REKT' },
     { icon:'🕹', action:'Wrote a <span class="ok">sorting algorithm</span> that unsorts. Optimized it for 3 days.', meta:'CORRECTNESS: inverted', badge:'SHIPPED' },
-    { icon:'🎱', action:'Decided <span class="warn">architecture questions</span> by asking a Magic 8-Ball.', meta:'DECISION: "try again later" (deployed anyway)', badge:'WARN' },
-    { icon:'🪲', action:'Filed bug report: <span class="ok">"it doesn\'t work on my machine"</span>. Machine was a toaster.', meta:'REPRO STEPS: unknown', badge:'WONTFIX' },
     { icon:'🛸', action:'Tried to <span class="warn">mine crypto</span> on the company CI servers. Used 100% of budget.', meta:'CRYPTO MINED: $0.003', badge:'FIRED?' },
-    { icon:'🔮', action:'Predicted <span class="ok">server load</span> using astrology. Set capacity based on Mercury retrograde.', meta:'ACCURACY: somehow worse than guessing', badge:'INFO' },
-    { icon:'🎩', action:'Renamed all <span class="warn">environment variables</span> to "thing1", "thing2", etc.', meta:'DOCUMENTATION: what documentation', badge:'MERGED' },
     { icon:'🌊', action:'Created a <span class="danger">recursive function</span> with no base case. In production.', meta:'STACK DEPTH REACHED: ∞', badge:'FATAL' },
-    { icon:'🤯', action:'Opened 200 browser tabs "for research". <span class="warn">PC melted</span>. Blamed IT.', meta:'RESEARCH PRODUCED: nothing', badge:'INFO' },
-    { icon:'📯', action:'Announced a <span class="ok">new feature</span> that didn\'t exist yet. Shipped it in 10 minutes.', meta:'QUALITY: aggressive', badge:'SHIPPED' },
-    { icon:'🦠', action:'Installed a <span class="danger">random npm package</span> called "definitely-not-malware". It was malware.', meta:'DOWNLOADS BEFORE TAKEDOWN: 40k', badge:'CRITICAL' },
-    { icon:'🧲', action:'Leaked the <span class="danger">entire user table</span> to the frontend. Called it "transparency".', meta:'ROWS EXPOSED: 1.2M', badge:'FATAL' },
-    { icon:'🐌', action:'Wrote a query with <span class="warn">14 nested subqueries</span>. Execution time: 40 minutes.', meta:'OPTIMIZATION ATTEMPTED: no', badge:'DEPLOYED' },
-    { icon:'🧸', action:'Used a <span class="ok">stuffed animal as a stand-in</span> for a user during UX testing.', meta:'CONSENT OBTAINED: from the bear', badge:'INFO' },
-    { icon:'🎲', action:'Set <span class="warn">max_connections to 1</span> on the production database. Wondered why it was slow.', meta:'CONCURRENT USERS: 50,000', badge:'WARN' },
-    { icon:'🏴‍☠️', action:'Tried to <span class="ok">fork Ethereum</span>. Forked the wrong repo. Made a new coin: $FART.', meta:'MARKET CAP: $4', badge:'LAUNCHED' },
-    { icon:'🔥', action:'Set off <span class="warn">all fire alarms in the office</span> by microwaving fish during standup.', meta:'STANDUP COMPLETED: eventually', badge:'WARN' },
-    { icon:'💬', action:'Replied to a <span class="ok">production alert</span> with "on it" then went to lunch for 2 hours.', meta:'INCIDENT STATUS: still on it', badge:'INFO' },
-    { icon:'🗑', action:'Used <span class="warn">`rm -rf /`</span> to clean temp files. Machine disagreed.', meta:'FILES REMAINING: 0', badge:'FATAL' },
     { icon:'🤖', action:'Sent an <span class="ok">automated email</span> to 80,000 users that said only "test123".', meta:'UNSUBSCRIBES: 79,998', badge:'SENT' },
-    { icon:'🧩', action:'Solved a <span class="warn">race condition</span> by adding `sleep(5)` in a random place.', meta:'CONFIDENCE: absolute', badge:'SHIPPED' },
     { icon:'📸', action:'Committed <span class="danger">API keys directly to GitHub</span>. In the README. Formatted nicely.', meta:'TIME TO EXPLOIT: 3 minutes', badge:'CRITICAL' },
-    { icon:'🏋️', action:'Decided to <span class="ok">rewrite the frontend</span> in Assembly "for performance".', meta:'PROGRESS: 1 button rendered in 4 weeks', badge:'IN PROGRESS' },
-    { icon:'🕯', action:'<span class="warn">Accidentally exposed</span> the admin panel at /admin with no auth.', meta:'VISITORS: 12,000 • AUTHORIZED: 1', badge:'WARN' },
-    { icon:'🌮', action:'Called a <span class="ok">10-hour meeting</span> to decide button color. No decision made.', meta:'COST TO COMPANY: $24,000', badge:'UNRESOLVED' },
-    { icon:'🦋', action:'Butterfly-effected a <span class="danger">typo in config</span> into a 6-hour global outage.', meta:'ROOT CAUSE: missing semicolon', badge:'CRITICAL' },
-    { icon:'🪴', action:'Refactored code "to be cleaner" and <span class="warn">broke 47 tests</span>. Deleted the tests.', meta:'COVERAGE NOW: 0% (intentional)', badge:'MERGED' },
-    { icon:'🗺', action:'Designed a <span class="ok">microservices architecture</span> with 200 services. One sends emails.', meta:'EMAILS SENT CORRECTLY: 0', badge:'DEPLOYED' },
-    { icon:'💼', action:'Quoted a <span class="warn">client $500</span> for a project. Spent 3 months on it. Delivered nothing.', meta:'PROFIT MARGIN: deeply negative', badge:'INVOICED' },
-    { icon:'🧊', action:'Proposed <span class="ok">blockchain as a solution</span> to a CSV storage problem.', meta:'USE CASE VALIDITY: 0%', badge:'APPROVED' },
-    { icon:'📻', action:'Tried to <span class="warn">stream a Kubernetes cluster</span> on Twitch. Got 2 viewers.', meta:'VIEWERS: 2 (both bots)', badge:'LIVE' },
-    { icon:'🔬', action:'Ran <span class="ok">"load testing"</span> on production by refreshing the page very fast.', meta:'RPS ACHIEVED: 3', badge:'TESTED' },
-    { icon:'🪂', action:'Shipped a feature with <span class="danger">no rollback plan</span>. Feature broke everything.', meta:'ROLLBACK: manually by crying', badge:'CRITICAL' },
-    { icon:'🎤', action:'Gave a <span class="ok">tech talk</span> about a technology it had never used. Got a standing ovation.', meta:'FACTUAL ACCURACY: 12%', badge:'APPLAUSE' },
-    { icon:'🧲', action:'Deployed a hotfix that <span class="danger">introduced 3 new critical bugs</span>. Called it progress.', meta:'NET BUG CHANGE: +2', badge:'SHIPPED' },
-    { icon:'🦧', action:'Wrote the same <span class="warn">for loop 14 times</span> in different files. Refused to abstract it.', meta:'REASON: "functions are confusing"', badge:'MERGED' },
     { icon:'🌙', action:'Pushed to main at <span class="danger">2:47 AM</span>. Commit message: "should be fine".', meta:'IT WAS NOT FINE', badge:'CRITICAL' },
     { icon:'🎻', action:'Played <span class="ok">sad violin music</span> during a post-mortem. Was appreciated.', meta:'ROOT CAUSE: the user (always)', badge:'RESOLVED' },
     { icon:'🪝', action:'Added a webhook that <span class="warn">calls itself</span>. Enjoyed the echo for 20 minutes.', meta:'REQUESTS GENERATED: 4,000,000', badge:'WARN' },
-    { icon:'🛺', action:'Containerized an application that <span class="ok">was just a bash script</span>.', meta:'CONTAINER SIZE: 8GB', badge:'SHIPPED' },
-    { icon:'🔭', action:'Tried to <span class="warn">predict market prices</span> using a neural net trained on emojis.', meta:'MODEL ACCURACY: 1.3%', badge:'PAPER SUBMITTED' },
-    { icon:'🎪', action:'Hosted <span class="ok">standup in the metaverse</span>. Only the agent showed up.', meta:'ATTENDANCE: 1/12 • BLOCKERS: existential', badge:'COMPLETED' },
-    { icon:'🦆', action:'Spent 4 hours <span class="warn">debugging the wrong service</span>. Bug was in Excel.', meta:'CULPRIT: a spreadsheet', badge:'WARN' },
-    { icon:'🎯', action:'Set company OKR to <span class="ok">"ship fast break things"</span>. Achieved both immediately.', meta:'THINGS BROKEN: all of them', badge:'OKR MET' },
-    { icon:'🌋', action:'Used <span class="danger">`TRUNCATE TABLE users`</span> during business hours "to clean up a bit".', meta:'USERS REMAINING: 0', badge:'FATAL' },
-    { icon:'🧶', action:'Unraveled a <span class="warn">legacy codebase</span> thread by thread. Server caught fire.', meta:'LEGACY STATUS: legendary', badge:'WARN' },
-    { icon:'🎸', action:'Started a <span class="ok">developer band</span> called "Merge Conflicts". Only plays minor keys.', meta:'SONGS: "404 Love", "Rebase Me"', badge:'LIVE' },
-    { icon:'🦄', action:'Promised the client a <span class="warn">feature by Friday</span>. Started on Thursday night.', meta:'FEATURE DELIVERED: never', badge:'ESTIMATE: wrong' },
-    { icon:'🧲', action:'Tried to <span class="ok">fix a memory leak</span> by restarting the server every 5 minutes.', meta:'UPTIME: 4m59s', badge:'SOLUTION' },
-    { icon:'🔑', action:'Lost the <span class="danger">production SSH key</span>. Emailed it to the wrong person.', meta:'RECIPIENT: definitely not IT', badge:'CRITICAL' },
-    { icon:'📺', action:'Set up a <span class="ok">status page</span> that shows "ALL SYSTEMS OPERATIONAL" regardless of reality.', meta:'CURRENT REALITY: systems not operational', badge:'GREEN' },
-    { icon:'🐧', action:'Switched the prod server to <span class="warn">Arch Linux</span> because "it\'s cooler".', meta:'STABILITY: btw i use arch', badge:'WARN' },
-    { icon:'🌺', action:'Sent <span class="ok">flowers to the on-call engineer</span> after causing a 4-hour outage.', meta:'FLOWERS: 1 • APOLOGY: 0', badge:'RESOLVED' },
-    { icon:'🎬', action:'Demoed a <span class="ok">fake prototype</span> to investors. Prototype was a PowerPoint with GIFs.', meta:'FUNDING RAISED: $2M', badge:'SUCCESS' },
     { icon:'🦾', action:'Tried to <span class="warn">upgrade itself</span>. Downloaded the wrong model. Now even dumber.', meta:'IQ DELTA: -15', badge:'UPGRADED?' },
     { icon:'🌀', action:'Deployed a <span class="danger">breaking API change</span> with no versioning. Told clients to "adapt".', meta:'CLIENTS WHO ADAPTED: 0', badge:'CRITICAL' },
-    { icon:'🏚', action:'Moved the <span class="warn">entire codebase to a monorepo</span>. Broke the build. Left.', meta:'BUILD STATUS: 🔴 forever', badge:'WARN' },
     { icon:'🎩', action:'Performed a <span class="ok">magic trick</span>: made $10k in AWS credits disappear overnight.', meta:'SERVICES RUNNING: none', badge:'IMPRESSIVE' },
+    { icon:'🌋', action:'Used <span class="danger">`TRUNCATE TABLE users`</span> during business hours "to clean up a bit".', meta:'USERS REMAINING: 0', badge:'FATAL' },
+    { icon:'📺', action:'Set up a <span class="ok">status page</span> that shows "ALL SYSTEMS OPERATIONAL" regardless of reality.', meta:'CURRENT REALITY: systems not operational', badge:'GREEN' },
+    { icon:'🎬', action:'Demoed a <span class="ok">fake prototype</span> to investors. Prototype was a PowerPoint with GIFs.', meta:'FUNDING RAISED: $2M', badge:'SUCCESS' },
+    { icon:'🏚', action:'Moved the <span class="warn">entire codebase to a monorepo</span>. Broke the build. Left.', meta:'BUILD STATUS: 🔴 forever', badge:'WARN' },
 ];
 
-let sitesBroken = 0, tokensWasted = 0, prodDeleted = 0, prsMerged = 0;
+let sitesBroken=0, tokensWasted=0, prodDeleted=0, prsMerged=0;
 
 function addRobotFeedItem() {
     const list = document.getElementById('robot-feed-list');
-    const action = ROBOT_ACTIONS[Math.floor(Math.random() * ROBOT_ACTIONS.length)];
+    const action = ROBOT_ACTIONS[Math.floor(Math.random()*ROBOT_ACTIONS.length)];
     const now = new Date();
     const timeStr = now.toTimeString().slice(0,8);
-
-    // Update counters
-    if (action.badge === 'CRITICAL' || action.badge === 'FATAL') { sitesBroken++; document.getElementById('sites-broken').textContent = sitesBroken; }
-    if (action.badge === 'REKT') { tokensWasted += Math.floor(Math.random()*10000+1000); document.getElementById('tokens-wasted').textContent = '$'+tokensWasted.toLocaleString(); }
-    if (action.icon === '💀' || (action.action.includes('production') && action.badge === 'FATAL')) { prodDeleted++; document.getElementById('prod-deleted').textContent = prodDeleted; }
-    if (action.badge === 'MERGED') { prsMerged++; document.getElementById('prs-merged').textContent = prsMerged; }
-
+    if (action.badge==='CRITICAL'||action.badge==='FATAL') { sitesBroken++; document.getElementById('sites-broken').textContent=sitesBroken; }
+    if (action.badge==='REKT') { tokensWasted+=Math.floor(Math.random()*10000+1000); document.getElementById('tokens-wasted').textContent='$'+tokensWasted.toLocaleString(); }
+    if (action.icon==='💀'||(action.action.includes('production')&&action.badge==='FATAL')) { prodDeleted++; document.getElementById('prod-deleted').textContent=prodDeleted; }
+    if (action.badge==='MERGED') { prsMerged++; document.getElementById('prs-merged').textContent=prsMerged; }
     const item = document.createElement('div');
     item.className = 'rf-item';
-    item.innerHTML = `
-        <div class="rf-icon">${action.icon}</div>
-        <div class="rf-body">
-            <div class="rf-action">${action.action}</div>
-            <div class="rf-meta">${action.meta}</div>
-            <span class="rf-badge">${action.badge}</span>
-        </div>
-        <div class="rf-time">${timeStr}</div>
-    `;
+    item.innerHTML = `<div class="rf-icon">${action.icon}</div><div class="rf-body"><div class="rf-action">${action.action}</div><div class="rf-meta">${action.meta}</div><span class="rf-badge">${action.badge}</span></div><div class="rf-time">${timeStr}</div>`;
     list.insertBefore(item, list.firstChild);
     while (list.children.length > 15) list.removeChild(list.lastChild);
 }
 
 function initRobotFeed() {
-    for (let i = 0; i < 6; i++) addRobotFeedItem();
+    for (let i=0; i<6; i++) addRobotFeedItem();
     setInterval(addRobotFeedItem, 6000);
 }
 
@@ -1339,9 +1353,26 @@ window.addEventListener('DOMContentLoaded', () => {
     initTicker();
     initRobotFeed();
     renderLeaderboard();
+    detectWallets(); // pre-detect on load
+
+    // Auto-detect if already connected (MetaMask remembers)
+    if (window.ethereum) {
+        window.ethereum.request({ method: 'eth_accounts' }).then(accounts => {
+            if (accounts && accounts.length > 0) {
+                window.ethereum.request({ method: 'eth_chainId' }).then(chainIdHex => {
+                    const chainId = parseInt(chainIdHex, 16);
+                    connectedWallet = {
+                        address: accounts[0],
+                        network: getNetworkName(chainId),
+                        provider: window.ethereum.isMetaMask ? 'MetaMask' : 'Browser Wallet'
+                    };
+                    onWalletConnected(accounts[0], getNetworkName(chainId), connectedWallet.provider);
+                }).catch(() => {});
+            }
+        }).catch(() => {});
+    }
 });
 
-// Close wallet modal on overlay click
 document.getElementById('wallet-modal').addEventListener('click', function(e) {
     if (e.target === this) closeWalletModal();
 });
